@@ -1,18 +1,42 @@
 {
   "name": "chablaisfischer.ch",
+  "version": "1.0.0",
+  "description": "Chablaisfischer.ch monorepo with WordPress Bedrock CMS and Nuxt.js frontend",
   "private": true,
   "workspaces": [
-    "frontend/*"
+    "frontend"
   ],
   "scripts": {
-    "dev": "npm run dev -w frontend",
-    "build": "npm run build -w frontend",
-    "generate": "npm run generate -w frontend",
-    "lint": "eslint --ext .ts,.js,.vue frontend",
-    "typecheck": "vue-tsc --noEmit -p frontend/tsconfig.json"
+    "dev": "npm run dev --workspace=frontend",
+    "build": "npm run build --workspace=frontend",
+    "generate": "npm run generate --workspace=frontend",
+    "preview": "npm run preview --workspace=frontend",
+    "lint": "npm run lint --workspace=frontend",
+    "typecheck": "npm run typecheck --workspace=frontend",
+    "frontend:install": "npm install --workspace=frontend",
+    "wordpress:install": "cd wordpress && composer install",
+    "wordpress:lint": "cd wordpress && composer run lint",
+    "wordpress:lint:fix": "cd wordpress && composer run lint:fix",
+    "install:all": "npm install && npm run wordpress:install",
+    "clean": "rm -rf node_modules frontend/node_modules frontend/.nuxt frontend/dist"
   },
   "engines": {
     "node": ">=18.18.0",
-    "npm": ">=9"
-  }
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jminguely/chablaisfischer.ch.git"
+  },
+  "keywords": [
+    "monorepo",
+    "wordpress",
+    "bedrock",
+    "nuxt",
+    "headless-cms",
+    "graphql",
+    "wpgraphql"
+  ],
+  "author": "jminguely",
+  "license": "MIT"
 }
