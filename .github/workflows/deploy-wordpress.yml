@@ -53,14 +53,14 @@ jobs:
       - name: Set up environment
         run: |
           # Remove existing target and create symlink for .env
-          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "rm -f ${{ vars.DEPLOY_PATH }}/current/.env && ln -s ${{ vars.DEPLOY_PATH }}/shared/.env ${{ vars.DEPLOY_PATH }}/current/.env"
+          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "rm -f ${{ vars.DEPLOY_PATH }}/wordpress/current/.env && ln -s ${{ vars.DEPLOY_PATH }}/wordpress/shared/.env ${{ vars.DEPLOY_PATH }}/wordpress/current/.env"
           # Remove existing target and create symlink for web/.htaccess
-          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "rm -f ${{ vars.DEPLOY_PATH }}/current/web/.htaccess && ln -s ${{ vars.DEPLOY_PATH }}/shared/web/.htaccess ${{ vars.DEPLOY_PATH }}/current/web/.htaccess"
+          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "rm -f ${{ vars.DEPLOY_PATH }}/wordpress/current/web/.htaccess && ln -s ${{ vars.DEPLOY_PATH }}/wordpress/shared/web/.htaccess ${{ vars.DEPLOY_PATH }}/wordpress/current/web/.htaccess"
           # Remove existing target and create symlink for uploads
-          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "rm -rf ${{ vars.DEPLOY_PATH }}/current/web/app/uploads && ln -s ${{ vars.DEPLOY_PATH }}/shared/uploads ${{ vars.DEPLOY_PATH }}/current/web/app/uploads"
+          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "rm -rf ${{ vars.DEPLOY_PATH }}/wordpress/current/web/app/uploads && ln -s ${{ vars.DEPLOY_PATH }}/wordpress/shared/uploads ${{ vars.DEPLOY_PATH }}/wordpress/current/web/app/uploads"
 
       - name: Clear opcache
         run: |
-          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "echo '<?php opcache_reset(); ?>' > ${{ vars.DEPLOY_PATH }}/current/web/opcache_clear.php"
+          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "echo '<?php opcache_reset(); ?>' > ${{ vars.DEPLOY_PATH }}/wordpress/current/web/opcache_clear.php"
           ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "curl -s https://cf.eikon.ch/opcache_clear.php"
-          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "rm -rf ${{ vars.DEPLOY_PATH }}/current/web/opcache_clear.php"
+          ssh ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "rm -rf ${{ vars.DEPLOY_PATH }}/wordpress/current/web/opcache_clear.php"
