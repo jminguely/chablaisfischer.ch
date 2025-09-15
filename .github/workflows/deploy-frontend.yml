@@ -21,12 +21,12 @@ jobs:
         node: [18]
 
     steps:
-      - name: Checkout 🛎
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: main
 
-      - name: Setup node env 🏗
+      - name: Setup node env
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -34,10 +34,10 @@ jobs:
           cache: "npm"
           cache-dependency-path: frontend/package-lock.json
 
-      - name: Install dependencies 👨🏻‍💻
+      - name: Install dependencies
         run: npm install
 
-      - name: Run build 👷🏻
+      - name: Run build
         run: npm run build
         env:
           WP_GRAPHQL_ENDPOINT: ${{ vars.GRAPHQL_API_URL }}
@@ -69,5 +69,5 @@ jobs:
         env:
           RSYNC_RSH: "ssh -o BatchMode=yes -o StrictHostKeyChecking=no"
 
-      - name: 🧨 Kickstart node server
+      - name: Kickstart node server
         run: curl --basic --user '${{ secrets.ALWAYSDATA_API }} account=eikon:' --data '' --request POST https://api.alwaysdata.com/v1/site/${{ vars.ALWAYSDATA_SITE_ID }}/restart/
