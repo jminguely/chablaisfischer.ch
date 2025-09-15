@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/deploy-frontend.yml
+      - frontend/**
 
 jobs:
   ci:
@@ -37,7 +40,7 @@ jobs:
       - name: Run build 👷🏻
         run: npm run build
         env:
-          GRAPHQL_API_URL: ${{ vars.GRAPHQL_API_URL }}
+          WP_GRAPHQL_ENDPOINT: ${{ vars.GRAPHQL_API_URL }}
 
       - name: Install SSH Host Key
         id: deploy
