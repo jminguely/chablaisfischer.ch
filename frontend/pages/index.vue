@@ -7,7 +7,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watchEffect } from "vue";
+import { useHead } from "@unhead/vue";
 import type { WpPage } from "@/types/wp";
+import { useWpGraphql } from "@/composables/useWpGraphql";
 const page = ref<WpPage | null>(null);
 
 const PAGE_QUERY = `
@@ -26,5 +29,10 @@ watchEffect(async () => {
   } catch (e) {
     console.error(e);
   }
+});
+
+// Set the page title for home
+useHead({
+  title: "Chablais Fischer Architectes",
 });
 </script>

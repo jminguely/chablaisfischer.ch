@@ -12,6 +12,7 @@ npm-debug.log*
 frontend/.nuxt
 frontend/.nitro
 frontend/dist
+frontend/.output
 
 # Logs
 logs

@@ -7,7 +7,11 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, watchEffect } from "vue";
+import { useHead } from "@unhead/vue";
+import { useRoute } from "vue-router";
 import type { WpPage } from "@/types/wp";
+import { useWpGraphql } from "@/composables/useWpGraphql";
 const route = useRoute();
 const slug = computed(() => route.params.slug as string);
 const page = ref<WpPage | null>(null);
@@ -28,6 +32,15 @@ watchEffect(async () => {
     page.value = data.page;
   } catch (e) {
     console.error(e);
+  }
+});
+
+// Set the page title dynamically
+watchEffect(() => {
+  if (page.value && page.value.title) {
+    useHead({
+      title: `${page.value.title} – Chablais Fischer Architectes`,
+    });
   }
 });
 </script>
