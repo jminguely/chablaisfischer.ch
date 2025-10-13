@@ -24,6 +24,9 @@ jobs:
         with:
           php-version: "8.3" # Adjust the PHP version as needed
 
+      - name: Add HTTP basic auth credentials for ACF
+        run: echo '${{ vars.ACF_AUTH_JSON }}' > $GITHUB_WORKSPACE/wordpress/auth.json
+
       - name: Install Composer dependencies
         run: composer install --no-dev --prefer-dist --optimize-autoloader
 
