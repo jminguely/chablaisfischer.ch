@@ -1,21 +1,27 @@
 <?php
 
 /**
- * Custom Post Type registration for WP Headless
+ * Project Type registration for WP Headless
  */
-function wp_headless_register_custom_post_type()
+
+add_theme_support('post-thumbnails');
+
+function wp_headless_register_project_type()
 {
   $labels = array(
-    'name' => __('Custom Posts'),
-    'singular_name' => __('Custom Post'),
+    'name'            => __('Projects'),
+    'singular_name'   => __('Project'),
+    'add_new'         => __('Ajouter', 'textdomain'),
+    'add_new_item'    => __('Nouveau projet', 'textdomain'),
   );
   $args = array(
     'labels' => $labels,
     'public' => true,
     'has_archive' => true,
     'show_in_rest' => true,
+    'menu_icon' => 'dashicons-portfolio',
     'supports' => array('title', 'editor', 'thumbnail'),
   );
-  register_post_type('custom_post', $args);
+  register_post_type('project', $args);
 }
-add_action('init', 'wp_headless_register_custom_post_type');
+add_action('init', 'wp_headless_register_project_type');

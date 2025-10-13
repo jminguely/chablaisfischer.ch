@@ -31,6 +31,10 @@
   "repositories": [
     {
       "type": "composer",
+      "url": "https://connect.advancedcustomfields.com"
+    },
+    {
+      "type": "composer",
       "url": "https://wpackagist.org",
       "only": [
         "wpackagist-plugin/*",
@@ -46,7 +50,8 @@
     "roots/bedrock-autoloader": "^1.0",
     "roots/wordpress": "6.8.2",
     "roots/wp-config": "1.0.0",
-    "wp-graphql/wp-graphql": "^2.3"
+    "wp-graphql/wp-graphql": "^2.3",
+    "wpengine/advanced-custom-fields-pro": "^6.6"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
