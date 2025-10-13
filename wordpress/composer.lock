@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "388d3df914a832baf9088efafcca2a9a",
+    "content-hash": "d0d042025478583059bfa25b2c9594e4",
     "packages": [
         {
             "name": "appsero/client",
@@ -1215,6 +1215,24 @@
                 "source": "https://github.com/wp-graphql/wp-graphql/tree/v2.3.6"
             },
             "time": "2025-09-08T20:08:06+00:00"
+        },
+        {
+            "name": "wpackagist-plugin/wpgraphql-acf",
+            "version": "2.4.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wpgraphql-acf/",
+                "reference": "tags/2.4.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wpgraphql-acf.2.4.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/wpgraphql-acf/"
         },
         {
             "name": "wpengine/advanced-custom-fields-pro",

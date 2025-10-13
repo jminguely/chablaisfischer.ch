@@ -51,7 +51,8 @@
     "roots/wordpress": "6.8.2",
     "roots/wp-config": "1.0.0",
     "wp-graphql/wp-graphql": "^2.3",
-    "wpengine/advanced-custom-fields-pro": "^6.6"
+    "wpengine/advanced-custom-fields-pro": "^6.6",
+    "wpackagist-plugin/wpgraphql-acf": "^2.4"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",

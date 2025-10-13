@@ -52,5 +52,9 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1760336572
+    "show_in_graphql": 1,
+    "graphql_field_name": "fields",
+    "map_graphql_types_from_location_rules": 0,
+    "graphql_types": "",
+    "modified": 1760353910
 }

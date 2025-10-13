@@ -4,7 +4,8 @@
  * Project Type registration for WP Headless
  */
 
-add_theme_support('post-thumbnails');
+add_theme_support('post-thumbnails', array('post', 'project'));
+
 
 function wp_headless_register_project_type()
 {
@@ -19,8 +20,12 @@ function wp_headless_register_project_type()
     'public' => true,
     'has_archive' => true,
     'show_in_rest' => true,
+    'show_in_graphql' => true,
+    'graphql_single_name' => 'Project',
+    'graphql_plural_name' => 'Projects',
     'menu_icon' => 'dashicons-portfolio',
     'supports' => array('title', 'editor', 'thumbnail'),
+    'rewrite' => array('slug' => 'projet', 'with_front' => false),
   );
   register_post_type('project', $args);
 }

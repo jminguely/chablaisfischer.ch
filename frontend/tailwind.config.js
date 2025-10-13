@@ -12,8 +12,8 @@ module.exports = {
     fontSize: {
       // Define requested font sizes
       sm: '1rem',
-      lg: '2rem',
-      xl: '4rem',
+      lg: '1.5rem',
+      xl: '2rem',
     },
   },
 

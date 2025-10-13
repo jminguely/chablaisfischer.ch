@@ -1,13 +1,13 @@
 {
-    "key": "group_68ea0daa749f0",
-    "title": "Project",
+    "key": "group_68ecd0d190d61",
+    "title": "Projects (page)",
     "fields": [
         {
-            "key": "field_68ea0daa77c00",
-            "label": "Galerie",
-            "name": "gallery",
+            "key": "field_68ecd0d1c0c35",
+            "label": "Projects",
+            "name": "projects",
             "aria-label": "",
-            "type": "gallery",
+            "type": "relationship",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -16,27 +16,33 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "array",
-            "library": "all",
+            "post_type": [
+                "project"
+            ],
+            "post_status": "",
+            "taxonomy": "",
+            "filters": [
+                "search"
+            ],
+            "return_format": "object",
             "min": "",
             "max": "",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": "",
-            "insert": "append",
-            "preview_size": "medium"
+            "allow_in_bindings": 0,
+            "elements": "",
+            "bidirectional": 0,
+            "show_in_graphql": 1,
+            "graphql_description": "",
+            "graphql_field_name": "projects",
+            "graphql_connection_type": "one_to_many",
+            "bidirectional_target": []
         }
     ],
     "location": [
         [
             {
-                "param": "post_type",
+                "param": "page",
                 "operator": "==",
-                "value": "project"
+                "value": "50"
             }
         ]
     ],
@@ -54,5 +60,5 @@
     "graphql_field_name": "fields",
     "map_graphql_types_from_location_rules": 0,
     "graphql_types": "",
-    "modified": 1760353943
+    "modified": 1760353933
 }
