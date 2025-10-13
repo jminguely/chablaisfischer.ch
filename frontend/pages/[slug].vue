@@ -16,11 +16,7 @@ const route = useRoute();
 const slug = computed(() => route.params.slug as string);
 const page = ref<WpPage | null>(null);
 
-const PAGE_QUERY = `
-  query GetPage($slug: ID!) {
-    page(id: $slug, idType: URI) { id slug title: title(format: RENDERED) content: content(format: RENDERED) }
-  }
-`;
+import PAGE_QUERY from "@/graphql/getPage.gql?raw";
 
 const { query } = useWpGraphql();
 watchEffect(async () => {

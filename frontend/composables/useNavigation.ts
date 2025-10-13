@@ -7,20 +7,16 @@ interface MenuDataQuery {
   };
 }
 
-const NAV_QUERY = `
-  query PrimaryMenu($first: Int = 20) {
-    menuItems(where: {location: PRIMARYNAV, parentDatabaseId: 0}, first: $first) {
-      nodes { id label url }
-    }
-  }
-`;
+import NAV_QUERY from "@/graphql/nav.gql?raw";
 
 export async function useNavigation(): Promise<WpMenuItem[]> {
   const { query } = useWpGraphql();
   const data = await query<MenuDataQuery>(NAV_QUERY, { first: 20 });
-  return data.menuItems.nodes.map((i) => ({
-    id: i.id,
-    label: i.label,
-    path: new URL(i.url).pathname || "/",
-  }));
+  return data.menuItems.nodes.map(
+    (i: { id: string; label: string; url: string }) => ({
+      id: i.id,
+      label: i.label,
+      path: new URL(i.url).pathname || "/",
+    })
+  );
 }

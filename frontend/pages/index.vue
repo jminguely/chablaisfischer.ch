@@ -1,8 +1,15 @@
 <template>
-  <div>
-    <h1 v-if="page" v-html="page.title"></h1>
-    <div v-if="page" v-html="page.content"></div>
-    <div v-else>Loading...</div>
+  <div v-if="page">
+    <!-- Use fluid-tailwind utility when available; provide Tailwind fallbacks -->
+    <h1 class="text-fluid-3xl md:text-6xl text-4xl font-semibold">
+      {{ page.title }}
+    </h1>
+    <div v-html="page.content"></div>
+    <ul>
+      <li v-for="project in page.fields?.projects?.nodes">
+        <nuxt-link :to="project.uri">{{ project.id }}</nuxt-link>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -13,11 +20,7 @@ import type { WpPage } from "@/types/wp";
 import { useWpGraphql } from "@/composables/useWpGraphql";
 const page = ref<WpPage | null>(null);
 
-const PAGE_QUERY = `
-  query GetPage($slug: ID!) {
-    page(id: $slug, idType: URI) { id slug title: title(format: RENDERED) content: content(format: RENDERED) }
-  }
-`;
+import PAGE_QUERY from "@/graphql/getPageAccueil.gql?raw";
 
 const { query } = useWpGraphql();
 watchEffect(async () => {

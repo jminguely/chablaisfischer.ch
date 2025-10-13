@@ -1,0 +1,15 @@
+{
+  page(id: "/accueil", idType: URI) {
+    id
+    title
+    content
+    fields {
+      projects {
+        nodes {
+          id
+          uri
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+query GetPage($slug: ID!) {
+  project(id: $slug, idType: SLUG) {
+    id
+    slug
+    title: title(format: RENDERED)
+    content: content(format: RENDERED)
+    featuredImage {
+      node {
+        altText
+        sourceUrl(size: LARGE)
+      }
+    }
+  }
+}
