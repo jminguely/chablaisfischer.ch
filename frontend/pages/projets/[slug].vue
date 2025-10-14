@@ -1,6 +1,6 @@
 <template>
   <div v-if="project">
-    <h1>Detail: {{ project.title }}</h1>
+    <h1>{{ project.title }}</h1>
     <img
       v-if="project.featuredImage"
       :src="project.featuredImage.node.sourceUrl"

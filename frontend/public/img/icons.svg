@@ -1,0 +1,8 @@
+<svg width="0" height="0" class="hidden">
+  <symbol xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 17" id="menu">
+    <path fill="currentColor" d="M0 .5h18v2H0v-2Zm0 7h18v2H0v-2Zm0 7h18v2H0v-2Z"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 13" id="close">
+    <path fill="currentColor" d="m7 5.086 4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414L7 7.914l-4.95 4.95L.636 11.45l4.95-4.95-4.95-4.95L2.05.136 7 5.086Z"></path>
+  </symbol>
+</svg>

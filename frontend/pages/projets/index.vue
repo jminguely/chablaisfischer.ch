@@ -4,7 +4,6 @@
       {{ page.title }}
     </h1>
     <div v-html="page.content"></div>
-    Projets:
     <ul>
       <li v-for="project in page.fields?.projects?.nodes">
         <nuxt-link :to="project.uri"
@@ -43,6 +42,6 @@ watchEffect(async () => {
 
 // Set the page title for home
 useHead({
-  title: `${page?.value?.title} – Chablais Fischer Architectes`,
+  title: `Projets – Chablais Fischer Architectes`,
 });
 </script>
