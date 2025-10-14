@@ -52,7 +52,7 @@ export default defineNuxtConfig({
         const idx = pages.findIndex((p) => p.path === "/index");
         if (idx !== -1) pages.splice(idx, 1);
         pages.push({
-          name: "index",
+          name: "index-explicit",
           path: "/index",
           file: indexPage.file,
         });
