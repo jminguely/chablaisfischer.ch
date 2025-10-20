@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
-import { useHead } from "@unhead/vue";
+import { useHead } from "#imports";
 import type { WpPage } from "@/types/wp";
 import { useWpGraphql } from "@/composables/useWpGraphql";
 

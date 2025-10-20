@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watchEffect } from "vue";
-import { useHead } from "@unhead/vue";
+import { useHead } from "#imports";
 import { useRoute } from "vue-router";
 import type { WpProject } from "@/types/wp";
 import { useWpGraphql } from "@/composables/useWpGraphql";

@@ -1,5 +1,6 @@
 // Clean Nuxt configuration for frontend consuming headless WordPress via WPGraphQL
 export default defineNuxtConfig({
+  compatibilityDate: "2025-10-20",
   devtools: { enabled: true },
   typescript: { shim: false },
   runtimeConfig: {

@@ -36,6 +36,14 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { useHead } from "#imports";
+
+useHead({
+  link: [
+    { rel: "icon", type: "image/png", href: "/favicon.png" },
+    { rel: "icon", type: "image/png", href: "/favicon.ico" },
+  ],
+});
 
 const navOpen = ref(false);
 function toggleNav() {

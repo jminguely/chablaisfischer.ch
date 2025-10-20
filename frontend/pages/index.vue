@@ -95,7 +95,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import { useHead } from "@unhead/vue";
+import { useHead } from "#imports";
 import { useWpGraphql } from "@/composables/useWpGraphql";
 import GET_PROJECTS from "@/graphql/getProjects.gql?raw";
 import type { WpProject } from "@/types/wp";
