@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     activeClass: "router-link-active",
     exactActiveClass: "router-link-exact-active",
   },
-  css: ["~/assets/css/tailwind.css"],
+  css: ["~/assets/css/main.css", "~/assets/css/typography.css"],
   modules: ["@nuxtjs/tailwindcss"],
   postcss: {
     plugins: {

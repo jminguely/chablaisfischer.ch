@@ -20,11 +20,18 @@ export type WpProject = {
   id: string;
   slug: string;
   title: string;
-  content: string;
+  uri: string;
   featuredImage?: {
     node: {
       altText: string;
       sourceUrl: string;
     };
+  };
+  acf?: {
+    annee: string;
+    lieu: string;
+    programme: string;
+    type: string;
+    statut: string;
   };
 };

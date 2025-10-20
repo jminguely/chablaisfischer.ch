@@ -31,9 +31,7 @@ import PAGE_QUERY from "@/graphql/getPageProjets.gql?raw";
 const { query } = useWpGraphql();
 watchEffect(async () => {
   try {
-    const data = await query<{ page: WpPage | null }>(PAGE_QUERY, {
-      slug: "/",
-    });
+    const data = await query<{ page: WpPage | null }>(PAGE_QUERY);
     page.value = data.page;
   } catch (e) {
     console.error(e);
@@ -42,6 +40,6 @@ watchEffect(async () => {
 
 // Set the page title for home
 useHead({
-  title: `Projets – Chablais Fischer Architectes`,
+  title: "Projets - Chablais Fischer Architectes",
 });
 </script>

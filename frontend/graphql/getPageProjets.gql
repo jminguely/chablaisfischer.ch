@@ -11,6 +11,12 @@
           ... on Project {
             id
             title(format: RENDERED)
+            featuredImage {
+              node {
+                altText
+                sourceUrl
+              }
+            }
           }
         }
       }

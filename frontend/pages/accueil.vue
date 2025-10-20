@@ -4,7 +4,6 @@
       {{ page.title }}
     </h1>
     <div v-html="page.content"></div>
-    Projets:
     <ul>
       <li v-for="project in page.fields?.projects?.nodes">
         <nuxt-link :to="project.uri"

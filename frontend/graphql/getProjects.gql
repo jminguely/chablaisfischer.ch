@@ -1,0 +1,25 @@
+{
+  projects {
+    edges {
+      node {
+        id
+        title
+        slug
+        uri
+        featuredImage {
+          node {
+            altText
+            sourceUrl
+          }
+        }
+        acf {
+          annee
+          lieu
+          programme
+          type
+          statut
+        }
+      }
+    }
+  }
+}

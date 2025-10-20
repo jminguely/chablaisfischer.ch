@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'Dada Grotesk';
+  font-weight: 400;
+  src: url('/fonts/Dada-Grotesk-Regular.woff2') format('woff2'),
+    url('/fonts/Dada-Grotesk-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Dada Grotesk';
+  font-weight: 500;
+  src: url('/fonts/Dada-Grotesk-Medium.woff2') format('woff2'),
+    url('/fonts/Dada-Grotesk-Medium.woff') format('woff');
+}
+
+body {
+  font-family: 'Dada Grotesk';
+}
+
+strong, b {
+  font-weight: 500;
+}

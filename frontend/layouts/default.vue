@@ -27,7 +27,7 @@
       <nuxt-link class="link link-index" to="/index">index</nuxt-link>
       <nuxt-link class="link link-atelier" to="/atelier">atelier</nuxt-link>
     </nav>
-    <main class="main">
+    <main class="main mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <slot />
     </main>
   </div>

@@ -12,8 +12,7 @@
   "dependencies": {
     "cross-fetch": "^3.1.8",
     "graphql": "^16.8.1",
-    "nuxt": "^3.12.0",
-    "tailwindcss-fluid-type": "^2.0.7"
+    "nuxt": "^3.12.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^5.2.0",
