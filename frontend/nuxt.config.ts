@@ -16,14 +16,6 @@ export default defineNuxtConfig({
       ],
     },
   },
-  // Configure NuxtLink defaults so active classes are applied globally
-  // This will be compiled into #build/nuxt.config.mjs as `nuxtLinkDefaults`
-  // @ts-ignore - `nuxtLink` isn't in the public TS typing but Nuxt will accept it at build time
-  nuxtLink: {
-    // keep default names used by Vue Router to match existing CSS
-    activeClass: "router-link-active",
-    exactActiveClass: "router-link-exact-active",
-  },
   css: ["~/assets/css/main.css", "~/assets/css/typography.css"],
   modules: ["@nuxtjs/tailwindcss"],
   postcss: {

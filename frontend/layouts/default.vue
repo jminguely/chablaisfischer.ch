@@ -76,10 +76,6 @@ nav {
   @screen md {
     position: fixed;
   }
-
-  &.router-link-active {
-    text-decoration: underline;
-  }
 }
 
 .link-logo {
