@@ -7,41 +7,49 @@
       :alt="project.featuredImage.node.altText"
     />
     <div v-html="project.content"></div>
+    <img
+      v-if="project?.fieldsGallery?.gallery.nodes"
+      v-for="image in project.fieldsGallery.gallery.nodes"
+      :src="image.sourceUrl"
+      :alt="image.altText"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watchEffect } from "vue";
+import { ref, computed, watch } from "vue";
 import { useHead } from "#imports";
 import { useRoute } from "vue-router";
 import type { WpProject } from "@/types/wp";
 import { useWpGraphql } from "@/composables/useWpGraphql";
+import PROJECT_QUERY from "@/graphql/getProject.gql?raw";
+
 const route = useRoute();
 const slug = computed(() => route.params.slug as string);
 const project = ref<WpProject | null>(null);
-
-import PROJECT_QUERY from "@/graphql/getProject.gql?raw";
-
 const { query } = useWpGraphql();
 
-watchEffect(async () => {
-  if (!slug.value) return;
-  try {
-    const data = await query<{ project: WpProject | null }>(PROJECT_QUERY, {
-      slug: slug.value,
-    });
-    project.value = data.project;
-  } catch (e) {
-    console.error(e);
-  }
-});
+watch(
+  slug,
+  async (newSlug) => {
+    if (!newSlug) return;
 
-// Set the project title dynamically
-watchEffect(() => {
-  if (project.value && project.value.title) {
-    useHead({
-      title: `${project.value.title} – Chablais Fischer Architectes`,
-    });
-  }
-});
+    try {
+      const data = await query<{ project: WpProject | null }>(PROJECT_QUERY, {
+        slug: newSlug,
+      });
+      project.value = data.project;
+
+      // Set the project title dynamically
+      if (data.project?.title) {
+        useHead({
+          title: `${data.project.title} – Chablais Fischer Architectes`,
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  { immediate: true }
+);
 </script>

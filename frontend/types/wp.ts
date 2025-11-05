@@ -21,13 +21,19 @@ export type WpProject = {
   slug: string;
   title: string;
   uri: string;
-  featuredImage?: {
+  content: string;
+  featuredImage: {
     node: {
       altText: string;
       sourceUrl: string;
     };
   };
-  acf?: {
+  fieldsGallery: {
+    gallery: {
+      nodes: any[];
+    };
+  };
+  acf: {
     annee: string;
     lieu: string;
     programme: string;

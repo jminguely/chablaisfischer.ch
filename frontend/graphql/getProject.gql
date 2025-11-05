@@ -1,4 +1,4 @@
-query GetPage($slug: ID!) {
+query getProject($slug: ID!) {
   project(id: $slug, idType: SLUG) {
     id
     slug
@@ -8,6 +8,14 @@ query GetPage($slug: ID!) {
       node {
         altText
         sourceUrl(size: LARGE)
+      }
+    }
+    fieldsGallery {
+      gallery {
+        nodes {
+          altText
+          sourceUrl(size: LARGE)
+        }
       }
     }
   }
