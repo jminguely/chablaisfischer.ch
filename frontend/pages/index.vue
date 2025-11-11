@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mx-auto py-12 px-4 sm:px-6 lg:px-8">
     <h1 class="sr-only">Accueil</h1>
 
     <section aria-labelledby="projects-heading">
@@ -12,32 +12,69 @@
           <thead>
             <tr>
               <th class="px-4 py-2 font-medium">
-                <button
-                  class="flex items-center gap-2"
-                  @click="toggleSort('title')"
-                  :aria-sort="ariaSort('title')"
+                <SortableHeader
+                  name="title"
+                  :sortKey="sortKey"
+                  :sortDir="sortDir"
+                  @toggle="toggleSort"
                 >
                   Projet
-                  <span v-if="sortKey === 'title'">{{
-                    sortDir === 1 ? "▲" : "▼"
-                  }}</span>
-                </button>
+                </SortableHeader>
               </th>
-              <th class="px-4 py-2 font-medium">Lieu</th>
-              <th class="px-4 py-2 font-medium">Programme</th>
-              <th class="px-4 py-2 font-medium">Type</th>
-              <th class="px-4 py-2 font-medium">Statut</th>
+
+              <th class="px-4 py-2 font-medium">
+                <SortableHeader
+                  name="lieu"
+                  :sortKey="sortKey"
+                  :sortDir="sortDir"
+                  @toggle="toggleSort"
+                >
+                  Lieu
+                </SortableHeader>
+              </th>
+
+              <th class="px-4 py-2 font-medium">
+                <SortableHeader
+                  name="programme"
+                  :sortKey="sortKey"
+                  :sortDir="sortDir"
+                  @toggle="toggleSort"
+                >
+                  Programme
+                </SortableHeader>
+              </th>
+
+              <th class="px-4 py-2 font-medium">
+                <SortableHeader
+                  name="type"
+                  :sortKey="sortKey"
+                  :sortDir="sortDir"
+                  @toggle="toggleSort"
+                >
+                  Type
+                </SortableHeader>
+              </th>
+
+              <th class="px-4 py-2 font-medium">
+                <SortableHeader
+                  name="statut"
+                  :sortKey="sortKey"
+                  :sortDir="sortDir"
+                  @toggle="toggleSort"
+                >
+                  Statut
+                </SortableHeader>
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr
               v-for="p in sortedProjects"
               :key="p.id"
-              class="border-t hover:bg-gray-50"
+              class="border-t hover:bg-gray-50 cursor-pointer"
+              @click="navigateToProject(p.uri)"
             >
-              <td class="px-4 py-3">
-                <NuxtLink :to="p.uri">{{ p.title }}</NuxtLink>
-              </td>
+              <td class="px-4 py-3">{{ p.title }}</td>
               <td class="px-4 py-3">{{ p.acf?.lieu || "" }}</td>
               <td class="px-4 py-3">
                 {{ (p.acf && p.acf.programme && p.acf.programme[0]) || "" }}
@@ -99,6 +136,7 @@ import { useHead } from "#imports";
 import { useWpGraphql } from "@/composables/useWpGraphql";
 import GET_PROJECTS from "@/graphql/getProjects.gql?raw";
 import type { WpProject } from "@/types/wp";
+import SortableHeader from "@/components/SortableHeader.vue";
 
 useHead({ title: `Index – Chablais Fischer Architectes` });
 
@@ -154,6 +192,10 @@ function toggleSort(key: string) {
 function ariaSort(key: string) {
   if (sortKey.value !== key) return "none";
   return sortDir.value === 1 ? "ascending" : "descending";
+}
+
+function navigateToProject(uri: string) {
+  window.location.href = uri;
 }
 
 const { query } = useWpGraphql();

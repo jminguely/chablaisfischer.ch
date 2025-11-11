@@ -21,7 +21,9 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss"],
   postcss: {
     plugins: {
-      tailwindcss: {},
+      tailwindcss: {
+        viewer: false,
+      },
       autoprefixer: {},
     },
   },

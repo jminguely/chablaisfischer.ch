@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="min-h-screen">
     <nuxt-link class="link link-logo" to="/">
       <img src="../assets/img/logo.svg" alt="Chablais Fischer Architectes" />
     </nuxt-link>
@@ -27,7 +27,7 @@
       <nuxt-link class="link link-index" to="/index">index</nuxt-link>
       <nuxt-link class="link link-atelier" to="/atelier">atelier</nuxt-link>
     </nav>
-    <main class="main mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <main class="main">
       <slot />
     </main>
   </div>
