@@ -1,5 +1,5 @@
 {
-  page(id: "/accueil", idType: URI) {
+  page(id: "/", idType: URI) {
     id
     title
     content
