@@ -71,7 +71,7 @@
             <tr
               v-for="p in sortedProjects"
               :key="p.id"
-              class="border-t hover:bg-gray-50 cursor-pointer"
+              class="border-t hover:bg-yellow cursor-pointer"
               @click="navigateToProject(p.uri)"
             >
               <td class="px-4 py-3">{{ p.title }}</td>
@@ -96,7 +96,7 @@
           v-for="p in projects"
           :key="p.id"
           :to="p.uri"
-          class="block p-4 border rounded-lg hover:bg-gray-50"
+          class="block p-4 border rounded-lg"
         >
           <div class="mb-2">
             <div class="text-xs text-gray-500">Titre</div>
@@ -199,14 +199,6 @@ function navigateToProject(uri: string) {
 }
 
 const { query } = useWpGraphql();
-
-function uriToPath(uri: string | undefined, slug?: string) {
-  if (!uri && slug) return `/projets/${slug}`;
-  if (!uri) return "/";
-  // Remove trailing slash
-  const cleaned = uri.replace(/\/$/, "");
-  return cleaned;
-}
 
 onMounted(async () => {
   try {

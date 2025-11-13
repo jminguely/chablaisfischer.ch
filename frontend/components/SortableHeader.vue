@@ -10,7 +10,7 @@
     <span class="flex">
       <Icon
         :class="
-          sortKey === name && sortDir === -1 ? 'opacity-100' : 'opacity-50'
+          sortKey === name && sortDir === -1 ? 'opacity-100' : 'opacity-20'
         "
         name="arrow-up"
         class="w-2 h-4 origin-center"
@@ -18,7 +18,7 @@
 
       <Icon
         :class="
-          sortKey === name && sortDir === 1 ? 'opacity-100' : 'opacity-50'
+          sortKey === name && sortDir === 1 ? 'opacity-100' : 'opacity-20'
         "
         name="arrow-down"
         class="w-2 h-4 origin-center"

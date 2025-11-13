@@ -79,6 +79,7 @@ nav {
 }
 
 .link {
+  @apply text-md;
   padding: 15px;
 
   @screen md {
@@ -99,7 +100,7 @@ nav {
 }
 
 .link-index {
-  @apply md:rotate-90 md:top-1/2 md:right-0;
+  @apply md:-rotate-90 md:top-1/2 md:right-0;
 }
 
 .link-atelier {

@@ -10,6 +10,10 @@ export type WpPage = {
   title: string;
   content: string;
   fields?: {
+    postIt?: {
+      title: string;
+      content: string;
+    };
     projects?: {
       nodes?: any[];
     };

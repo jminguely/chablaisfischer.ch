@@ -7,4 +7,27 @@ html {
 
 body {
   overscroll-behavior-y: none;
+  font-size: 14px;
 }
+
+ @screen md {
+
+  body {
+    font-size: 16px;
+  }
+
+  .text-sm {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .text-md {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+  .text-lg {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+}
+

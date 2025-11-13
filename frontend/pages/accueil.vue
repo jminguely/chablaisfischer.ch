@@ -1,6 +1,15 @@
 <template>
-  <div v-if="page" class="h-screen w-full overflow-hidden">
-    <ImageSlider :images="sliderImages" :autoplay="true" :interval="5000" />
+  <div v-if="page">
+    <div class="fixed top-16 bottom-16 right-24 left-24">
+      <ImageSlider :images="sliderImages" :autoplay="true" :interval="5000" />
+    </div>
+
+    <!-- Post-it note overlay - bounces around the screen -->
+    <PostIt
+      v-if="page?.fields?.postIt"
+      :title="page.fields.postIt.title"
+      :content="page.fields.postIt.content"
+    />
   </div>
 </template>
 

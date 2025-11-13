@@ -4,6 +4,10 @@
     title
     content
     fields {
+      postIt {
+        title
+        content
+      }
       projects {
         nodes {
           id

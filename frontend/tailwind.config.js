@@ -9,6 +9,15 @@ module.exports = {
     './app.vue',
   ],
   theme: {
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      white: '#ffffff',
+      black: '#181818',
+      anthracite: '#2F2F2F',
+      grey: '#C4C4C4',
+      yellow: '#FFF600',
+    },
     fontFamily: {
       sans: ['Dada Grotesk', 'sans-serif'],
     },
@@ -17,10 +26,9 @@ module.exports = {
       medium: '500',
     },
     fontSize: {
-      // Define requested font sizes
-      sm: '1rem',
-      lg: '1.5rem',
-      xl: '2rem',
+      sm: '12px',
+      md: '16px',
+      lg: '22px',
     },
   }
 }
