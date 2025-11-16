@@ -1,6 +1,6 @@
 {
     "key": "group_68ecd0d190d61",
-    "title": "Projects (page)",
+    "title": "Projets (page)",
     "fields": [
         {
             "key": "field_68ecd0d1c0c35",
@@ -40,9 +40,9 @@
     "location": [
         [
             {
-                "param": "page",
+                "param": "page_template",
                 "operator": "==",
-                "value": "50"
+                "value": "template-projets"
             }
         ]
     ],
@@ -60,5 +60,5 @@
     "graphql_field_name": "fields",
     "map_graphql_types_from_location_rules": 0,
     "graphql_types": "",
-    "modified": 1760353933
+    "modified": 1763309003
 }
