@@ -1,9 +1,9 @@
 {
-  page(id: "/projets", idType: URI) {
+  page(id: "/projects/", idType: URI) {
     id
     title
     content
-    fields {
+    fieldsProjets {
       projects {
         nodes {
           id

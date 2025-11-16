@@ -12,7 +12,7 @@
             sourceUrl
           }
         }
-        acf {
+        fieldsProjectSidebar {
           annee
           lieu
           programme

@@ -3,7 +3,7 @@
     id
     title
     content
-    fields {
+    fieldsAccueil {
       postIt {
         title
         content

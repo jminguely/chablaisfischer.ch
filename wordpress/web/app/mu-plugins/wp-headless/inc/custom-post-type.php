@@ -25,7 +25,7 @@ function wp_headless_register_project_type()
     'graphql_plural_name' => 'Projects',
     'menu_icon' => 'dashicons-portfolio',
     'supports' => array('title', 'editor', 'thumbnail'),
-    'rewrite' => array('slug' => 'projets', 'with_front' => true),
+    'rewrite' => array('slug' => 'projets', 'with_front' => false),
   );
   register_post_type('project', $args);
 }

@@ -75,15 +75,32 @@
               @click="navigateToProject(p.uri)"
             >
               <td class="px-4 py-3">{{ p.title }}</td>
-              <td class="px-4 py-3">{{ p.acf?.lieu || "" }}</td>
               <td class="px-4 py-3">
-                {{ (p.acf && p.acf.programme && p.acf.programme[0]) || "" }}
+                {{ p.fieldsProjectSidebar?.lieu || "" }}
               </td>
               <td class="px-4 py-3">
-                {{ (p.acf && p.acf.type && p.acf.type[0]) || "" }}
+                {{
+                  (p.fieldsProjectSidebar &&
+                    p.fieldsProjectSidebar.programme &&
+                    p.fieldsProjectSidebar.programme[0]) ||
+                  ""
+                }}
               </td>
               <td class="px-4 py-3">
-                {{ (p.acf && p.acf.statut && p.acf.statut[0]) || "" }}
+                {{
+                  (p.fieldsProjectSidebar &&
+                    p.fieldsProjectSidebar.type &&
+                    p.fieldsProjectSidebar.type[0]) ||
+                  ""
+                }}
+              </td>
+              <td class="px-4 py-3">
+                {{
+                  (p.fieldsProjectSidebar &&
+                    p.fieldsProjectSidebar.statut &&
+                    p.fieldsProjectSidebar.statut[0]) ||
+                  ""
+                }}
               </td>
             </tr>
           </tbody>
@@ -105,24 +122,43 @@
 
           <div class="mb-2">
             <div class="text-xs text-gray-500">Lieu</div>
-            <div>{{ p.acf?.lieu || "" }}</div>
+            <div>{{ p.fieldsProjectSidebar?.lieu || "" }}</div>
           </div>
 
           <div class="mb-2">
             <div class="text-xs text-gray-500">Programme</div>
             <div>
-              {{ (p.acf && p.acf.programme && p.acf.programme[0]) || "" }}
+              {{
+                (p.fieldsProjectSidebar &&
+                  p.fieldsProjectSidebar.programme &&
+                  p.fieldsProjectSidebar.programme[0]) ||
+                ""
+              }}
             </div>
           </div>
 
           <div class="mb-2">
             <div class="text-xs text-gray-500">Type</div>
-            <div>{{ (p.acf && p.acf.type && p.acf.type[0]) || "" }}</div>
+            <div>
+              {{
+                (p.fieldsProjectSidebar &&
+                  p.fieldsProjectSidebar.type &&
+                  p.fieldsProjectSidebar.type[0]) ||
+                ""
+              }}
+            </div>
           </div>
 
           <div>
             <div class="text-xs text-gray-500">Statut</div>
-            <div>{{ (p.acf && p.acf.statut && p.acf.statut[0]) || "" }}</div>
+            <div>
+              {{
+                (p.fieldsProjectSidebar &&
+                  p.fieldsProjectSidebar.statut &&
+                  p.fieldsProjectSidebar.statut[0]) ||
+                ""
+              }}
+            </div>
           </div>
         </NuxtLink>
       </div>
@@ -153,13 +189,28 @@ function getFieldValue(p: any, key: string | null) {
     case "title":
       return (p.title || "").toString();
     case "lieu":
-      return (p.acf && p.acf.lieu) || "";
+      return (p.fieldsProjectSidebar && p.fieldsProjectSidebar.lieu) || "";
     case "programme":
-      return (p.acf && p.acf.programme && p.acf.programme[0]) || "";
+      return (
+        (p.fieldsProjectSidebar &&
+          p.fieldsProjectSidebar.programme &&
+          p.fieldsProjectSidebar.programme[0]) ||
+        ""
+      );
     case "type":
-      return (p.acf && p.acf.type && p.acf.type[0]) || "";
+      return (
+        (p.fieldsProjectSidebar &&
+          p.fieldsProjectSidebar.type &&
+          p.fieldsProjectSidebar.type[0]) ||
+        ""
+      );
     case "statut":
-      return (p.acf && p.acf.statut && p.acf.statut[0]) || "";
+      return (
+        (p.fieldsProjectSidebar &&
+          p.fieldsProjectSidebar.statut &&
+          p.fieldsProjectSidebar.statut[0]) ||
+        ""
+      );
     default:
       return "";
   }
@@ -214,7 +265,7 @@ onMounted(async () => {
         uri: n.uri || "",
         content: n.content || "",
         featuredImage: n.featuredImage,
-        acf: n.acf || {},
+        fieldsProjectSidebar: n.fieldsProjectSidebar || {},
       } as any;
     });
   } catch (e) {

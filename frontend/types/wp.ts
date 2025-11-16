@@ -9,7 +9,12 @@ export type WpPage = {
   slug: string;
   title: string;
   content: string;
-  fields?: {
+  fieldsProjets?: {
+    projects?: {
+      nodes?: any[];
+    };
+  };
+  fieldsAccueil?: {
     postIt?: {
       title: string;
       content: string;
@@ -37,7 +42,7 @@ export type WpProject = {
       nodes: any[];
     };
   };
-  acf: {
+  fieldsProjectSidebar: {
     annee: string;
     lieu: string;
     programme: string;
