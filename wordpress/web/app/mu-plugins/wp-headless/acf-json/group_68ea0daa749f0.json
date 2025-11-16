@@ -52,7 +52,9 @@
     "display_title": "",
     "show_in_graphql": 1,
     "graphql_field_name": "fieldsGallery",
-    "map_graphql_types_from_location_rules": 0,
-    "graphql_types": "",
-    "modified": 1762332781
+    "map_graphql_types_from_location_rules": 1,
+    "graphql_types": [
+        "Project"
+    ],
+    "modified": 1763309362
 }

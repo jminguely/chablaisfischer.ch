@@ -57,8 +57,10 @@
     "show_in_rest": 0,
     "display_title": "",
     "show_in_graphql": 1,
-    "graphql_field_name": "fields",
-    "map_graphql_types_from_location_rules": 0,
-    "graphql_types": "",
-    "modified": 1763309003
+    "graphql_field_name": "fieldsProjets",
+    "map_graphql_types_from_location_rules": 1,
+    "graphql_types": [
+        "Template_Projets"
+    ],
+    "modified": 1763309404
 }
