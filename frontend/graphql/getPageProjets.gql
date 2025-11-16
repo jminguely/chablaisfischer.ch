@@ -1,8 +1,6 @@
 {
   page(id: "/projects/", idType: URI) {
     id
-    title
-    content
     fieldsProjets {
       projects {
         nodes {

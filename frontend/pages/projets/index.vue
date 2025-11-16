@@ -1,9 +1,5 @@
 <template>
   <div v-if="page">
-    <h1>
-      {{ page.title }}
-    </h1>
-    <div v-html="page.content"></div>
     <ul>
       <li v-for="project in page.fieldsProjets?.projects?.nodes">
         <nuxt-link :to="project.uri"

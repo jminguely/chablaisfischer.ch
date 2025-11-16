@@ -1,27 +1,27 @@
 <template>
   <button
-    class="flex items-center gap-2"
+    class="flex items-center gap-1"
     @click="onClick"
     :aria-sort="ariaSort"
     v-bind="$attrs"
   >
     <slot>{{ label }}</slot>
 
-    <span class="flex">
+    <span class="flex gap-0">
       <Icon
         :class="
-          sortKey === name && sortDir === -1 ? 'opacity-100' : 'opacity-20'
+          sortKey === name && sortDir === -1 ? ' text-black' : ' text-grey'
         "
         name="arrow-up"
-        class="w-2 h-4 origin-center"
+        class="w-1.5 h-3 origin-center"
       />
 
       <Icon
         :class="
-          sortKey === name && sortDir === 1 ? 'opacity-100' : 'opacity-20'
+          sortKey === name && sortDir === 1 ? ' text-black' : ' text-grey'
         "
         name="arrow-down"
-        class="w-2 h-4 origin-center"
+        class="w-1.5 h-3 origin-center"
       />
     </span>
   </button>

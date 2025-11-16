@@ -1,9 +1,3 @@
-export interface WpMenuItem {
-  id: string;
-  label: string;
-  path: string;
-}
-
 export type WpPage = {
   id: string;
   slug: string;
