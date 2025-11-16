@@ -149,6 +149,30 @@
             "placeholder": "",
             "create_options": 0,
             "save_options": 0
+        },
+        {
+            "key": "field_691a204915c7d",
+            "label": "Fiche projet",
+            "name": "fiche_projet",
+            "aria-label": "",
+            "type": "file",
+            "instructions": "Format autorisé: pdf",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "pdf",
+            "allow_in_bindings": 0,
+            "show_in_graphql": 1,
+            "graphql_description": "",
+            "graphql_field_name": "ficheProjet"
         }
     ],
     "location": [
@@ -179,5 +203,5 @@
     "graphql_types": [
         "Project"
     ],
-    "modified": 1763309381
+    "modified": 1763319927
 }
