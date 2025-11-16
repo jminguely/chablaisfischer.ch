@@ -42,5 +42,10 @@ export type WpProject = {
     programme: string;
     type: string;
     statut: string;
+    ficheProjet?: {
+      node: {
+        mediaItemUrl: string;
+      };
+    };
   };
 };

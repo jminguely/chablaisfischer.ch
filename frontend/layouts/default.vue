@@ -79,7 +79,7 @@ nav {
 }
 
 .link {
-  @apply text-md;
+  @apply text-lg;
   padding: 15px;
 
   @screen md {

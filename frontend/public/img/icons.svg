@@ -14,4 +14,17 @@
     <path fill="currentColor" d="M5 2.5H3v6H2v-6H0L2.5 0 5 2.5Z"></path>
     <path fill="currentColor" d="M5 2.5H3v6H2v-6H0L2.5 0 5 2.5Z"></path>
   </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 10" id="plus">
+    <path fill="currentColor" d="M4 4V0h1.333v4h4v1.333h-4v4H4v-4H0V4h4Z"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" id="download">
+    <g clip-path="url(#a)">
+      <path fill="currentColor" d="M8.667 8h2L8 10.666 5.333 8h2V5.333h1.334V8ZM10 2.666H3.333v10.667h9.334v-8H10V2.666Zm-8-.672c0-.365.298-.661.666-.661h8L14 4.666v9.329a.666.666 0 0 1-.662.671H2.662A.666.666 0 0 1 2 14.005V1.995Z"></path>
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h16v16H0z"></path>
+      </clipPath>
+    </defs>
+  </symbol>
 </svg>

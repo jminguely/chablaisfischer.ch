@@ -45,9 +45,9 @@ const props = withDefaults(defineProps<Props>(), {
 
 const postItRef = ref<HTMLElement | null>(null);
 const position = ref({ x: 0, y: 0 });
-const velocity = ref({ x: 1, y: 0.5 });
+const velocity = ref({ x: 0.1, y: 0.05 });
 const rotation = ref(0);
-const rotationSpeed = 0.1; // degrees per frame
+const rotationSpeed = 0.01; // degrees per frame
 
 let animationFrameId: number;
 

@@ -1,18 +1,41 @@
 <template>
   <div v-if="project">
-    <h1>{{ project.title }}</h1>
-    <img
-      v-if="project.featuredImage"
-      :src="project.featuredImage.node.sourceUrl"
-      :alt="project.featuredImage.node.altText"
-    />
-    <div v-html="project.content"></div>
-    <img
-      v-if="project?.fieldsGallery?.gallery.nodes"
-      v-for="image in project.fieldsGallery.gallery.nodes"
-      :src="image.sourceUrl"
-      :alt="image.altText"
-    />
+    <div
+      class="fixed top-16 bottom-6 left-6 right-6 md:top-32 md:bottom-16 md:right-24 md:left-24"
+    >
+      <ImageSlider
+        v-if="galleryImages && galleryImages.length > 0"
+        :images="galleryImages"
+        :autoplay="false"
+        :interval="5000"
+        :navigationEnabled="true"
+      >
+        <template #info>
+          <button
+            class="text-sm px-2 py-1 flex gap-1 items-center z-30 relative"
+            @click="openModal"
+          >
+            <h2>{{ project.title }},</h2>
+            <p v-if="project.fieldsProjectSidebar?.lieu">
+              {{ project.fieldsProjectSidebar.lieu }}
+            </p>
+            <Icon
+              name="plus"
+              alt="Afficher les informations du projet"
+              aria-label="Afficher les informations du projet"
+              class="w-2 h-2 origin-center"
+            />
+          </button>
+        </template>
+      </ImageSlider>
+
+      <!-- Project Modal - positioned within the same container as the image -->
+      <ProjectModal
+        :isOpen="isModalOpen"
+        :project="project"
+        @close="closeModal"
+      />
+    </div>
   </div>
 </template>
 
@@ -28,6 +51,25 @@ const route = useRoute();
 const slug = computed(() => route.params.slug as string);
 const project = ref<WpProject | null>(null);
 const { query } = useWpGraphql();
+const isModalOpen = ref(false);
+
+const openModal = () => {
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+};
+
+const galleryImages = computed(() => {
+  if (project.value?.fieldsGallery?.gallery?.nodes) {
+    return project.value.fieldsGallery.gallery.nodes.map((image) => ({
+      src: image.sourceUrl,
+      alt: image.altText || project.value?.title || "Gallery image",
+    }));
+  }
+  return [];
+});
 
 watch(
   slug,

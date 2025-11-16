@@ -2,8 +2,16 @@ query getProject($slug: ID!) {
   project(id: $slug, idType: SLUG) {
     id
     slug
-    title: title(format: RENDERED)
+    title
     content: content(format: RENDERED)
+    fieldsProjectSidebar {
+      lieu
+      ficheProjet {
+        node {
+          mediaItemUrl
+        }
+      }
+    }
     featuredImage {
       node {
         altText
