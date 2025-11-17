@@ -7,10 +7,10 @@
 
       <!-- Desktop: table with sortable headers -->
       <div class="hidden md:block">
-        <table class="min-w-full text-sm text-left">
+        <table class="min-w-full text-sm text-left projects-table">
           <thead>
             <tr>
-              <th class="pr-4 py-2">
+              <th class="pr-4 py-2 col-title">
                 <SortableHeader
                   name="title"
                   :sortKey="sortKey"
@@ -21,7 +21,18 @@
                 </SortableHeader>
               </th>
 
-              <th class="px-4 py-2">
+              <th class="px-4 py-2 col-equal">
+                <SortableHeader
+                  name="annee"
+                  :sortKey="sortKey"
+                  :sortDir="sortDir"
+                  @toggle="toggleSort"
+                >
+                  Année
+                </SortableHeader>
+              </th>
+
+              <th class="px-4 py-2 col-equal">
                 <SortableHeader
                   name="lieu"
                   :sortKey="sortKey"
@@ -32,7 +43,7 @@
                 </SortableHeader>
               </th>
 
-              <th class="px-4 py-2">
+              <th class="px-4 py-2 col-equal">
                 <SortableHeader
                   name="programme"
                   :sortKey="sortKey"
@@ -43,7 +54,7 @@
                 </SortableHeader>
               </th>
 
-              <th class="px-4 py-2">
+              <th class="px-4 py-2 col-equal">
                 <SortableHeader
                   name="type"
                   :sortKey="sortKey"
@@ -54,7 +65,7 @@
                 </SortableHeader>
               </th>
 
-              <th class="pl-4 py-2">
+              <th class="pl-4 py-2 col-equal">
                 <SortableHeader
                   name="statut"
                   :sortKey="sortKey"
@@ -68,7 +79,7 @@
           </thead>
           <tbody>
             <tr v-if="loading" class="border-t border-dotted border-grey">
-              <td colspan="5" class="pr-4 py-3 text-gray-500">
+              <td colspan="6" class="pr-4 py-3 text-gray-500">
                 Chargement des projets…
               </td>
             </tr>
@@ -94,6 +105,9 @@
               @click="navigateToProject(p.uri)"
             >
               <td class="pr-4 py-3">{{ p.title }}</td>
+              <td class="px-4 py-3">
+                {{ p.fieldsProjectSidebar?.annee || "" }}
+              </td>
               <td class="px-4 py-3">
                 {{ p.fieldsProjectSidebar?.lieu || "" }}
               </td>
@@ -175,6 +189,11 @@
             </div>
           </div>
 
+          <div class="mb-2">
+            <div class="text-xs text-gray-500">Année</div>
+            <div>{{ p.fieldsProjectSidebar?.annee || "" }}</div>
+          </div>
+
           <div>
             <div class="text-xs text-gray-500">Statut</div>
             <div>
@@ -234,6 +253,8 @@ function getFieldValue(p: any, key: string | null) {
           p.fieldsProjectSidebar.type[0]) ||
         ""
       );
+    case "annee":
+      return (p.fieldsProjectSidebar && p.fieldsProjectSidebar.annee) || "";
     case "statut":
       return (
         (p.fieldsProjectSidebar &&
@@ -330,6 +351,18 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.projects-table {
+  table-layout: fixed;
+}
+
+.col-title {
+  width: 25%;
+}
+
+.col-equal {
+  width: 15%;
+}
+
 .animate-fade-in {
   opacity: 0;
   animation: opacity 0.3s ease-out forwards;
