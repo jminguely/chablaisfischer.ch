@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen">
-    <nuxt-link class="link link-logo" to="/">
+    <nuxt-link class="link link-logo" to="/" @click="navOpen = false">
       <img src="../assets/img/logo.svg" alt="Chablais Fischer Architectes" />
     </nuxt-link>
     <button
@@ -18,14 +18,26 @@
     </button>
     <nav
       :class="[
-        'transition-opacity duration-300 bg-white',
+        'transition-opacity duration-300',
         navOpen ? 'max-md:opacity-100' : 'max-md:opacity-0',
       ]"
       :aria-hidden="!navOpen"
     >
-      <nuxt-link class="link link-projets" to="/projets">projets</nuxt-link>
-      <nuxt-link class="link link-index" to="/index">index</nuxt-link>
-      <nuxt-link class="link link-atelier" to="/atelier">atelier</nuxt-link>
+      <nuxt-link
+        class="link link-projets"
+        to="/projets"
+        @click="navOpen = false"
+        >projets</nuxt-link
+      >
+      <nuxt-link class="link link-index" to="/index" @click="navOpen = false"
+        >index</nuxt-link
+      >
+      <nuxt-link
+        class="link link-atelier"
+        to="/atelier"
+        @click="navOpen = false"
+        >atelier</nuxt-link
+      >
     </nav>
     <main class="main">
       <slot />
@@ -75,7 +87,7 @@ watch(
 }
 
 nav {
-  @apply max-md:bg-white max-md:fixed max-md:w-screen max-md:h-screen max-md:flex max-md:items-center max-md:justify-center max-md:flex-col;
+  @apply max-md:bg-white max-md:fixed max-md:w-screen max-md:h-screen max-md:flex max-md:items-center max-md:justify-center max-md:flex-col max-md:z-50;
 }
 
 .link {
