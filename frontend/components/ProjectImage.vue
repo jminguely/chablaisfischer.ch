@@ -1,5 +1,9 @@
 <template>
-  <div class="w-full overflow-hidden bg-grey relative" :style="containerStyle">
+  <div
+    class="w-full overflow-hidden bg-grey relative transition-opacity duration-500 ease-out"
+    :style="containerStyle"
+    :class="isLoaded ? 'opacity-100' : 'opacity-0'"
+  >
     <img
       v-if="src"
       :src="src"

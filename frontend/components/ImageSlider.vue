@@ -18,9 +18,10 @@
         <img
           :src="image.src"
           :alt="image.alt || `Slide ${index + 1}`"
-          class="w-auto h-auto object-contain block"
+          class="w-auto h-auto object-contain block opacity-0 transition-opacity duration-500"
           style="max-width: 100%; max-height: 100%"
           loading="lazy"
+          @load="$event.target.classList.remove('opacity-0')"
         />
       </nuxt-link>
       <div
@@ -34,8 +35,9 @@
           <img
             :src="image.src"
             :alt="image.alt || `Slide ${index + 1}`"
-            class="max-w-full max-h-full w-auto h-auto object-contain block"
+            class="max-w-full max-h-full w-auto h-auto object-contain block opacity-0 transition-opacity duration-500"
             loading="lazy"
+            @load="$event.target.classList.remove('opacity-0')"
           />
         </div>
         <!-- Info slot positioned below the image -->

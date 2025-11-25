@@ -1,17 +1,23 @@
 <template>
   <div v-if="page">
     <div
-      class="fixed top-14 bottom-6 left-6 right-6 md:top-32 md:bottom-16 md:right-24 md:left-24"
+      class="fixed top-14 bottom-6 left-6 right-6 md:top-32 md:bottom-16 md:right-24 md:left-24 opacity-0 animate-fade-in"
+      style="animation-delay: 100ms; animation-fill-mode: forwards"
     >
       <ImageSlider :images="sliderImages" :autoplay="true" :interval="5000" />
     </div>
 
     <!-- Post-it note overlay - bounces around the screen -->
-    <PostIt
+    <div
       v-if="page?.fieldsAccueil?.postIt"
-      :title="page.fieldsAccueil.postIt.title"
-      :content="page.fieldsAccueil.postIt.content"
-    />
+      class="opacity-0 animate-fade-in-opacity"
+      style="animation-delay: 300ms; animation-fill-mode: forwards"
+    >
+      <PostIt
+        :title="page.fieldsAccueil.postIt.title"
+        :content="page.fieldsAccueil.postIt.content"
+      />
+    </div>
   </div>
 </template>
 
@@ -53,3 +59,33 @@ useHead({
   title: "Chablais Fischer Architectes",
 });
 </script>
+
+<style scoped>
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-fade-in-opacity {
+  animation: fadeInOpacity 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInOpacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+</style>

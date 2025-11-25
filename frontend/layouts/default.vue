@@ -127,4 +127,30 @@ nav {
     padding: 150px 100px 100px;
   }
 }
+
+/* Page transition styles */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 0.5s ease-out;
+}
+
+.layout-enter-from,
+.layout-leave-to {
+  opacity: 0;
+}
 </style>

@@ -16,6 +16,14 @@ export default defineNuxtConfig({
         { name: "viewport", content: "width=device-width, initial-scale=1" },
       ],
     },
+    pageTransition: {
+      name: "page",
+      mode: "out-in",
+    },
+    layoutTransition: {
+      name: "layout",
+      mode: "out-in",
+    },
   },
   css: ["~/assets/css/main.css", "~/assets/css/typography.css"],
   modules: ["@nuxtjs/tailwindcss"],
