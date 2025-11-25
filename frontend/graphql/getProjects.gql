@@ -9,7 +9,7 @@
         featuredImage {
           node {
             altText
-            sourceUrl
+            sourceUrl(size: SMALL)
           }
         }
         fieldsProjectSidebar {

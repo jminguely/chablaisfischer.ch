@@ -3,11 +3,9 @@
     <h1 class="sr-only">Accueil</h1>
 
     <section aria-labelledby="projects-heading">
-      <h2 id="projects-heading" class="sr-only">Projets</h2>
-
       <!-- Desktop: table with sortable headers -->
       <div class="hidden md:block">
-        <table class="min-w-full text-sm text-left projects-table">
+        <table class="min-w-full text-sm text-left s-table">
           <thead>
             <tr>
               <th class="pr-4 py-2 col-title">
@@ -78,7 +76,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-if="loading" class="border-t border-dotted border-grey">
+            <tr v-if="loading" class="border-t border-grey pt-2 mt-0.5">
               <td colspan="6" class="pr-4 py-3 text-gray-500">
                 Chargement des projets…
               </td>
@@ -87,7 +85,7 @@
               v-for="(p, index) in sortedProjects"
               :key="p.id"
               :class="[
-                'hover:bg-yellow hover:bg-opacity-75 cursor-pointer',
+                'hover:bg-yellow hover:bg-opacity-75',
                 animationPhase === 'hide'
                   ? 'animate-fade-out-row'
                   : 'animate-fade-in-row',
@@ -103,6 +101,9 @@
                     : `${index * 100}ms`,
               }"
               @click="navigateToProject(p.uri)"
+              @mouseenter="handleRowHover(p, $event)"
+              @mousemove="handleMouseMove"
+              @mouseleave="hidePreview"
             >
               <td class="pr-4 py-3">{{ p.title }}</td>
               <td class="px-4 py-3">
@@ -140,8 +141,26 @@
         </table>
       </div>
 
+      <!-- Image preview (desktop only) -->
+      <div
+        v-if="previewImage"
+        class="hidden md:block fixed pointer-events-none z-50"
+        :style="{
+          left: `${mouseX}px`,
+          top: `${mouseY}px`,
+          opacity: previewOpacity,
+          transition: 'opacity 0.2s ease-out',
+        }"
+      >
+        <img
+          :src="previewImage"
+          :alt="previewAlt"
+          class="max-w-xs max-h-64 object-contain shadow-lg"
+        />
+      </div>
+
       <!-- Mobile: stacked rows with labels (no sorting) -->
-      <div class="md:hidden space-y-3">
+      <div class="md:hidden">
         <div v-if="loading" class="text-gray-500 p-4">
           Chargement des projets…
         </div>
@@ -149,60 +168,80 @@
           v-for="(p, index) in projects"
           :key="p.id"
           :to="p.uri"
-          class="block p-4 border rounded-lg opacity-0 animate-fade-in"
+          class="block border-t border-dotted border-black py-8 opacity-0 animate-fade-in"
           :style="{
             animationDelay: `${index * 50}ms`,
             animationFillMode: 'forwards',
           }"
         >
-          <div class="mb-2">
-            <div class="text-xs text-gray-500">Titre</div>
-            <div class="">{{ p.title }}</div>
-          </div>
-
-          <div class="mb-2">
-            <div class="text-xs text-gray-500">Lieu</div>
-            <div>{{ p.fieldsProjectSidebar?.lieu || "" }}</div>
-          </div>
-
-          <div class="mb-2">
-            <div class="text-xs text-gray-500">Programme</div>
-            <div>
-              {{
-                (p.fieldsProjectSidebar &&
-                  p.fieldsProjectSidebar.programme &&
-                  p.fieldsProjectSidebar.programme[0]) ||
-                ""
-              }}
+          <!-- Title row with expand button -->
+          <div class="flex items-center gap-2 mb-3">
+            <div class="flex-1 font-medium">
+              {{ p.title }}
             </div>
+            <Icon name="plus" class="w-4 h-4" />
           </div>
 
-          <div class="mb-2">
-            <div class="text-xs text-gray-500">Type</div>
-            <div>
-              {{
-                (p.fieldsProjectSidebar &&
-                  p.fieldsProjectSidebar.type &&
-                  p.fieldsProjectSidebar.type[0]) ||
-                ""
-              }}
+          <!-- Details section -->
+          <div class="flex flex-col gap-1">
+            <div
+              class="flex items-center justify-between text-sm border-t border-grey pt-2 mt-0.5"
+            >
+              <div class="text-[#2f2f2f]">Année :</div>
+              <div class="">
+                {{ p.fieldsProjectSidebar?.annee || "" }}
+              </div>
             </div>
-          </div>
 
-          <div class="mb-2">
-            <div class="text-xs text-gray-500">Année</div>
-            <div>{{ p.fieldsProjectSidebar?.annee || "" }}</div>
-          </div>
+            <div
+              class="flex items-center justify-between text-sm border-t border-grey pt-2 mt-0.5"
+            >
+              <div class="text-[#2f2f2f]">Lieu :</div>
+              <div class="">
+                {{ p.fieldsProjectSidebar?.lieu || "" }}
+              </div>
+            </div>
 
-          <div>
-            <div class="text-xs text-gray-500">Statut</div>
-            <div>
-              {{
-                (p.fieldsProjectSidebar &&
-                  p.fieldsProjectSidebar.statut &&
-                  p.fieldsProjectSidebar.statut[0]) ||
-                ""
-              }}
+            <div
+              class="flex items-end text-sm border-t border-grey pt-2 mt-0.5"
+            >
+              <div class="flex-1 text-[#2f2f2f]">Programme :</div>
+              <div class="">
+                {{
+                  (p.fieldsProjectSidebar &&
+                    p.fieldsProjectSidebar.programme &&
+                    p.fieldsProjectSidebar.programme[0]) ||
+                  ""
+                }}
+              </div>
+            </div>
+
+            <div
+              class="flex items-end text-sm border-t border-grey pt-2 mt-0.5"
+            >
+              <div class="flex-1 text-[#2f2f2f]">Type de mandat :</div>
+              <div class="">
+                {{
+                  (p.fieldsProjectSidebar &&
+                    p.fieldsProjectSidebar.type &&
+                    p.fieldsProjectSidebar.type[0]) ||
+                  ""
+                }}
+              </div>
+            </div>
+
+            <div
+              class="flex items-end text-sm border-t border-grey pt-2 mt-0.5"
+            >
+              <div class="flex-1 text-[#2f2f2f]">Statut :</div>
+              <div class="">
+                {{
+                  (p.fieldsProjectSidebar &&
+                    p.fieldsProjectSidebar.statut &&
+                    p.fieldsProjectSidebar.statut[0]) ||
+                  ""
+                }}
+              </div>
             </div>
           </div>
         </NuxtLink>
@@ -231,6 +270,46 @@ const sortDir = ref<number>(1); // 1 = asc, -1 = desc
 // Animation state for sorting
 const isAnimating = ref(false);
 const animationPhase = ref<"hide" | "show">("show");
+
+// Image preview state
+const previewImage = ref<string | null>(null);
+const previewAlt = ref<string>("");
+const mouseX = ref(0);
+const mouseY = ref(0);
+const previewOpacity = ref(0);
+let hideTimeout: NodeJS.Timeout | null = null;
+
+function handleRowHover(project: any, event: MouseEvent) {
+  // Clear any pending hide timeout
+  if (hideTimeout) {
+    clearTimeout(hideTimeout);
+    hideTimeout = null;
+  }
+
+  if (project.featuredImage?.node?.sourceUrl) {
+    previewImage.value = project.featuredImage.node.sourceUrl;
+    previewAlt.value =
+      project.featuredImage.node.altText || project.title || "";
+    mouseX.value = event.clientX;
+    mouseY.value = event.clientY;
+    previewOpacity.value = 1;
+  }
+}
+
+function handleMouseMove(event: MouseEvent) {
+  if (previewImage.value) {
+    mouseX.value = event.clientX;
+    mouseY.value = event.clientY;
+  }
+}
+
+function hidePreview() {
+  previewOpacity.value = 0;
+  hideTimeout = setTimeout(() => {
+    previewImage.value = null;
+    hideTimeout = null;
+  }, 200);
+}
 
 function getFieldValue(p: any, key: string | null) {
   if (!key) return "";
