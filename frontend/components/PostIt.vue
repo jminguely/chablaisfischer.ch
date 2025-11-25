@@ -1,7 +1,7 @@
 <template>
   <div
     ref="postItRef"
-    class="post-it"
+    class="post-it bg-yellow bg-opacity-75"
     :style="{
       width: width,
       height: height,
@@ -132,12 +132,11 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: flex-start;
   padding: 18px;
-  background: rgba(255, 246, 0, 0.75);
   backdrop-filter: blur(7.5px);
   border-radius: 50%;
   box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
   will-change: transform;
-  z-index: 40;
+  z-index: 10;
 }
 
 .post-it-circle {

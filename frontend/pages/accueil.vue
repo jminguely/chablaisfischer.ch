@@ -1,7 +1,7 @@
 <template>
   <div v-if="page">
     <div
-      class="fixed top-6 bottom-6 left-6 right-6 md:top-32 md:bottom-16 md:right-24 md:left-24"
+      class="fixed top-14 bottom-6 left-6 right-6 md:top-32 md:bottom-16 md:right-24 md:left-24"
     >
       <ImageSlider :images="sliderImages" :autoplay="true" :interval="5000" />
     </div>

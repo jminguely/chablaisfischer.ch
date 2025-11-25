@@ -4,7 +4,7 @@
       <img src="../assets/img/logo.svg" alt="Chablais Fischer Architectes" />
     </nuxt-link>
     <button
-      class="toggle"
+      class="toggle py-10 px-7"
       type="button"
       @click="toggleNav"
       :aria-expanded="navOpen"
@@ -13,7 +13,7 @@
         :name="navOpen ? 'close' : 'menu'"
         alt="Ouvrir la navigation"
         aria-label="Ouvrir la navigation"
-        class="w-6 h-6 origin-center"
+        class="w-5 h-5 origin-center"
       />
     </button>
     <nav
@@ -77,11 +77,10 @@ watch(
 <style lang="postcss" scoped>
 .toggle {
   @apply fixed;
-  z-index: 9999;
+  z-index: 90;
   position: fixed;
   top: 0;
   right: 0;
-  padding: 46px 24px;
 
   @screen md {
     display: none;
@@ -122,7 +121,7 @@ nav {
 }
 
 .main {
-  padding: 120px 24px 24px;
+  padding: 120px 24px 32px;
 
   @screen md {
     padding: 150px 100px 100px;
