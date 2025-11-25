@@ -1,24 +1,21 @@
 <template>
-  <div v-if="page && projects" class="bg-white min-h-screen">
+  <div v-if="page && projects">
     <div
-      class="w-full px-6 md:px-24 py-16 md:py-32 grid grid-cols-[repeat(20,minmax(0,1fr))] gap-x-0 gap-y-32"
+      class="grid grid-cols-1 md:grid-cols-[repeat(20,minmax(0,1fr))] gap-x-0 gap-y-10 md:gap-y-32"
     >
       <div
         v-for="(project, index) in projects"
         :key="project.id"
-        class="w-full"
+        class="w-full md:col-[var(--col)] md:row-[var(--row)] md:mt-[var(--mt)] md:mb-[var(--mb)]"
         :style="getProjectStyle(index)"
       >
         <nuxt-link :to="project.uri" class="block group w-full">
           <!-- Project image -->
-          <div class="w-full overflow-hidden bg-grey">
-            <img
-              v-if="project.featuredImage"
-              :src="project.featuredImage.node.sourceUrl"
-              :alt="project.featuredImage.node.altText || project.title"
-              class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
+          <ProjectImage
+            v-if="project.featuredImage"
+            :src="project.featuredImage.node.sourceUrl"
+            :alt="project.featuredImage.node.altText || project.title"
+          />
 
           <!-- Project caption -->
           <div class="mt-2">
@@ -128,10 +125,10 @@ const getProjectStyle = (index: number) => {
   const isTop = rDir > 0.5;
 
   return {
-    gridColumn: `${colStart} / span ${span}`,
-    gridRow: `${pairIndex + 1}`,
-    marginTop: isTop ? `${marginSize}rem` : "0",
-    marginBottom: !isTop ? `${marginSize}rem` : "0",
+    "--col": `${colStart} / span ${span}`,
+    "--row": `${pairIndex + 1}`,
+    "--mt": isTop ? `${marginSize}rem` : "0",
+    "--mb": !isTop ? `${marginSize}rem` : "0",
   };
 };
 

@@ -1,9 +1,7 @@
 <template>
-  <div class="mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    <div v-if="page">
-      <h1>{{ page.title }}</h1>
-      <div v-html="page.content"></div>
-    </div>
+  <div v-if="page">
+    <h1>{{ page.title }}</h1>
+    <div v-html="page.content"></div>
   </div>
 </template>
 

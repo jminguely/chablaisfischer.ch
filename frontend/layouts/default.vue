@@ -18,7 +18,7 @@
     </button>
     <nav
       :class="[
-        'transition-opacity duration-300',
+        'transition-opacity duration-300 bg-white',
         navOpen ? 'max-md:opacity-100' : 'max-md:opacity-0',
       ]"
       :aria-hidden="!navOpen"
@@ -108,7 +108,7 @@ nav {
 }
 
 .main {
-  padding: 100px 24px 24px;
+  padding: 120px 24px 24px;
 
   @screen md {
     padding: 150px 100px 100px;
