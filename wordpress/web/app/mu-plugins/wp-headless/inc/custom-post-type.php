@@ -58,3 +58,11 @@ add_action('manage_project_posts_custom_column', function ($column, $post_id) {
     echo get_field('lieu', $post_id);
   }
 }, 10, 2);
+
+add_action('admin_head', function () {
+  echo '<style>
+    .post-type-project .column-thumbnail {
+      width: 60px;
+    }
+  </style>';
+});
