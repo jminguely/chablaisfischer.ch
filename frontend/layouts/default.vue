@@ -19,7 +19,9 @@
     <nav
       :class="[
         'transition-opacity duration-300',
-        navOpen ? 'max-md:opacity-100' : 'max-md:opacity-0',
+        navOpen
+          ? 'max-md:opacity-100 max-md:pointer-events-auto'
+          : 'max-md:opacity-0 max-md:pointer-events-none',
       ]"
       :aria-hidden="!navOpen"
     >
@@ -79,7 +81,7 @@ watch(
   position: fixed;
   top: 0;
   right: 0;
-  padding: 24px;
+  padding: 46px 24px;
 
   @screen md {
     display: none;
