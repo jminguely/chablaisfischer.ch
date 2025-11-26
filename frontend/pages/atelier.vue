@@ -5,21 +5,25 @@
       <div class="flex flex-col gap-6 items-start w-full">
         <h2 class="font-medium text-lg text-black">Contact</h2>
         <div class="flex gap-20 items-start w-full">
-          <div class="flex-1 text-md text-black">
-            <p class="mb-0">Chablais Fischer Architectes</p>
-            <p class="mb-0">Ruelle du Bordet 2</p>
-            <p class="mb-0">1470 Estavayer-le-Lac</p>
-            <p>Suisse</p>
-          </div>
+          <div
+            class="flex-1 text-md text-black"
+            v-html="pageData?.fieldsAtelier?.adresse"
+          ></div>
           <div class="flex-1 flex flex-col justify-between h-full">
             <div class="text-md text-black">
-              <p class="mb-0">+41 (0)26 663 47 40</p>
-              <p>info@chablaisfischer.ch</p>
+              <p class="mb-0">{{ pageData?.fieldsAtelier?.telephone }}</p>
+              <p>{{ pageData?.fieldsAtelier?.eMail }}</p>
             </div>
-            <div class="flex gap-2 items-center mt-auto">
+            <a
+              v-if="pageData?.fieldsAtelier?.instagram"
+              :href="pageData.fieldsAtelier.instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex gap-2 items-center mt-auto"
+            >
               <Icon name="instagram" class="w-5 h-5" />
               <span class="text-md text-black">Instagram</span>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -31,34 +35,20 @@
           <!-- Column 1 -->
           <div class="flex-1 flex flex-col">
             <TeamMember
-              name="Olivier Chablais"
-              role="Architecte dipl. EPFL"
-              :hasButton="true"
+              v-for="(member, index) in firstColumnMembers"
+              :key="index"
+              :name="member.nom"
+              :role="member.role"
+              :hasButton="member.hasButton"
             />
-            <TeamMember name="Olivier Fischer" role="Architecte dipl. HES" />
-            <TeamMember
-              name="Margaux Amstutz"
-              role="Apprentie dessinatrice – option architecture"
-            />
-            <TeamMember
-              name="Lionel Berger"
-              role="Conservateur-restaurateur HES, architecte dipl. HES"
-            />
-            <TeamMember
-              name="Daniel Bismor"
-              role="Dessinateur en bâtiment dipl., graphiste dipl."
-            />
-            <TeamMember name="Nuria Bravo" role="Architecte dipl. MA-HES" />
           </div>
           <!-- Column 2 -->
           <div class="flex-1 flex flex-col">
-            <TeamMember name="Carole Froidevaux" role="Architecte dipl. EPFL" />
-            <TeamMember name="Didier Guhl" role="Directeur des travaux" />
-            <TeamMember name="Déborah Iseli" role="Architecte dipl. HES" />
-            <TeamMember name="Estelle Jaquemet" role="Architecte dipl. HES" />
             <TeamMember
-              name="Matthieu Oberti,"
-              role="Dipl. féd. directeur des travaux, dessinateur en bâtiment dipl., charpentier dipl."
+              v-for="(member, index) in secondColumnMembers"
+              :key="index"
+              :name="member.nom"
+              :role="member.role"
             />
           </div>
         </div>
@@ -66,6 +56,7 @@
 
       <!-- Image Carousel -->
       <div
+        v-if="pageData?.fieldsAtelier?.galerie?.length"
         class="relative w-screen -mx-[calc((100vw-100%)/2)] overflow-hidden h-60"
       >
         <div
@@ -80,8 +71,8 @@
             style="width: 462px"
           >
             <img
-              :src="image.src"
-              :alt="image.alt"
+              :src="image.image.node.sourceUrl"
+              :alt="image.image.node.altText || 'Gallery image'"
               class="w-full h-full object-cover"
             />
           </div>
@@ -94,29 +85,18 @@
         <div class="flex gap-20 items-start w-full">
           <div class="flex-1 flex flex-col">
             <TeamMember
-              name="Aucune offre actuellement"
-              role="Revenez plus tard"
-            />
-            <TeamMember
-              name="Dessinateur.rice en bâtiment dipl."
-              role="Jan/fév 2026"
-              :hasDownload="true"
+              v-for="(offre, index) in pageData?.fieldsAtelier?.offresEmploi"
+              :key="index"
+              :name="offre.titre"
+              :role="offre.date"
+              :hasDownload="!!offre.fichier"
+              :downloadUrl="offre.fichier?.node?.mediaItemUrl"
             />
           </div>
-          <div class="flex-1 text-md text-black">
-            <p class="mb-0">
-              Si vous êtes intéressé.e, merci de nous envoyer un e-mail,
-              accompagné d'une lettre de motivation et d'un curriculum vitæ à
-              <span>info@chablaisfischer.ch</span>
-            </p>
-            <p class="mb-0">&nbsp;</p>
-            <p>
-              Architecte/Dessinateur.trice/Directeur.rice de travaux : si aucun
-              poste n'est vacant, n'hésitez pas à postuler spontanément, nous
-              sommes toujours heureux de faire la connaissance de personnes
-              motivées
-            </p>
-          </div>
+          <div
+            class="flex-1 text-md text-black"
+            v-html="pageData?.fieldsAtelier?.texteOffresEmploi"
+          ></div>
         </div>
       </div>
 
@@ -128,22 +108,19 @@
         <div class="flex gap-20 items-start w-full">
           <div class="flex-1 flex flex-col">
             <TeamMember
-              name="Aucune offre actuellement"
-              role="Revenez plus tard"
-            />
-            <TeamMember
-              name="Stage : Architecte dipl. EPFL"
-              role="2026-2030"
-              :hasDownload="true"
+              v-for="(place, index) in pageData?.fieldsAtelier
+                ?.placesApprentissage"
+              :key="index"
+              :name="place.titre"
+              :role="place.date"
+              :hasDownload="!!place.fichier"
+              :downloadUrl="place.fichier?.node?.mediaItemUrl"
             />
           </div>
-          <div class="flex-1">
-            <p class="text-md text-black">
-              Pour une place d'apprentissage ou un stage découverte au sein de
-              notre entreprise, veuillez svp nous adresser un e-mail avec une
-              lettre de motivation à : info@chablaisfischer.ch
-            </p>
-          </div>
+          <div
+            class="flex-1 text-md text-black"
+            v-html="pageData?.fieldsAtelier?.texteApprentissage"
+          ></div>
         </div>
       </div>
     </div>
@@ -151,24 +128,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watchEffect } from "vue";
 import { useHead } from "#imports";
+import { useWpGraphql } from "@/composables/useWpGraphql";
+import PAGE_QUERY from "@/graphql/getPageAtelier.gql?raw";
 
-// Placeholder images for the slider
-const galleryImages = ref([
-  {
-    src: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800",
-    alt: "Architecture workspace 1",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800",
-    alt: "Architecture workspace 2",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800",
-    alt: "Architecture workspace 3",
-  },
-]);
+// Fetch page data from WordPress
+const { query } = useWpGraphql();
+const pageData = ref<any>(null);
+
+watchEffect(async () => {
+  try {
+    const data = await query<any>(PAGE_QUERY, {
+      slug: "atelier",
+    });
+    pageData.value = data.page;
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+// Split collaborators into two columns
+const firstColumnMembers = computed(() => {
+  const members = pageData.value?.fieldsAtelier?.collaborateurs || [];
+  return members.slice(0, Math.ceil(members.length / 2));
+});
+
+const secondColumnMembers = computed(() => {
+  const members = pageData.value?.fieldsAtelier?.collaborateurs || [];
+  return members.slice(Math.ceil(members.length / 2));
+});
+
+// Get gallery images from CMS
+const galleryImages = computed(() => {
+  return pageData.value?.fieldsAtelier?.galerie || [];
+});
 
 // Carousel logic
 const carouselTrack = ref<HTMLElement | null>(null);
@@ -203,7 +197,9 @@ const animate = () => {
 };
 
 onMounted(() => {
-  animationFrameId = requestAnimationFrame(animate);
+  if (galleryImages.value.length > 0) {
+    animationFrameId = requestAnimationFrame(animate);
+  }
 });
 
 onUnmounted(() => {

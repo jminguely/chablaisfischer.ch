@@ -8,6 +8,7 @@
 add_filter('theme_page_templates', function ($templates) {
   $templates['template-accueil'] = 'Accueil';
   $templates['template-projets'] = 'Projets';
+  $templates['template-atelier'] = 'Atelier';
 
   return $templates;
 });
@@ -24,7 +25,7 @@ add_filter('page_template', function ($template) {
 
   // For headless setup, we don't need actual template files
   // The template selection is just for ACF field group assignment
-  if (in_array($page_template, ['template-accueil', 'template-projets'])) {
+  if (in_array($page_template, ['template-accueil', 'template-projets', 'template-atelier'])) {
     return $template;
   }
 

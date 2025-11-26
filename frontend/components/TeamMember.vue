@@ -20,12 +20,16 @@
             class="w-5 h-5"
             alt="Afficher plus"
           />
-          <Icon
-            v-if="hasDownload"
-            name="download"
-            class="w-5 h-5"
-            alt="Télécharger"
-          />
+          <a
+            v-if="hasDownload && downloadUrl"
+            :href="downloadUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            download
+            class="flex items-center justify-center"
+          >
+            <Icon name="download" class="w-5 h-5" alt="Télécharger" />
+          </a>
         </div>
       </div>
     </div>
@@ -38,5 +42,6 @@ defineProps<{
   role: string;
   hasButton?: boolean;
   hasDownload?: boolean;
+  downloadUrl?: string;
 }>();
 </script>

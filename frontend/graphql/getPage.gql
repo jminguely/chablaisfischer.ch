@@ -1,8 +1,0 @@
-query GetPage($slug: ID!) {
-  page(id: $slug, idType: URI) {
-    id
-    slug
-    title: title(format: RENDERED)
-    content: content(format: RENDERED)
-  }
-}

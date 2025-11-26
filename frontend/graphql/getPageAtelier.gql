@@ -1,0 +1,53 @@
+query GetPageAtelier($slug: ID!) {
+  page(id: $slug, idType: URI) {
+    id
+    slug
+    title: title(format: RENDERED)
+    content: content(format: RENDERED)
+    fieldsAtelier {
+      adresse
+      telephone
+      eMail
+      instagram
+      collaborateurs {
+        nom
+        role
+        hasButton
+      }
+      galerie {
+        image {
+          node {
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
+          }
+        }
+      }
+      offresEmploi {
+        titre
+        date
+        fichier {
+          node {
+            mediaItemUrl
+            title
+          }
+        }
+      }
+      texteOffresEmploi
+      placesApprentissage {
+        titre
+        date
+        fichier {
+          node {
+            mediaItemUrl
+            title
+          }
+        }
+      }
+      texteApprentissage
+    }
+  }
+}
