@@ -70,4 +70,4 @@ jobs:
           RSYNC_RSH: "ssh -o BatchMode=yes -o StrictHostKeyChecking=no"
 
       - name: Kickstart node server
-        run: curl --basic --user '${{ secrets.ALWAYSDATA_API }} account=eikon:' --data '' --request POST https://api.alwaysdata.com/v1/site/${{ vars.ALWAYSDATA_SITE_ID }}/restart/
+        run: curl --basic --user '${{ secrets.ALWAYSDATA_API }} account=jminguely:' --data '' --request POST https://api.alwaysdata.com/v1/site/${{ vars.ALWAYSDATA_SITE_ID }}/restart/
