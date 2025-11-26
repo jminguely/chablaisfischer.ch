@@ -85,7 +85,7 @@
               v-for="(p, index) in sortedProjects"
               :key="p.id"
               :class="[
-                'hover:bg-yellow hover:bg-opacity-75',
+                'hover:bg-yellow hover:bg-opacity-75 cursor-pointer',
                 animationPhase === 'hide'
                   ? 'animate-fade-out-row'
                   : 'animate-fade-in-row',
@@ -146,8 +146,8 @@
         v-if="previewImage"
         class="hidden md:block fixed pointer-events-none z-50"
         :style="{
-          left: `${mouseX}px`,
-          top: `${mouseY}px`,
+          left: `${mouseX + 10}px`,
+          top: `${mouseY + 20}px`,
           opacity: previewOpacity,
           transition: 'opacity 0.2s ease-out',
         }"
