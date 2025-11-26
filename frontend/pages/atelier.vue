@@ -220,11 +220,15 @@ const stopAnimation = () => {
 };
 
 // Watch for gallery images and start animation when loaded
-watch(galleryImages, (newImages) => {
-  if (newImages.length > 0) {
-    startAnimation();
-  }
-}, { immediate: true });
+watch(
+  galleryImages,
+  (newImages) => {
+    if (newImages.length > 0) {
+      startAnimation();
+    }
+  },
+  { immediate: true }
+);
 
 onMounted(() => {
   startAnimation();
