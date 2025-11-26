@@ -4,9 +4,7 @@
   >
     <div class="flex py-3 flex-col gap-2 items-start justify-center w-full">
       <div class="flex items-center w-full">
-        <div
-          class="flex-1 flex flex-col items-start leading-[1.26] text-black text-md"
-        >
+        <div class="flex-1 flex flex-col items-start">
           <p class="font-medium w-full">{{ name }}</p>
           <p class="w-full">{{ role }}</p>
         </div>

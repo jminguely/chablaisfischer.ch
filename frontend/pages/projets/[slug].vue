@@ -3,29 +3,33 @@
     <div
       class="fixed md:top-44 md:bottom-32 md:left-24 md:right-24 left-7 right-7 bottom-8 top-40"
     >
+      <button
+        class="absolute top-0 left-0 hover:bg-yellow p-2 rounded-full z-20"
+        @click="openModal"
+      >
+        <Icon
+          name="plus"
+          alt="Afficher les informations du projet"
+          aria-label="Afficher les informations du projet"
+          class="w-2 h-2 origin-center"
+        />
+      </button>
+
       <ImageSlider
         v-if="galleryImages && galleryImages.length > 0"
         :images="galleryImages"
         :autoplay="false"
         :interval="5000"
         :navigationEnabled="true"
+        :transitionMode="'translate'"
       >
         <template #info>
-          <button
-            class="text-sm px-2 py-1 flex gap-1 items-center z-30 relative"
-            @click="openModal"
-          >
+          <div class="text-sm">
             <h2>{{ project.title }},</h2>
             <p v-if="project.fieldsProjectSidebar?.lieu">
               {{ project.fieldsProjectSidebar.lieu }}
             </p>
-            <Icon
-              name="plus"
-              alt="Afficher les informations du projet"
-              aria-label="Afficher les informations du projet"
-              class="w-2 h-2 origin-center"
-            />
-          </button>
+          </div>
         </template>
       </ImageSlider>
 
