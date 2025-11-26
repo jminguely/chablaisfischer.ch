@@ -4,9 +4,9 @@
     <div
       v-if="transitionMode === 'translate'"
       class="absolute inset-0 flex"
-      :style="{ 
+      :style="{
         transform: `translateX(-${displayIndex * 100}%)`,
-        transition: isTransitioning ? 'transform 700ms ease-in-out' : 'none'
+        transition: isTransitioning ? 'transform 700ms ease-in-out' : 'none',
       }"
       @transitionend="handleTransitionEnd"
     >
@@ -77,6 +77,10 @@
               <div v-if="$slots.info" class="absolute bottom-0 left-0 z-10">
                 <slot name="info" :image="image" :index="index"></slot>
               </div>
+              <!-- Button slot positioned at bottom right of the image -->
+              <div v-if="$slots.button" class="absolute bottom-0 right-0 z-10">
+                <slot name="button" :image="image" :index="index"></slot>
+              </div>
             </div>
           </div>
           <!-- Clickable navigation areas with custom cursors -->
@@ -114,48 +118,17 @@
           'opacity-0 pointer-events-none': currentIndex !== index,
         }"
       >
-      <nuxt-link
-        v-if="image && image.uri"
-        :to="image.uri"
-        class="flex items-center justify-center w-full h-full"
-        style="max-width: 100%; max-height: 100%"
-      >
-        <div
-          class="relative"
-          :style="{
-            width: image.width ? `${image.width}px` : '100%',
-            height: image.height ? `${image.height}px` : '100%',
-            maxWidth: '100%',
-            maxHeight: '100%',
-          }"
-        >
-          <img
-            :src="image.src"
-            :alt="image.alt || `Slide ${index + 1}`"
-            :width="image.width"
-            :height="image.height"
-            class="w-full h-full object-contain block opacity-0 transition-opacity duration-500"
-            loading="lazy"
-            @load="(e) => {
-              const target = e.target as HTMLImageElement;
-              target?.classList.remove('opacity-0');
-            }"
-          />
-        </div>
-      </nuxt-link>
-      <div
-        v-else-if="image"
-        class="relative w-full h-full flex flex-col items-center justify-center"
-      >
-        <div
-          class="relative inline-block max-w-full"
-          style="max-height: calc(100% - 2rem)"
+        <nuxt-link
+          v-if="image && image.uri"
+          :to="image.uri"
+          class="flex items-center justify-center w-full h-full"
+          style="max-width: 100%; max-height: 100%"
         >
           <div
             class="relative"
             :style="{
-              width: image.width ? `${image.width}px` : 'auto',
-              height: image.height ? `${image.height}px` : 'auto',
+              width: image.width ? `${image.width}px` : '100%',
+              height: image.height ? `${image.height}px` : '100%',
               maxWidth: '100%',
               maxHeight: '100%',
             }"
@@ -168,38 +141,58 @@
               class="w-full h-full object-contain block opacity-0 transition-opacity duration-500"
               loading="lazy"
               @load="(e) => {
-                const target = e.target as HTMLImageElement;
-                target?.classList.remove('opacity-0');
-              }"
+              const target = e.target as HTMLImageElement;
+              target?.classList.remove('opacity-0');
+            }"
             />
-            <!-- Info slot positioned at bottom left of the image -->
-            <div v-if="$slots.info" class="absolute bottom-0 left-0 z-10">
-              <slot name="info" :image="image" :index="index"></slot>
+          </div>
+        </nuxt-link>
+        <div
+          v-else-if="image"
+          class="relative w-full h-full flex flex-col items-center justify-center"
+        >
+          <div
+            class="relative inline-block max-w-full"
+            style="max-height: calc(100% - 2rem)"
+          >
+            <div
+              class="relative"
+              :style="{
+                width: image.width ? `${image.width}px` : 'auto',
+                height: image.height ? `${image.height}px` : 'auto',
+                maxWidth: '100%',
+                maxHeight: '100%',
+              }"
+            >
+              <img :src="image.src" :alt="image.alt || `Slide ${index + 1}`"
+              :width="image.width" :height="image.height" class="w-full h-full
+              object-contain block opacity-0 transition-opacity duration-500"
+              loading="lazy" @load="(e) => { const target = e.target as
+              HTMLImageElement; target?.classList.remove('opacity-0'); }"
             </div>
           </div>
-        </div>
-        <!-- Clickable navigation areas with custom cursors -->
-        <div
-          v-if="navigationEnabled && images.length > 1"
-          class="absolute inset-0 flex"
-        >
-          <!-- Left half - Previous -->
+          <!-- Clickable navigation areas with custom cursors -->
           <div
-            class="w-1/2 h-full cursor-prev"
-            @click="prevSlide"
-            @mouseenter="hoveredSide = 'left'"
-            @mouseleave="hoveredSide = null"
-          ></div>
-          <!-- Right half - Next -->
-          <div
-            class="w-1/2 h-full cursor-next"
-            @click="nextSlide"
-            @mouseenter="hoveredSide = 'right'"
-            @mouseleave="hoveredSide = null"
-          ></div>
+            v-if="navigationEnabled && images.length > 1"
+            class="absolute inset-0 flex"
+          >
+            <!-- Left half - Previous -->
+            <div
+              class="w-1/2 h-full cursor-prev"
+              @click="prevSlide"
+              @mouseenter="hoveredSide = 'left'"
+              @mouseleave="hoveredSide = null"
+            ></div>
+            <!-- Right half - Next -->
+            <div
+              class="w-1/2 h-full cursor-next"
+              @click="nextSlide"
+              @mouseenter="hoveredSide = 'right'"
+              @mouseleave="hoveredSide = null"
+            ></div>
+          </div>
         </div>
       </div>
-    </div>
     </template>
   </div>
 </template>
@@ -220,14 +213,14 @@ interface Props {
   autoplay?: boolean;
   interval?: number; // milliseconds
   navigationEnabled?: boolean; // Enable click navigation
-  transitionMode?: 'fade' | 'translate'; // Transition type
+  transitionMode?: "fade" | "translate"; // Transition type
 }
 
 const props = withDefaults(defineProps<Props>(), {
   autoplay: true,
   interval: 8000,
   navigationEnabled: false,
-  transitionMode: 'fade',
+  transitionMode: "fade",
 });
 
 const currentIndex = ref(0);
@@ -240,7 +233,7 @@ let intervalId: number | null = null;
 const displayImages = computed(() => {
   if (props.images.length === 0) return [];
   if (props.images.length === 1) return props.images;
-  
+
   return [
     props.images[props.images.length - 1], // Clone last image at start
     ...props.images,
@@ -275,7 +268,8 @@ const prevSlide = () => {
     isTransitioning.value = true;
   }
   displayIndex.value--;
-  currentIndex.value = (currentIndex.value - 1 + props.images.length) % props.images.length;
+  currentIndex.value =
+    (currentIndex.value - 1 + props.images.length) % props.images.length;
 };
 
 const startAutoplay = () => {
