@@ -4,142 +4,144 @@
 
     <section aria-labelledby="projects-heading">
       <!-- Desktop: table with sortable headers -->
-      <div class="hidden md:block">
-        <table class="min-w-full text-sm text-left s-table">
-          <thead>
-            <tr>
-              <th class="pr-4 py-2 col-title">
-                <SortableHeader
-                  name="title"
-                  :sortKey="sortKey"
-                  :sortDir="sortDir"
-                  @toggle="toggleSort"
-                >
-                  Projet
-                </SortableHeader>
-              </th>
+      <Transition name="fade-in" appear>
+        <div v-if="tableLoaded" class="hidden md:block">
+          <table class="min-w-full text-sm text-left s-table">
+            <thead>
+              <tr>
+                <th class="pr-4 py-2 col-title">
+                  <SortableHeader
+                    name="title"
+                    :sortKey="sortKey"
+                    :sortDir="sortDir"
+                    @toggle="toggleSort"
+                  >
+                    Projet
+                  </SortableHeader>
+                </th>
 
-              <th class="px-4 py-2 col-equal">
-                <SortableHeader
-                  name="annee"
-                  :sortKey="sortKey"
-                  :sortDir="sortDir"
-                  @toggle="toggleSort"
-                >
-                  Année
-                </SortableHeader>
-              </th>
+                <th class="px-4 py-2 col-equal">
+                  <SortableHeader
+                    name="annee"
+                    :sortKey="sortKey"
+                    :sortDir="sortDir"
+                    @toggle="toggleSort"
+                  >
+                    Année
+                  </SortableHeader>
+                </th>
 
-              <th class="px-4 py-2 col-equal">
-                <SortableHeader
-                  name="lieu"
-                  :sortKey="sortKey"
-                  :sortDir="sortDir"
-                  @toggle="toggleSort"
-                >
-                  Lieu
-                </SortableHeader>
-              </th>
+                <th class="px-4 py-2 col-equal">
+                  <SortableHeader
+                    name="lieu"
+                    :sortKey="sortKey"
+                    :sortDir="sortDir"
+                    @toggle="toggleSort"
+                  >
+                    Lieu
+                  </SortableHeader>
+                </th>
 
-              <th class="px-4 py-2 col-equal">
-                <SortableHeader
-                  name="programme"
-                  :sortKey="sortKey"
-                  :sortDir="sortDir"
-                  @toggle="toggleSort"
-                >
-                  Programme
-                </SortableHeader>
-              </th>
+                <th class="px-4 py-2 col-equal">
+                  <SortableHeader
+                    name="programme"
+                    :sortKey="sortKey"
+                    :sortDir="sortDir"
+                    @toggle="toggleSort"
+                  >
+                    Programme
+                  </SortableHeader>
+                </th>
 
-              <th class="px-4 py-2 col-equal">
-                <SortableHeader
-                  name="type"
-                  :sortKey="sortKey"
-                  :sortDir="sortDir"
-                  @toggle="toggleSort"
-                >
-                  Type
-                </SortableHeader>
-              </th>
+                <th class="px-4 py-2 col-equal">
+                  <SortableHeader
+                    name="type"
+                    :sortKey="sortKey"
+                    :sortDir="sortDir"
+                    @toggle="toggleSort"
+                  >
+                    Type
+                  </SortableHeader>
+                </th>
 
-              <th class="pl-4 py-2 col-equal">
-                <SortableHeader
-                  name="statut"
-                  :sortKey="sortKey"
-                  :sortDir="sortDir"
-                  @toggle="toggleSort"
-                >
-                  Statut
-                </SortableHeader>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="loading" class="border-t border-grey pt-2 mt-0.5">
-              <td colspan="6" class="pr-4 py-3 text-gray-500">
-                Chargement des projets…
-              </td>
-            </tr>
-            <tr
-              v-for="(p, index) in sortedProjects"
-              :key="p.id"
-              :class="[
-                'hover:bg-yellow hover:bg-opacity-75 cursor-pointer',
-                animationPhase === 'hide'
-                  ? 'animate-fade-out-row'
-                  : 'animate-fade-in-row',
-              ]"
-              :style="{
-                '--text-delay':
+                <th class="pl-4 py-2 col-equal">
+                  <SortableHeader
+                    name="statut"
+                    :sortKey="sortKey"
+                    :sortDir="sortDir"
+                    @toggle="toggleSort"
+                  >
+                    Statut
+                  </SortableHeader>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="loading" class="border-t border-grey pt-2 mt-0.5">
+                <td colspan="6" class="pr-4 py-3 text-gray-500">
+                  Chargement des projets…
+                </td>
+              </tr>
+              <tr
+                v-for="(p, index) in sortedProjects"
+                :key="p.id"
+                :class="[
+                  'hover:bg-yellow hover:bg-opacity-75 cursor-pointer',
                   animationPhase === 'hide'
-                    ? `${(sortedProjects.length - 1 - index) * 50}ms`
-                    : `${index * 100 + 50}ms`,
-                '--border-delay':
-                  animationPhase === 'hide'
-                    ? `${(sortedProjects.length - 1 - index) * 50}ms`
-                    : `${index * 100}ms`,
-              }"
-              @click="navigateToProject(p.uri)"
-              @mouseenter="handleRowHover(p, $event)"
-              @mousemove="handleMouseMove"
-              @mouseleave="hidePreview"
-            >
-              <td class="pr-4 py-3">{{ p.title }}</td>
-              <td class="px-4 py-3">
-                {{ p.fieldsProjectSidebar?.annee || "" }}
-              </td>
-              <td class="px-4 py-3">
-                {{ p.fieldsProjectSidebar?.lieu || "" }}
-              </td>
-              <td class="px-4 py-3">
-                {{
-                  (p.fieldsProjectSidebar &&
-                    p.fieldsProjectSidebar.programme &&
-                    p.fieldsProjectSidebar.programme[0]) ||
-                  ""
-                }}
-              </td>
-              <td class="px-4 py-3">
-                {{
-                  (p.fieldsProjectSidebar &&
-                    p.fieldsProjectSidebar.type &&
-                    p.fieldsProjectSidebar.type[0]) ||
-                  ""
-                }}
-              </td>
-              <td class="pl-4 py-3">
-                {{
-                  (p.fieldsProjectSidebar &&
-                    p.fieldsProjectSidebar.statut &&
-                    p.fieldsProjectSidebar.statut[0]) ||
-                  ""
-                }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                    ? 'animate-fade-out-row'
+                    : 'animate-fade-in-row',
+                ]"
+                :style="{
+                  '--text-delay':
+                    animationPhase === 'hide'
+                      ? `${(sortedProjects.length - 1 - index) * 50}ms`
+                      : `${index * 100 + 50}ms`,
+                  '--border-delay':
+                    animationPhase === 'hide'
+                      ? `${(sortedProjects.length - 1 - index) * 50}ms`
+                      : `${index * 100}ms`,
+                }"
+                @click="navigateToProject(p.uri)"
+                @mouseenter="handleRowHover(p, $event)"
+                @mousemove="handleMouseMove"
+                @mouseleave="hidePreview"
+              >
+                <td class="pr-4 py-3">{{ p.title }}</td>
+                <td class="px-4 py-3">
+                  {{ p.fieldsProjectSidebar?.annee || "" }}
+                </td>
+                <td class="px-4 py-3">
+                  {{ p.fieldsProjectSidebar?.lieu || "" }}
+                </td>
+                <td class="px-4 py-3">
+                  {{
+                    (p.fieldsProjectSidebar &&
+                      p.fieldsProjectSidebar.programme &&
+                      p.fieldsProjectSidebar.programme[0]) ||
+                    ""
+                  }}
+                </td>
+                <td class="px-4 py-3">
+                  {{
+                    (p.fieldsProjectSidebar &&
+                      p.fieldsProjectSidebar.type &&
+                      p.fieldsProjectSidebar.type[0]) ||
+                    ""
+                  }}
+                </td>
+                <td class="pl-4 py-3">
+                  {{
+                    (p.fieldsProjectSidebar &&
+                      p.fieldsProjectSidebar.statut &&
+                      p.fieldsProjectSidebar.statut[0]) ||
+                    ""
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </Transition>
 
       <!-- Image preview (desktop only) -->
       <div
@@ -262,6 +264,7 @@ useHead({ title: `Index – Chablais Fischer Architectes` });
 
 const projects = ref<Array<WpProject & { path: string }>>([]);
 const loading = ref(true);
+const tableLoaded = ref(false);
 
 // Sorting state (desktop table)
 const sortKey = ref<string | null>("title");
@@ -420,6 +423,11 @@ onMounted(async () => {
         fieldsProjectSidebar: n.fieldsProjectSidebar || {},
       } as any;
     });
+
+    // Trigger fade-in animation after data is loaded
+    setTimeout(() => {
+      tableLoaded.value = true;
+    }, 100);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error("Failed to fetch accueil projects:", e);
@@ -440,6 +448,18 @@ onMounted(async () => {
 
 .col-equal {
   width: 15%;
+}
+
+.fade-in-enter-active {
+  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
+}
+
+.fade-in-enter-from {
+  opacity: 0;
+}
+
+.fade-in-enter-to {
+  opacity: 1;
 }
 
 .animate-fade-in {

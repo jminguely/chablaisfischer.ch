@@ -140,12 +140,10 @@ nav {
 
 .page-enter-from {
   opacity: 0;
-  transform: translateY(10px);
 }
 
 .page-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
 }
 
 .layout-enter-active,

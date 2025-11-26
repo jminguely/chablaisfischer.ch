@@ -66,6 +66,8 @@ const galleryImages = computed(() => {
     return project.value.fieldsGallery.gallery.nodes.map((image) => ({
       src: image.sourceUrl,
       alt: image.altText || project.value?.title || "Gallery image",
+      width: image.mediaDetails?.width,
+      height: image.mediaDetails?.height,
     }));
   }
   return [];

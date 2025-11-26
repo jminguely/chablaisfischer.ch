@@ -33,7 +33,14 @@ export type WpProject = {
   };
   fieldsGallery: {
     gallery: {
-      nodes: any[];
+      nodes: {
+        altText: string;
+        sourceUrl: string;
+        mediaDetails: {
+          width: number;
+          height: number;
+        };
+      }[];
     };
   };
   fieldsProjectSidebar: {

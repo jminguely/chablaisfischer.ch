@@ -23,6 +23,10 @@ query getProject($slug: ID!) {
         nodes {
           altText
           sourceUrl(size: LARGE)
+          mediaDetails {
+            width
+            height
+          }
         }
       }
     }

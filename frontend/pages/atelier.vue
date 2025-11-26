@@ -2,137 +2,153 @@
   <div class="bg-white flex flex-col">
     <div class="flex gap-32 flex-col w-full">
       <!-- Contact Section -->
-      <div class="flex flex-col gap-6 w-full">
-        <h2 class="font-medium text-lg text-black">Contact</h2>
-        <div class="flex gap-20 w-full">
-          <div
-            class="flex-1 text-md text-black"
-            v-html="pageData?.fieldsAtelier?.adresse"
-          ></div>
-          <div class="flex-1 flex flex-col justify-between h-full">
-            <div class="text-md text-black">
-              <p class="mb-0">{{ pageData?.fieldsAtelier?.telephone }}</p>
-              <p>{{ pageData?.fieldsAtelier?.eMail }}</p>
+      <Transition name="fade-in" appear>
+        <div v-if="sectionsLoaded.contact" class="flex flex-col gap-6 w-full">
+          <h2 class="font-medium text-md">Contact</h2>
+          <div class="flex gap-20 w-full">
+            <div class="flex-1" v-html="pageData?.fieldsAtelier?.adresse"></div>
+            <div class="flex-1 flex flex-col justify-between h-full">
+              <div>
+                <p>{{ pageData?.fieldsAtelier?.telephone }}</p>
+                <p>{{ pageData?.fieldsAtelier?.eMail }}</p>
+              </div>
+              <a
+                v-if="pageData?.fieldsAtelier?.instagram"
+                :href="pageData.fieldsAtelier.instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex gap-2"
+              >
+                <Icon name="instagram" class="w-5 h-5" />
+                <span>Instagram</span>
+              </a>
             </div>
-            <a
-              v-if="pageData?.fieldsAtelier?.instagram"
-              :href="pageData.fieldsAtelier.instagram"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex gap-2 mt-auto"
-            >
-              <Icon name="instagram" class="w-5 h-5" />
-              <span class="text-md text-black">Instagram</span>
-            </a>
           </div>
         </div>
-      </div>
+      </Transition>
 
       <!-- Collaborateurs Section -->
-      <div class="flex flex-col gap-6 w-full">
-        <h2 class="font-medium text-lg text-black">Collaborateur·rice·s</h2>
-        <div class="flex gap-20 w-full">
-          <!-- Column 1 -->
-          <div class="flex-1 flex flex-col">
-            <TeamMember
-              v-for="(member, index) in firstColumnMembers"
-              :key="index"
-              :name="member.nom"
-              :role="member.role"
-              :hasButton="member.hasButton"
-            />
-          </div>
-          <!-- Column 2 -->
-          <div class="flex-1 flex flex-col">
-            <TeamMember
-              v-for="(member, index) in secondColumnMembers"
-              :key="index"
-              :name="member.nom"
-              :role="member.role"
-            />
+      <Transition name="fade-in" appear>
+        <div
+          v-if="sectionsLoaded.collaborateurs"
+          class="flex flex-col gap-6 w-full"
+        >
+          <h2 class="font-medium text-md">Collaborateur·rice·s</h2>
+          <div class="flex gap-20 w-full">
+            <!-- Column 1 -->
+            <div class="flex-1 flex flex-col">
+              <TeamMember
+                v-for="(member, index) in firstColumnMembers"
+                :key="index"
+                :name="member.nom"
+                :role="member.role"
+                :hasButton="member.hasButton"
+              />
+            </div>
+            <!-- Column 2 -->
+            <div class="flex-1 flex flex-col">
+              <TeamMember
+                v-for="(member, index) in secondColumnMembers"
+                :key="index"
+                :name="member.nom"
+                :role="member.role"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </Transition>
 
       <!-- Image Carousel -->
-      <div
-        v-if="pageData?.fieldsAtelier?.galerie?.length"
-        class="relative w-screen -mx-[calc((100vw-100%)/2)] overflow-hidden h-60"
-      >
+      <Transition name="fade-in" appear>
         <div
-          ref="carouselTrack"
-          class="flex gap-0 h-full will-change-transform"
-          :style="{ transform: `translateX(-${scrollPosition}px)` }"
+          v-if="
+            sectionsLoaded.galerie && pageData?.fieldsAtelier?.galerie?.length
+          "
+          class="relative w-screen -mx-[calc((100vw-100%)/2)] overflow-hidden h-60"
         >
           <div
-            v-for="(image, index) in infiniteImages"
-            :key="`image-${index}`"
-            class="flex-shrink-0 h-full"
-            style="width: 462px"
+            ref="carouselTrack"
+            class="flex gap-0 h-full will-change-transform"
+            :style="{ transform: `translateX(-${scrollPosition}px)` }"
           >
-            <img
-              :src="image.image.node.sourceUrl"
-              :alt="image.image.node.altText || 'Gallery image'"
-              class="w-full h-full object-cover"
-            />
+            <div
+              v-for="(image, index) in infiniteImages"
+              :key="`image-${index}`"
+              class="flex-shrink-0 h-full"
+              style="width: 462px"
+            >
+              <img
+                :src="image.image.node.sourceUrl"
+                :alt="image.image.node.altText || 'Gallery image'"
+                class="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </Transition>
 
       <!-- Offres d'emploi Section -->
-      <div class="flex flex-col gap-6 w-full">
-        <h2 class="font-medium text-lg text-black">Offres d'emploi</h2>
-        <div class="flex gap-20 w-full">
-          <div class="flex-1 flex flex-col">
-            <TeamMember
-              v-if="!pageData?.fieldsAtelier?.offresEmploi?.length"
-              name="Aucune offre actuellement"
-              role="Revenez plus tard"
-            />
-            <TeamMember
-              v-for="(offre, index) in pageData?.fieldsAtelier?.offresEmploi"
-              :key="index"
-              :name="offre.titre"
-              :role="offre.date"
-              :hasDownload="!!offre.fichier"
-              :downloadUrl="offre.fichier?.node?.mediaItemUrl"
-            />
+      <Transition name="fade-in" appear>
+        <div
+          v-if="sectionsLoaded.offresEmploi"
+          class="flex flex-col gap-6 w-full"
+        >
+          <h2 class="font-medium text-md">Offres d'emploi</h2>
+          <div class="flex gap-20 w-full">
+            <div class="flex-1 flex flex-col">
+              <TeamMember
+                v-if="!pageData?.fieldsAtelier?.offresEmploi?.length"
+                name="Aucune offre actuellement"
+                role="Revenez plus tard"
+              />
+              <TeamMember
+                v-for="(offre, index) in pageData?.fieldsAtelier?.offresEmploi"
+                :key="index"
+                :name="offre.titre"
+                :role="offre.date"
+                :hasDownload="!!offre.fichier"
+                :downloadUrl="offre.fichier?.node?.mediaItemUrl"
+              />
+            </div>
+            <div
+              class="flex-1"
+              v-html="pageData?.fieldsAtelier?.texteOffresEmploi"
+            ></div>
           </div>
-          <div
-            class="flex-1 text-md text-black"
-            v-html="pageData?.fieldsAtelier?.texteOffresEmploi"
-          ></div>
         </div>
-      </div>
+      </Transition>
 
       <!-- Place d'apprentissage Section -->
-      <div class="flex flex-col gap-6 w-full">
-        <h2 class="font-medium text-lg text-black">
-          Place d'apprentissage et stage
-        </h2>
-        <div class="flex gap-20 w-full">
-          <div class="flex-1 flex flex-col">
-            <TeamMember
-              v-if="!pageData?.fieldsAtelier?.placesApprentissage?.length"
-              name="Aucune offre actuellement"
-              role="Revenez plus tard"
-            />
-            <TeamMember
-              v-for="(place, index) in pageData?.fieldsAtelier
-                ?.placesApprentissage"
-              :key="index"
-              :name="place.titre"
-              :role="place.date"
-              :hasDownload="!!place.fichier"
-              :downloadUrl="place.fichier?.node?.mediaItemUrl"
-            />
+      <Transition name="fade-in" appear>
+        <div
+          v-if="sectionsLoaded.placesApprentissage"
+          class="flex flex-col gap-6 w-full"
+        >
+          <h2 class="font-medium text-md">Place d'apprentissage et stage</h2>
+          <div class="flex gap-20 w-full">
+            <div class="flex-1 flex flex-col">
+              <TeamMember
+                v-if="!pageData?.fieldsAtelier?.placesApprentissage?.length"
+                name="Aucune offre actuellement"
+                role="Revenez plus tard"
+              />
+              <TeamMember
+                v-for="(place, index) in pageData?.fieldsAtelier
+                  ?.placesApprentissage"
+                :key="index"
+                :name="place.titre"
+                :role="place.date"
+                :hasDownload="!!place.fichier"
+                :downloadUrl="place.fichier?.node?.mediaItemUrl"
+              />
+            </div>
+            <div
+              class="flex-1"
+              v-html="pageData?.fieldsAtelier?.texteApprentissage"
+            ></div>
           </div>
-          <div
-            class="flex-1 text-md text-black"
-            v-html="pageData?.fieldsAtelier?.texteApprentissage"
-          ></div>
         </div>
-      </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -147,12 +163,35 @@ import PAGE_QUERY from "@/graphql/getPageAtelier.gql?raw";
 const { query } = useWpGraphql();
 const pageData = ref<any>(null);
 
+// Track which sections are loaded for staggered fade-in
+const sectionsLoaded = ref({
+  contact: false,
+  collaborateurs: false,
+  galerie: false,
+  offresEmploi: false,
+  placesApprentissage: false,
+});
+
+// Stagger delay for sequential fade-in (in milliseconds)
+const staggerDelay = 200;
+
 watchEffect(async () => {
   try {
     const data = await query<any>(PAGE_QUERY, {
       slug: "atelier",
     });
     pageData.value = data.page;
+
+    // Trigger fade-in animations sequentially
+    if (data.page?.fieldsAtelier) {
+      const sections = Object.keys(sectionsLoaded.value);
+      sections.forEach((section, index) => {
+        setTimeout(() => {
+          sectionsLoaded.value[section as keyof typeof sectionsLoaded.value] =
+            true;
+        }, index * staggerDelay);
+      });
+    }
   } catch (e) {
     console.error(e);
   }
@@ -243,3 +282,17 @@ useHead({
   title: `Atelier – Chablais Fischer Architectes`,
 });
 </script>
+
+<style scoped>
+.fade-in-enter-active {
+  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
+}
+
+.fade-in-enter-from {
+  opacity: 0;
+}
+
+.fade-in-enter-to {
+  opacity: 1;
+}
+</style>

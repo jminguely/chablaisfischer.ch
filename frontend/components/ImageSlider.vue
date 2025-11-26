@@ -15,14 +15,29 @@
         class="flex items-center justify-center w-full h-full"
         style="max-width: 100%; max-height: 100%"
       >
-        <img
-          :src="image.src"
-          :alt="image.alt || `Slide ${index + 1}`"
-          class="w-auto h-auto object-contain block opacity-0 transition-opacity duration-500"
-          style="max-width: 100%; max-height: 100%"
-          loading="lazy"
-          @load="$event.target.classList.remove('opacity-0')"
-        />
+        <div
+          class="relative bg-gray-200"
+          :style="{
+            width: image.width ? `${image.width}px` : '100%',
+            height: image.height ? `${image.height}px` : '100%',
+            maxWidth: '100%',
+            maxHeight: '100%',
+          }"
+        >
+          <img
+            :src="image.src"
+            :alt="image.alt || `Slide ${index + 1}`"
+            :width="image.width"
+            :height="image.height"
+            class="w-full h-full object-contain block opacity-0 transition-opacity duration-500"
+            loading="lazy"
+            @load="(e) => {
+              const target = e.target as HTMLImageElement;
+              target?.classList.remove('opacity-0');
+              target?.parentElement?.classList.remove('bg-gray-200');
+            }"
+          />
+        </div>
       </nuxt-link>
       <div
         v-else
@@ -32,13 +47,29 @@
           class="relative inline-block max-w-full"
           style="max-height: calc(100% - 2rem)"
         >
-          <img
-            :src="image.src"
-            :alt="image.alt || `Slide ${index + 1}`"
-            class="max-w-full max-h-full w-auto h-auto object-contain block opacity-0 transition-opacity duration-500"
-            loading="lazy"
-            @load="$event.target.classList.remove('opacity-0')"
-          />
+          <div
+            class="relative bg-gray-200"
+            :style="{
+              width: image.width ? `${image.width}px` : 'auto',
+              height: image.height ? `${image.height}px` : 'auto',
+              maxWidth: '100%',
+              maxHeight: '100%',
+            }"
+          >
+            <img
+              :src="image.src"
+              :alt="image.alt || `Slide ${index + 1}`"
+              :width="image.width"
+              :height="image.height"
+              class="w-full h-full object-contain block opacity-0 transition-opacity duration-500"
+              loading="lazy"
+              @load="(e) => {
+                const target = e.target as HTMLImageElement;
+                target?.classList.remove('opacity-0');
+                target?.parentElement?.classList.remove('bg-gray-200');
+              }"
+            />
+          </div>
         </div>
         <!-- Info slot positioned below the image -->
         <div v-if="$slots.info" class="mt-2">
@@ -76,6 +107,8 @@ interface SliderImage {
   src: string;
   alt?: string;
   uri?: string;
+  width?: number;
+  height?: number;
 }
 
 interface Props {
