@@ -8,7 +8,7 @@
       >
         <!-- Modal content with yellow backdrop matching the image container -->
         <div
-          class="modal-backdrop bg-yellow bg-opacity-75 relative w-full h-full py-32 px-8 md:px-24 flex gap-3 items-start overflow-y-auto"
+          class="modal-backdrop bg-yellow bg-opacity-75 relative w-full h-full py-32 px-7 pb-8 pt-40 flex gap-3 items-start overflow-y-auto"
           @click.stop
         >
           <!-- Close button -->

@@ -87,7 +87,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   autoplay: true,
-  interval: 5000,
+  interval: 8000,
   navigationEnabled: false,
 });
 

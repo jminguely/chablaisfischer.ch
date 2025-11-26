@@ -1,10 +1,14 @@
 <template>
   <div class="min-h-screen">
-    <nuxt-link class="link link-logo" to="/" @click="navOpen = false">
-      <img src="../assets/img/logo.svg" alt="Chablais Fischer Architectes" />
+    <nuxt-link class="link link-logo w-64" to="/" @click="navOpen = false">
+      <img
+        class="w-64 block"
+        src="../assets/img/logo.svg"
+        alt="Chablais Fischer Architectes"
+      />
     </nuxt-link>
     <button
-      class="toggle py-10 px-7"
+      class="toggle mt-8 py-10 px-7"
       type="button"
       @click="toggleNav"
       :aria-expanded="navOpen"
@@ -121,10 +125,10 @@ nav {
 }
 
 .main {
-  padding: 120px 24px 32px;
+  @apply px-7 pb-8 pt-40;
 
   @screen md {
-    padding: 150px 100px 100px;
+    padding: 160px 96px 128px;
   }
 }
 

@@ -19,7 +19,7 @@
 
           <!-- Project caption -->
           <div class="mt-2">
-            <p class="text-sm text-black font-normal leading-[1.2]">
+            <p class="text-sm text-black font-normal">
               {{ project.title }}
             </p>
           </div>

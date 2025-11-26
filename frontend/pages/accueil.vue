@@ -1,7 +1,7 @@
 <template>
   <div v-if="page">
     <div
-      class="fixed top-14 bottom-6 left-6 right-6 md:top-32 md:bottom-16 md:right-24 md:left-24 opacity-0 animate-fade-in"
+      class="fixed md:top-44 md:bottom-32 md:left-24 md:right-24 left-7 right-7 bottom-8 top-40 opacity-0 animate-fade-in"
       style="animation-delay: 100ms; animation-fill-mode: forwards"
     >
       <ImageSlider :images="sliderImages" :autoplay="true" :interval="5000" />
