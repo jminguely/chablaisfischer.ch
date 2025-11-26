@@ -150,16 +150,16 @@
                 "class": "",
                 "id": ""
             },
-            "show_in_graphql": 1,
-            "graphql_description": "",
-            "graphql_field_name": "collaborateurs",
-            "graphql_non_null": 0,
-            "layout": "table",
+            "layout": "block",
             "pagination": 0,
             "min": 0,
             "max": 0,
             "collapsed": "",
             "button_label": "Ajouter un collaborateur",
+            "show_in_graphql": 1,
+            "graphql_description": "",
+            "graphql_field_name": "collaborateurs",
+            "graphql_non_null": 0,
             "rows_per_page": 20,
             "sub_fields": [
                 {
@@ -216,8 +216,8 @@
                 },
                 {
                     "key": "field_69274a301234d",
-                    "label": "Afficher le bouton",
-                    "name": "has_button",
+                    "label": "Afficher la modal",
+                    "name": "has_modal",
                     "aria-label": "",
                     "type": "true_false",
                     "instructions": "",
@@ -235,10 +235,172 @@
                     "ui_off_text": "",
                     "show_in_graphql": 1,
                     "graphql_description": "",
-                    "graphql_field_name": "hasButton",
+                    "graphql_field_name": "hasModal",
                     "graphql_non_null": 0,
                     "parent_repeater": "field_69274a001234a",
                     "message": ""
+                },
+                {
+                    "key": "field_69274a401234e",
+                    "label": "Description",
+                    "name": "description",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_69274a301234d",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": "br",
+                    "show_in_graphql": 1,
+                    "graphql_description": "",
+                    "graphql_field_name": "description",
+                    "graphql_non_null": 0,
+                    "parent_repeater": "field_69274a001234a"
+                },
+                {
+                    "key": "field_69274a501234f",
+                    "label": "CV \/ Parcours",
+                    "name": "cv",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_69274a301234d",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "show_in_graphql": 1,
+                    "graphql_description": "",
+                    "graphql_field_name": "cv",
+                    "graphql_non_null": 0,
+                    "layout": "table",
+                    "pagination": 0,
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Ajouter une entrée",
+                    "rows_per_page": 20,
+                    "parent_repeater": "field_69274a001234a",
+                    "sub_fields": [
+                        {
+                            "key": "field_69274a6012350",
+                            "label": "Date(s)",
+                            "name": "dates",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "show_in_graphql": 1,
+                            "graphql_description": "",
+                            "graphql_field_name": "dates",
+                            "graphql_non_null": 0,
+                            "parent_repeater": "field_69274a501234f"
+                        },
+                        {
+                            "key": "field_69274a7012351",
+                            "label": "Description",
+                            "name": "description",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "rows": "",
+                            "placeholder": "",
+                            "new_lines": "br",
+                            "show_in_graphql": 1,
+                            "graphql_description": "",
+                            "graphql_field_name": "description",
+                            "graphql_non_null": 0,
+                            "parent_repeater": "field_69274a501234f"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_69274a8012352",
+                    "label": "Image",
+                    "name": "image",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_69274a301234d",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "allow_in_bindings": 0,
+                    "preview_size": "medium",
+                    "show_in_graphql": 1,
+                    "graphql_description": "",
+                    "graphql_field_name": "image",
+                    "graphql_non_null": 0,
+                    "parent_repeater": "field_69274a001234a"
                 }
             ]
         },
@@ -649,5 +811,5 @@
         "Page",
         "Template_Atelier"
     ],
-    "modified": 1764183651
+    "modified": 1764197357
 }

@@ -12,7 +12,22 @@ query GetPageAtelier($slug: ID!) {
       collaborateurs {
         nom
         role
-        hasButton
+        hasModal
+        description
+        cv {
+          dates
+          description
+        }
+        image {
+          node {
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
+          }
+        }
       }
       galerie {
         image {

@@ -42,7 +42,11 @@
                 :key="index"
                 :name="member.nom"
                 :role="member.role"
-                :hasButton="member.hasButton"
+                :hasModal="member.hasModal"
+                :description="member.description"
+                :cv="member.cv"
+                :image="member.image?.node?.sourceUrl"
+                @openModal="openModal(member)"
               />
             </div>
             <!-- Column 2 -->
@@ -52,6 +56,11 @@
                 :key="index"
                 :name="member.nom"
                 :role="member.role"
+                :hasModal="member.hasModal"
+                :description="member.description"
+                :cv="member.cv"
+                :image="member.image?.node?.sourceUrl"
+                @openModal="openModal(member)"
               />
             </div>
           </div>
@@ -150,6 +159,82 @@
         </div>
       </Transition>
     </div>
+
+    <!-- Modal -->
+    <Transition name="modal-fade">
+      <div
+        v-if="showModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] px-4"
+        @click.self="closeModal"
+      >
+        <div
+          class="bg-white rounded-lg p-12 max-w-[1156px] w-full max-h-[90vh] overflow-y-auto relative"
+        >
+          <!-- Close button -->
+          <button
+            @click="closeModal"
+            class="absolute top-8 right-12 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <Icon name="close" class="w-5 h-5" />
+          </button>
+
+          <!-- Modal content -->
+          <div class="flex flex-col gap-6">
+            <!-- Name -->
+            <h2 class="font-medium text-md">{{ selectedMember?.nom }}</h2>
+
+            <!-- Main content area -->
+            <div class="flex gap-6">
+              <!-- Left column: Description and CV -->
+              <div class="flex-1 flex flex-col gap-6">
+                <!-- Description -->
+                <p v-if="selectedMember?.description" class="text-base">
+                  {{ selectedMember.description }}
+                </p>
+
+                <!-- Divider -->
+                <hr
+                  v-if="
+                    selectedMember?.description && selectedMember?.cv?.length
+                  "
+                  class="border-grey border-dotted"
+                />
+
+                <!-- CV Timeline -->
+                <div
+                  v-if="selectedMember?.cv?.length"
+                  class="flex gap-6 border-b border-grey border-dotted pb-5"
+                >
+                  <div class="flex flex-col gap-2">
+                    <p
+                      v-for="(item, index) in selectedMember.cv"
+                      :key="index"
+                      class="whitespace-nowrap"
+                    >
+                      {{ item.dates }}
+                    </p>
+                  </div>
+                  <div class="flex-1 flex flex-col gap-2">
+                    <p v-for="(item, index) in selectedMember.cv" :key="index">
+                      {{ item.description }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right column: Image -->
+              <div v-if="selectedMember?.image" class="w-60 h-80 flex-shrink-0">
+                <img
+                  :src="selectedMember.image"
+                  :alt="selectedMember.nom"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -277,6 +362,43 @@ onUnmounted(() => {
   stopAnimation();
 });
 
+// Modal state
+const showModal = ref(false);
+const selectedMember = ref<any>(null);
+
+const openModal = (member: any) => {
+  selectedMember.value = {
+    ...member,
+    image: member.image?.node?.sourceUrl,
+  };
+  showModal.value = true;
+  // Prevent body scroll when modal is open
+  document.body.style.overflow = "hidden";
+};
+
+const closeModal = () => {
+  showModal.value = false;
+  selectedMember.value = null;
+  // Restore body scroll
+  document.body.style.overflow = "";
+};
+
+// Close modal on escape key
+onMounted(() => {
+  const handleEscape = (e: KeyboardEvent) => {
+    if (e.key === "Escape" && showModal.value) {
+      closeModal();
+    }
+  };
+  window.addEventListener("keydown", handleEscape);
+
+  // Cleanup
+  onUnmounted(() => {
+    window.removeEventListener("keydown", handleEscape);
+    document.body.style.overflow = "";
+  });
+});
+
 // Set the page title
 useHead({
   title: `Atelier – Chablais Fischer Architectes`,
@@ -294,5 +416,15 @@ useHead({
 
 .fade-in-enter-to {
   opacity: 1;
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -9,15 +9,16 @@
           <p class="w-full">{{ role }}</p>
         </div>
         <div
-          v-if="hasButton || hasDownload"
-          class="flex items-center justify-center w-[38px] h-[38px]"
+          v-if="hasModal || hasDownload"
+          class="flex items-center justify-center w-9 h-9"
         >
-          <Icon
-            v-if="hasButton"
-            name="plus"
-            class="w-5 h-5"
-            alt="Afficher plus"
-          />
+          <button
+            v-if="hasModal"
+            @click="$emit('openModal')"
+            class="flex items-center justify-center cursor-pointer hover:opacity-70 transition-opacity"
+          >
+            <Icon name="plus" class="w-5 h-5" alt="Afficher plus" />
+          </button>
           <a
             v-if="hasDownload && downloadUrl"
             :href="downloadUrl"
@@ -38,8 +39,13 @@
 defineProps<{
   name: string;
   role: string;
-  hasButton?: boolean;
+  hasModal?: boolean;
   hasDownload?: boolean;
   downloadUrl?: string;
+  description?: string;
+  cv?: Array<{ dates: string; description: string }>;
+  image?: string;
 }>();
+
+defineEmits(["openModal"]);
 </script>
