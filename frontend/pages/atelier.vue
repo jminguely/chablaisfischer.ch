@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-white flex flex-col items-center">
-    <div class="flex gap-32 flex-col items-start">
+  <div class="bg-white flex flex-col">
+    <div class="flex gap-32 flex-col w-full">
       <!-- Contact Section -->
-      <div class="flex flex-col gap-6 items-start w-full">
+      <div class="flex flex-col gap-6 w-full">
         <h2 class="font-medium text-lg text-black">Contact</h2>
-        <div class="flex gap-20 items-start w-full">
+        <div class="flex gap-20 w-full">
           <div
             class="flex-1 text-md text-black"
             v-html="pageData?.fieldsAtelier?.adresse"
@@ -19,7 +19,7 @@
               :href="pageData.fieldsAtelier.instagram"
               target="_blank"
               rel="noopener noreferrer"
-              class="flex gap-2 items-center mt-auto"
+              class="flex gap-2 mt-auto"
             >
               <Icon name="instagram" class="w-5 h-5" />
               <span class="text-md text-black">Instagram</span>
@@ -29,9 +29,9 @@
       </div>
 
       <!-- Collaborateurs Section -->
-      <div class="flex flex-col gap-6 items-start w-full">
+      <div class="flex flex-col gap-6 w-full">
         <h2 class="font-medium text-lg text-black">Collaborateur·rice·s</h2>
-        <div class="flex gap-20 items-start w-full">
+        <div class="flex gap-20 w-full">
           <!-- Column 1 -->
           <div class="flex-1 flex flex-col">
             <TeamMember
@@ -80,10 +80,15 @@
       </div>
 
       <!-- Offres d'emploi Section -->
-      <div class="flex flex-col gap-6 items-start w-full">
+      <div class="flex flex-col gap-6 w-full">
         <h2 class="font-medium text-lg text-black">Offres d'emploi</h2>
-        <div class="flex gap-20 items-start w-full">
+        <div class="flex gap-20 w-full">
           <div class="flex-1 flex flex-col">
+            <TeamMember
+              v-if="!pageData?.fieldsAtelier?.offresEmploi?.length"
+              name="Aucune offre actuellement"
+              role="Revenez plus tard"
+            />
             <TeamMember
               v-for="(offre, index) in pageData?.fieldsAtelier?.offresEmploi"
               :key="index"
@@ -101,12 +106,17 @@
       </div>
 
       <!-- Place d'apprentissage Section -->
-      <div class="flex flex-col gap-6 items-start w-full">
+      <div class="flex flex-col gap-6 w-full">
         <h2 class="font-medium text-lg text-black">
           Place d'apprentissage et stage
         </h2>
-        <div class="flex gap-20 items-start w-full">
+        <div class="flex gap-20 w-full">
           <div class="flex-1 flex flex-col">
+            <TeamMember
+              v-if="!pageData?.fieldsAtelier?.placesApprentissage?.length"
+              name="Aucune offre actuellement"
+              role="Revenez plus tard"
+            />
             <TeamMember
               v-for="(place, index) in pageData?.fieldsAtelier
                 ?.placesApprentissage"
@@ -128,7 +138,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watchEffect } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch, watchEffect } from "vue";
 import { useHead } from "#imports";
 import { useWpGraphql } from "@/composables/useWpGraphql";
 import PAGE_QUERY from "@/graphql/getPageAtelier.gql?raw";
@@ -196,16 +206,32 @@ const animate = () => {
   animationFrameId = requestAnimationFrame(animate);
 };
 
-onMounted(() => {
-  if (galleryImages.value.length > 0) {
+const startAnimation = () => {
+  if (animationFrameId === null && galleryImages.value.length > 0) {
     animationFrameId = requestAnimationFrame(animate);
   }
+};
+
+const stopAnimation = () => {
+  if (animationFrameId !== null) {
+    cancelAnimationFrame(animationFrameId);
+    animationFrameId = null;
+  }
+};
+
+// Watch for gallery images and start animation when loaded
+watch(galleryImages, (newImages) => {
+  if (newImages.length > 0) {
+    startAnimation();
+  }
+}, { immediate: true });
+
+onMounted(() => {
+  startAnimation();
 });
 
 onUnmounted(() => {
-  if (animationFrameId !== null) {
-    cancelAnimationFrame(animationFrameId);
-  }
+  stopAnimation();
 });
 
 // Set the page title

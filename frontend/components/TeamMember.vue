@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-start w-full border-b border-grey border-dotted"
+    class="flex flex-col items-start w-full first:border-t border-b border-grey border-dotted"
   >
     <div class="flex py-3 flex-col gap-2 items-start justify-center w-full">
       <div class="flex items-center w-full">
