@@ -113,15 +113,15 @@ nav {
 }
 
 .link-projets {
-  @apply md:-rotate-90 md:top-1/2 md:left-0;
+  @apply md:-rotate-90 md:top-1/2 md:left-0 z-10;
 }
 
 .link-index {
-  @apply md:-rotate-90 md:top-1/2 md:right-0;
+  @apply md:-rotate-90 md:top-1/2 md:right-0 z-10;
 }
 
 .link-atelier {
-  @apply md:bottom-0 md:left-1/2 md:-translate-x-1/2;
+  @apply md:bottom-0 md:left-1/2 md:-translate-x-1/2 z-10;
 }
 
 .main {

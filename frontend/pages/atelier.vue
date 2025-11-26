@@ -5,9 +5,9 @@
       <Transition name="fade-in" appear>
         <div v-if="sectionsLoaded.contact" class="flex flex-col gap-6 w-full">
           <h2 class="font-medium text-md">Contact</h2>
-          <div class="flex gap-20 w-full">
+          <div class="flex gap-20 w-full items-stretch">
             <div class="flex-1" v-html="pageData?.fieldsAtelier?.adresse"></div>
-            <div class="flex-1 flex flex-col justify-between h-full">
+            <div class="flex-1 flex flex-col">
               <div>
                 <p>{{ pageData?.fieldsAtelier?.telephone }}</p>
                 <p>{{ pageData?.fieldsAtelier?.eMail }}</p>
@@ -17,7 +17,7 @@
                 :href="pageData.fieldsAtelier.instagram"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex gap-2"
+                class="flex gap-2 mt-auto"
               >
                 <Icon name="instagram" class="w-5 h-5" />
                 <span>Instagram</span>
