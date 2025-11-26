@@ -15,9 +15,9 @@
           <button
             v-if="hasModal"
             @click="$emit('openModal')"
-            class="flex items-center justify-center cursor-pointer hover:opacity-70 transition-opacity"
+            class="flex items-center justify-center cursor-pointer hover:opacity-70 transition-opacity hover:bg-yellow rounded-full p-2.5"
           >
-            <Icon name="plus" class="w-5 h-5" alt="Afficher plus" />
+            <Icon name="plus" class="w-4 h-4" alt="Afficher plus" />
           </button>
           <a
             v-if="hasDownload && downloadUrl"
