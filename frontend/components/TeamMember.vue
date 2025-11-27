@@ -15,7 +15,7 @@
           <button
             v-if="hasModal"
             @click="$emit('openModal')"
-            class="flex items-center justify-center hover:opacity-70 transition-opacity hover:bg-yellow rounded-full p-2.5"
+            class="flex items-center justify-center hover:opacity-70 transition-opacity hover:bg-yellow hover:text-black rounded-full p-2.5"
           >
             <Icon name="plus" class="w-4 h-4" alt="Afficher plus" />
           </button>
@@ -25,9 +25,9 @@
             target="_blank"
             rel="noopener noreferrer"
             download
-            class="flex items-center justify-center"
+            class="flex items-center justify-center hover:opacity-70 transition-opacity hover:bg-yellow hover:text-black rounded-full p-2.5"
           >
-            <Icon name="download" class="w-5 h-5" alt="Télécharger" />
+            <Icon name="download" class="w-4 h-4" alt="Télécharger" />
           </a>
         </div>
       </div>
