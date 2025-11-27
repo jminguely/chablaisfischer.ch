@@ -47,10 +47,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 const postItRef = ref<HTMLElement | null>(null);
 const position = ref({ x: 0, y: 0 });
-const velocity = ref({ x: 0.1, y: 0.05 });
+const velocity = ref({ x: 0.2, y: 0.1 });
 const savedVelocity = ref({ x: 0.1, y: 0.05 });
 const rotation = ref(0);
-const rotationSpeed = 0.01; // degrees per frame
+const rotationSpeed = 0.02; // degrees per frame
 const isHovered = ref(false);
 
 let animationFrameId: number;
@@ -140,7 +140,7 @@ onUnmounted(() => {
 
 <style lang="postcss" scoped>
 .post-it {
-  @apply bg-yellow bg-opacity-75;
+  @apply bg-yellow bg-opacity-75 backdrop-blur;
 
   position: fixed;
   top: 0;
