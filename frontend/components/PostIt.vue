@@ -1,12 +1,14 @@
 <template>
   <div
     ref="postItRef"
-    class="post-it bg-yellow bg-opacity-75"
+    class="post-it"
     :style="{
       width: width,
       height: height,
       transform: `translate(${position.x}px, ${position.y}px)`,
     }"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
   >
     <div
       class="post-it-circle"
@@ -46,10 +48,23 @@ const props = withDefaults(defineProps<Props>(), {
 const postItRef = ref<HTMLElement | null>(null);
 const position = ref({ x: 0, y: 0 });
 const velocity = ref({ x: 0.1, y: 0.05 });
+const savedVelocity = ref({ x: 0.1, y: 0.05 });
 const rotation = ref(0);
 const rotationSpeed = 0.01; // degrees per frame
+const isHovered = ref(false);
 
 let animationFrameId: number;
+
+const handleMouseEnter = () => {
+  isHovered.value = true;
+  savedVelocity.value = { ...velocity.value };
+  velocity.value = { x: 0, y: 0 };
+};
+
+const handleMouseLeave = () => {
+  isHovered.value = false;
+  velocity.value = { ...savedVelocity.value };
+};
 
 const animate = () => {
   if (!postItRef.value) return;
@@ -123,8 +138,10 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .post-it {
+  @apply bg-yellow bg-opacity-75;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -137,6 +154,12 @@ onUnmounted(() => {
   box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.35);
   will-change: transform;
   z-index: 10;
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+
+  &:hover {
+    @apply bg-opacity-100;
+    box-shadow: none;
+  }
 }
 
 .post-it-circle {

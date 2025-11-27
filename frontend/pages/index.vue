@@ -86,7 +86,7 @@
                 v-for="(p, index) in sortedProjects"
                 :key="p.id"
                 :class="[
-                  'hover:bg-yellow hover:bg-opacity-75',
+                  'hover:bg-yellow hover:bg-opacity-45',
                   animationPhase === 'hide'
                     ? 'animate-fade-out-row'
                     : 'animate-fade-in-row',
