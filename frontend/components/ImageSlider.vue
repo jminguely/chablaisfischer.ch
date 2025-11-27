@@ -164,11 +164,18 @@
                 maxHeight: '100%',
               }"
             >
-              <img :src="image.src" :alt="image.alt || `Slide ${index + 1}`"
-              :width="image.width" :height="image.height" class="w-full h-full
-              object-contain block opacity-0 transition-opacity duration-500"
-              loading="lazy" @load="(e) => { const target = e.target as
-              HTMLImageElement; target?.classList.remove('opacity-0'); }"
+              <img
+                :src="image.src"
+                :alt="image.alt || `Slide ${index + 1}`"
+                :width="image.width"
+                :height="image.height"
+                class="w-full h-full object-contain block opacity-0 transition-opacity duration-500"
+                loading="lazy"
+                @load="(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target?.classList.remove('opacity-0');
+                }"
+              />
             </div>
           </div>
           <!-- Clickable navigation areas with custom cursors -->
