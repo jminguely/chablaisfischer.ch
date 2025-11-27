@@ -1,5 +1,5 @@
 <template>
-  <div v-if="page && projects">
+  <div class="bg-yellow bg-opacity-15" v-if="page && projects">
     <div
       class="grid grid-cols-1 md:grid-cols-[repeat(20,minmax(0,1fr))] gap-x-0 gap-y-10 md:gap-y-32"
     >

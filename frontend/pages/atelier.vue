@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white flex flex-col">
+  <div class="bg-yellow bg-opacity-15 flex flex-col">
     <div class="flex gap-32 flex-col w-full">
       <!-- Contact Section -->
       <Transition name="fade-in" appear>

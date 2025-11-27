@@ -1,23 +1,22 @@
 <template>
-  <div v-if="page">
-    <div
-      class="fixed md:top-44 md:bottom-32 md:left-24 md:right-24 left-7 right-7 bottom-8 top-40 opacity-0 animate-fade-in"
-      style="animation-delay: 100ms; animation-fill-mode: forwards"
-    >
-      <ImageSlider :images="sliderImages" :autoplay="true" :interval="5000" />
-    </div>
+  <div
+    class="fixed md:top-44 md:bottom-32 md:left-24 md:right-24 left-7 right-7 bottom-8 top-40 opacity-0 animate-fade-in bg-yellow bg-opacity-15"
+    style="animation-delay: 100ms; animation-fill-mode: forwards"
+    v-if="page"
+  >
+    <ImageSlider :images="sliderImages" :autoplay="true" :interval="5000" />
+  </div>
 
-    <!-- Post-it note overlay - bounces around the screen -->
-    <div
-      v-if="page?.fieldsAccueil?.postIt"
-      class="opacity-0 animate-fade-in-opacity"
-      style="animation-delay: 300ms; animation-fill-mode: forwards"
-    >
-      <PostIt
-        :title="page.fieldsAccueil.postIt.title"
-        :content="page.fieldsAccueil.postIt.content"
-      />
-    </div>
+  <!-- Post-it note overlay - bounces around the screen -->
+  <div
+    v-if="page?.fieldsAccueil?.postIt"
+    class="opacity-0 animate-fade-in-opacity"
+    style="animation-delay: 300ms; animation-fill-mode: forwards"
+  >
+    <PostIt
+      :title="page.fieldsAccueil.postIt.title"
+      :content="page.fieldsAccueil.postIt.content"
+    />
   </div>
 </template>
 

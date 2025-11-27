@@ -1,5 +1,5 @@
 <template>
-  <div v-if="project">
+  <div class="bg-yellow bg-opacity-15" v-if="project">
     <div
       class="fixed md:top-44 md:bottom-32 md:left-24 md:right-24 left-7 right-7 bottom-8 top-40"
     >
