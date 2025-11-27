@@ -23,7 +23,10 @@
           </span>
         </h2>
 
-        <button class="hover:bg-yellow p-2 rounded-full" @click="openModal">
+        <button
+          class="hover:bg-yellow hover:text-black p-2 rounded-full"
+          @click="openModal"
+        >
           <Icon
             name="plus"
             alt="Afficher les informations du projet"

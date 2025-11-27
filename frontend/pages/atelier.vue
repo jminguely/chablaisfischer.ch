@@ -103,7 +103,7 @@
         >
           <h2 class="font-medium text-md">Offres d'emploi</h2>
           <div class="grid md:grid-cols-2 gap-5 md:gap-20 w-full">
-            <div class="flex flex-col">
+            <div class="flex flex-col border-t border-grey border-dotted">
               <TeamMember
                 v-if="!pageData?.fieldsAtelier?.offresEmploi?.length"
                 name="Aucune offre actuellement"
@@ -131,7 +131,7 @@
         >
           <h2 class="font-medium text-md">Place d'apprentissage et stage</h2>
           <div class="grid md:grid-cols-2 gap-5 md:gap-20 w-full">
-            <div class="flex flex-col">
+            <div class="flex flex-col border-t border-grey border-dotted">
               <TeamMember
                 v-if="!pageData?.fieldsAtelier?.placesApprentissage?.length"
                 name="Aucune offre actuellement"
