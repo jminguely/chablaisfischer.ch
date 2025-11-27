@@ -1,29 +1,31 @@
 <template>
-  <div class="bg-yellow bg-opacity-15" v-if="page && projects">
-    <div
-      class="grid grid-cols-1 md:grid-cols-[repeat(20,minmax(0,1fr))] gap-x-0 gap-y-10 md:gap-y-32"
-    >
+  <div>
+    <div v-if="projects.length > 0">
       <div
-        v-for="(project, index) in projects"
-        :key="project.id"
-        class="w-full md:col-[var(--col)] md:row-[var(--row)] md:mt-[var(--mt)] md:mb-[var(--mb)]"
-        :style="getProjectStyle(index)"
+        class="grid grid-cols-1 md:grid-cols-[repeat(20,minmax(0,1fr))] gap-x-0 gap-y-10 md:gap-y-32"
       >
-        <nuxt-link :to="project.uri" class="block group w-full">
-          <!-- Project image -->
-          <ProjectImage
-            v-if="project.featuredImage"
-            :src="project.featuredImage.node.sourceUrl"
-            :alt="project.featuredImage.node.altText || project.title"
-          />
+        <div
+          v-for="(project, index) in projects"
+          :key="project.id"
+          class="w-full md:col-[var(--col)] md:row-[var(--row)] md:mt-[var(--mt)] md:mb-[var(--mb)]"
+          :style="getProjectStyle(index)"
+        >
+          <nuxt-link :to="project.uri" class="block group w-full">
+            <!-- Project image -->
+            <ProjectImage
+              v-if="project.featuredImage"
+              :src="project.featuredImage.node.sourceUrl"
+              :alt="project.featuredImage.node.altText || project.title"
+            />
 
-          <!-- Project caption -->
-          <div class="mt-2">
-            <p class="text-sm text-black font-normal">
-              {{ project.title }}
-            </p>
-          </div>
-        </nuxt-link>
+            <!-- Project caption -->
+            <div class="mt-2">
+              <p class="text-sm text-black font-normal">
+                {{ project.title }}
+              </p>
+            </div>
+          </nuxt-link>
+        </div>
       </div>
     </div>
   </div>

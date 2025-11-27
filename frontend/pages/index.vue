@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-yellow bg-opacity-15">
+  <div>
     <h1 class="sr-only">Accueil</h1>
 
     <section aria-labelledby="projects-heading">

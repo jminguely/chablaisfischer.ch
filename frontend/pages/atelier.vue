@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-yellow bg-opacity-15 flex flex-col">
-    <div class="flex gap-32 flex-col w-full">
+  <div class="flex flex-col">
+    <div v-if="pageData" class="flex gap-32 flex-col w-full">
       <!-- Contact Section -->
       <Transition name="fade-in" appear>
         <div v-if="sectionsLoaded.contact" class="flex flex-col gap-6 w-full">
