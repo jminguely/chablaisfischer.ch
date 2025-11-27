@@ -83,8 +83,7 @@
             <div
               v-for="(image, index) in infiniteImages"
               :key="`image-${index}`"
-              class="flex-shrink-0 h-full"
-              style="width: 462px"
+              class="flex-shrink-0 h-full aspect-[4/3]"
             >
               <img
                 :src="image.image.node.sourceUrl"
