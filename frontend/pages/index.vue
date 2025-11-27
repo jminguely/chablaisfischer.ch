@@ -163,11 +163,39 @@
 
       <!-- Mobile: stacked rows with labels (no sorting) -->
       <div class="md:hidden">
+        <!-- Mobile Sort Controls -->
+        <div
+          class="px-0 mb-6 pt-4 pb-2 flex items-center justify-between"
+          v-if="!loading && projects.length"
+        >
+          <span class="text-sm font-medium">Trier par</span>
+          <div class="flex items-center gap-3">
+            <select
+              v-model="sortKey"
+              class="bg-transparent text-sm focus:outline-none appearance-none pr-4 font-medium cursor-pointer"
+              style="background-image: none"
+            >
+              <option value="title">Projet</option>
+              <option value="annee">Année</option>
+              <option value="lieu">Lieu</option>
+              <option value="programme">Programme</option>
+              <option value="type">Type</option>
+              <option value="statut">Statut</option>
+            </select>
+            <button @click="toggleMobileSortDir" class="p-1">
+              <Icon
+                :name="sortDir === 1 ? 'arrow-down' : 'arrow-up'"
+                class="w-3 h-3"
+              />
+            </button>
+          </div>
+        </div>
+
         <div v-if="loading" class="text-gray-500 p-4">
           Chargement des projets…
         </div>
         <NuxtLink
-          v-for="(p, index) in projects"
+          v-for="(p, index) in sortedProjects"
           :key="p.id"
           :to="p.uri"
           class="block border-t border-dotted border-black py-8 opacity-0 animate-fade-in"
@@ -393,6 +421,10 @@ function toggleSort(key: string) {
       isAnimating.value = false;
     }, showDuration);
   }, hideDuration);
+}
+
+function toggleMobileSortDir() {
+  sortDir.value = sortDir.value === 1 ? -1 : 1;
 }
 
 function ariaSort(key: string) {

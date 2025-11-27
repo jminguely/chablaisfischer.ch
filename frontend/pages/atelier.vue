@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col">
-    <div v-if="pageData" class="flex gap-32 flex-col w-full">
+    <div v-if="pageData" class="flex gap-16 md:gap-32 flex-col w-full">
       <!-- Contact Section -->
       <Transition name="fade-in" appear>
         <div v-if="sectionsLoaded.contact" class="flex flex-col gap-6 w-full">
           <h2 class="font-medium text-md">Contact</h2>
-          <div class="flex gap-20 w-full items-stretch">
-            <div class="flex-1" v-html="pageData?.fieldsAtelier?.adresse"></div>
-            <div class="flex-1 flex flex-col">
+          <div class="grid md:grid-cols-2 gap-5 md:gap-20 w-full items-stretch">
+            <div v-html="pageData?.fieldsAtelier?.adresse"></div>
+            <div class="flex flex-col">
               <div>
                 <p>{{ pageData?.fieldsAtelier?.telephone }}</p>
                 <p>{{ pageData?.fieldsAtelier?.eMail }}</p>
@@ -17,7 +17,7 @@
                 :href="pageData.fieldsAtelier.instagram"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex gap-2 mt-auto"
+                class="flex gap-2 pt-3 mt-auto"
               >
                 <Icon name="instagram" class="w-5 h-5" />
                 <span>Instagram</span>
@@ -34,9 +34,9 @@
           class="flex flex-col gap-6 w-full"
         >
           <h2 class="font-medium text-md">Collaborateur·rice·s</h2>
-          <div class="flex gap-20 w-full">
+          <div class="grid md:grid-cols-2 gap-5 md:gap-20 w-full">
             <!-- Column 1 -->
-            <div class="flex-1 flex flex-col">
+            <div class="flex flex-col">
               <TeamMember
                 v-for="(member, index) in firstColumnMembers"
                 :key="index"
@@ -50,7 +50,7 @@
               />
             </div>
             <!-- Column 2 -->
-            <div class="flex-1 flex flex-col">
+            <div class="flex flex-col">
               <TeamMember
                 v-for="(member, index) in secondColumnMembers"
                 :key="index"
@@ -102,8 +102,8 @@
           class="flex flex-col gap-6 w-full"
         >
           <h2 class="font-medium text-md">Offres d'emploi</h2>
-          <div class="flex gap-20 w-full">
-            <div class="flex-1 flex flex-col">
+          <div class="grid md:grid-cols-2 gap-5 md:gap-20 w-full">
+            <div class="flex flex-col">
               <TeamMember
                 v-if="!pageData?.fieldsAtelier?.offresEmploi?.length"
                 name="Aucune offre actuellement"
@@ -118,10 +118,7 @@
                 :downloadUrl="offre.fichier?.node?.mediaItemUrl"
               />
             </div>
-            <div
-              class="flex-1"
-              v-html="pageData?.fieldsAtelier?.texteOffresEmploi"
-            ></div>
+            <div v-html="pageData?.fieldsAtelier?.texteOffresEmploi"></div>
           </div>
         </div>
       </Transition>
@@ -133,8 +130,8 @@
           class="flex flex-col gap-6 w-full"
         >
           <h2 class="font-medium text-md">Place d'apprentissage et stage</h2>
-          <div class="flex gap-20 w-full">
-            <div class="flex-1 flex flex-col">
+          <div class="grid md:grid-cols-2 gap-5 md:gap-20 w-full">
+            <div class="flex flex-col">
               <TeamMember
                 v-if="!pageData?.fieldsAtelier?.placesApprentissage?.length"
                 name="Aucune offre actuellement"
@@ -150,10 +147,7 @@
                 :downloadUrl="place.fichier?.node?.mediaItemUrl"
               />
             </div>
-            <div
-              class="flex-1"
-              v-html="pageData?.fieldsAtelier?.texteApprentissage"
-            ></div>
+            <div v-html="pageData?.fieldsAtelier?.texteApprentissage"></div>
           </div>
         </div>
       </Transition>
