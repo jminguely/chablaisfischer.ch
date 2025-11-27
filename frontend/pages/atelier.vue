@@ -17,7 +17,7 @@
                 :href="pageData.fieldsAtelier.instagram"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex gap-2 pt-3 mt-auto"
+                class="flex gap-2 pt-2 mt-auto"
               >
                 <Icon name="instagram" class="w-5 h-5" />
                 <span>Instagram</span>
@@ -34,9 +34,9 @@
           class="flex flex-col gap-6 w-full"
         >
           <h2 class="font-medium text-md">Collaborateur·rice·s</h2>
-          <div class="grid md:grid-cols-2 gap-5 md:gap-20 w-full">
+          <div class="grid md:grid-cols-2 md:gap-20 w-full">
             <!-- Column 1 -->
-            <div class="flex flex-col">
+            <div class="flex flex-col border-t border-grey border-dotted">
               <TeamMember
                 v-for="(member, index) in firstColumnMembers"
                 :key="index"
@@ -50,7 +50,7 @@
               />
             </div>
             <!-- Column 2 -->
-            <div class="flex flex-col">
+            <div class="flex flex-col md:border-t border-grey border-dotted">
               <TeamMember
                 v-for="(member, index) in secondColumnMembers"
                 :key="index"
@@ -177,7 +177,7 @@
             <h2 class="font-medium text-md">{{ selectedMember?.nom }}</h2>
 
             <!-- Main content area -->
-            <div class="flex gap-6">
+            <div class="flex flex-col md:flex-row gap-6">
               <!-- Left column: Description and CV -->
               <div class="flex-1 flex flex-col gap-6">
                 <!-- Description -->
@@ -216,7 +216,10 @@
               </div>
 
               <!-- Right column: Image -->
-              <div v-if="selectedMember?.image" class="w-60 h-80 flex-shrink-0">
+              <div
+                v-if="selectedMember?.image"
+                class="w-full md:w-60 h-auto flex-shrink-0"
+              >
                 <img
                   :src="selectedMember.image"
                   :alt="selectedMember.nom"
