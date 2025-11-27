@@ -67,6 +67,7 @@
                 "id": ""
             },
             "choices": {
+                "—": "—",
                 "Logement": "Logement"
             },
             "default_value": false,
@@ -99,6 +100,7 @@
                 "id": ""
             },
             "choices": {
+                "—": "—",
                 "Privé": "Privé",
                 "Public": "Public"
             },
@@ -132,6 +134,7 @@
                 "id": ""
             },
             "choices": {
+                "—": "—",
                 "En travaux": "En travaux",
                 "Construit": "Construit"
             },
@@ -203,5 +206,5 @@
     "graphql_types": [
         "Project"
     ],
-    "modified": 1763319927
+    "modified": 1764242259
 }
