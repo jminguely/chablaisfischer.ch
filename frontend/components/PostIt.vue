@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
 const postItRef = ref<HTMLElement | null>(null);
 const position = ref({ x: 0, y: 0 });
 const velocity = ref({ x: 0.2, y: 0.1 });
-const savedVelocity = ref({ x: 0.1, y: 0.05 });
+const savedVelocity = ref({ x: 0.2, y: 0.1 });
 const rotation = ref(0);
 const rotationSpeed = 0.02; // degrees per frame
 const isHovered = ref(false);
@@ -81,9 +81,11 @@ const animate = () => {
   position.value.y += velocity.value.y;
 
   // Update rotation
-  rotation.value += rotationSpeed;
-  if (rotation.value >= 360) {
-    rotation.value -= 360;
+  if (!isHovered.value) {
+    rotation.value += rotationSpeed;
+    if (rotation.value >= 360) {
+      rotation.value -= 360;
+    }
   }
 
   // Bounce off edges
