@@ -29,6 +29,26 @@ query GetPageAtelier($slug: ID!) {
           }
         }
       }
+      collaborateursPast {
+        nom
+        role
+        hasModal
+        description
+        cv {
+          dates
+          description
+        }
+        image {
+          node {
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
+          }
+        }
+      }
       galerie {
         image {
           node {

@@ -73,6 +73,50 @@
         </div>
       </Transition>
 
+      <!-- Collaborateurs Past Section -->
+      <Transition name="fade-in" appear>
+        <div
+          v-if="
+            sectionsLoaded.collaborateursPast &&
+            (firstColumnMembersPast.length > 0 ||
+              secondColumnMembersPast.length > 0)
+          "
+          class="flex flex-col gap-6 w-full"
+        >
+          <h2 class="font-medium text-md">Anciens collaborateur·rice·s</h2>
+          <div class="grid md:grid-cols-2 md:gap-20 w-full">
+            <!-- Column 1 -->
+            <div class="flex flex-col border-t border-grey border-dotted">
+              <TeamMember
+                v-for="(member, index) in firstColumnMembersPast"
+                :key="index"
+                :name="member.nom"
+                :role="member.role"
+                :hasModal="member.hasModal"
+                :description="member.description"
+                :cv="member.cv"
+                :image="member.image?.node?.sourceUrl"
+                @openModal="openModal(member)"
+              />
+            </div>
+            <!-- Column 2 -->
+            <div class="flex flex-col md:border-t border-grey border-dotted">
+              <TeamMember
+                v-for="(member, index) in secondColumnMembersPast"
+                :key="index"
+                :name="member.nom"
+                :role="member.role"
+                :hasModal="member.hasModal"
+                :description="member.description"
+                :cv="member.cv"
+                :image="member.image?.node?.sourceUrl"
+                @openModal="openModal(member)"
+              />
+            </div>
+          </div>
+        </div>
+      </Transition>
+
       <!-- Image Carousel -->
       <Transition name="fade-in" appear>
         <div
@@ -254,6 +298,7 @@ const pageData = ref<any>(null);
 const sectionsLoaded = ref({
   contact: false,
   collaborateurs: false,
+  collaborateursPast: false,
   galerie: false,
   offresEmploi: false,
   placesApprentissage: false,
@@ -292,6 +337,16 @@ const firstColumnMembers = computed(() => {
 
 const secondColumnMembers = computed(() => {
   const members = pageData.value?.fieldsAtelier?.collaborateurs || [];
+  return members.slice(Math.ceil(members.length / 2));
+});
+
+const firstColumnMembersPast = computed(() => {
+  const members = pageData.value?.fieldsAtelier?.collaborateursPast || [];
+  return members.slice(0, Math.ceil(members.length / 2));
+});
+
+const secondColumnMembersPast = computed(() => {
+  const members = pageData.value?.fieldsAtelier?.collaborateursPast || [];
   return members.slice(Math.ceil(members.length / 2));
 });
 
