@@ -6,14 +6,14 @@
       class="absolute inset-0 flex"
       :style="{
         transform: `translateX(-${displayIndex * 100}%)`,
-        transition: isTransitioning ? 'transform 700ms ease-in-out' : 'none',
+        transition: isTransitioning ? 'transform 450ms ease' : 'none',
       }"
       @transitionend="handleTransitionEnd"
     >
       <div
         v-for="(image, index) in displayImages"
         :key="`${image?.src}-${index}`"
-        class="flex-shrink-0 w-full h-full flex items-center justify-center pt-5"
+        class="flex-shrink-0 w-full h-full flex items-center justify-center"
       >
         <nuxt-link
           v-if="image && image.uri"
@@ -112,7 +112,7 @@
       <div
         v-for="(image, index) in images"
         :key="index"
-        class="absolute inset-0 transition-opacity duration-1000 ease-in-out flex items-center justify-center pt-5"
+        class="absolute inset-0 transition-opacity duration-1000 ease-in-out flex items-center justify-center"
         :class="{
           'opacity-100 pointer-events-auto': currentIndex === index,
           'opacity-0 pointer-events-none': currentIndex !== index,

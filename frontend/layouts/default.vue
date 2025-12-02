@@ -25,6 +25,9 @@
       />
     </button>
     <nav
+      ref="navRef"
+      tabindex="-1"
+      class="outline-none"
       :class="[
         'transition-opacity duration-300',
         navOpen
@@ -34,29 +37,36 @@
       :aria-hidden="!navOpen"
     >
       <nuxt-link
+        class="link link-projets md:hidden"
+        to="/"
+        @click="navOpen = false"
+        >accueil</nuxt-link
+      >
+      <nuxt-link
         class="link link-projets"
         to="/projets"
         @click="navOpen = false"
         >projets</nuxt-link
       >
-      <nuxt-link class="link link-index" to="/index" @click="navOpen = false"
-        >index</nuxt-link
-      >
+
       <nuxt-link
         class="link link-atelier"
         to="/atelier"
         @click="navOpen = false"
         >atelier</nuxt-link
       >
+      <nuxt-link class="link link-index" to="/index" @click="navOpen = false"
+        >index</nuxt-link
+      >
     </nav>
-    <main class="main">
+    <main class="main outline-none" ref="mainRef" tabindex="-1">
       <slot />
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import { useHead } from "#imports";
 
@@ -67,9 +77,20 @@ useHead({
   ],
 });
 
+const navRef = ref<HTMLElement | null>(null);
+const mainRef = ref<HTMLElement | null>(null);
 const navOpen = ref(false);
 function toggleNav() {
   navOpen.value = !navOpen.value;
+  if (navOpen.value) {
+    nextTick(() => {
+      navRef.value?.focus();
+    });
+  } else {
+    nextTick(() => {
+      mainRef.value?.focus();
+    });
+  }
 }
 
 const route = useRoute();
@@ -100,11 +121,16 @@ nav {
 }
 
 .link {
-  @apply text-lg;
   padding: 15px;
+  font-size: 26px;
 
   @screen md {
+    font-size: 20px;
     position: fixed;
+  }
+
+  @screen lg {
+    font-size: 26px;
   }
 }
 
@@ -117,7 +143,11 @@ nav {
 }
 
 .link-projets {
-  @apply md:-rotate-90 md:top-1/2 md:left-0 z-10;
+  @apply md:-translate-y-1/2 md:top-1/2 md:left-0 z-10;
+
+  @screen md {
+    writing-mode: sideways-lr;
+  }
 
   &.router-link-active {
     @apply underline;
@@ -125,7 +155,12 @@ nav {
 }
 
 .link-index {
-  @apply md:-rotate-90 md:top-1/2 md:right-0 z-10;
+  @apply md:-translate-y-1/2 md:top-1/2 md:right-0 z-10;
+
+  @screen md {
+    writing-mode: sideways-lr;
+  }
+
   &.router-link-active {
     @apply underline;
   }

@@ -9,17 +9,23 @@
             <div v-html="pageData?.fieldsAtelier?.adresse"></div>
             <div class="flex flex-col">
               <div>
-                <p>{{ pageData?.fieldsAtelier?.telephone }}</p>
-                <p>{{ pageData?.fieldsAtelier?.eMail }}</p>
+                <p>
+                  <a :href="pageData?.fieldsAtelier?.telephone">
+                    {{ pageData?.fieldsAtelier?.telephone }} </a
+                  ><br />
+                  <a :href="pageData?.fieldsAtelier?.eMail">
+                    {{ pageData?.fieldsAtelier?.eMail }}
+                  </a>
+                </p>
               </div>
               <a
                 v-if="pageData?.fieldsAtelier?.instagram"
                 :href="pageData.fieldsAtelier.instagram"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex gap-2 pt-2 mt-auto"
+                class="flex items-center gap-2 pt-2 mt-auto"
               >
-                <Icon name="instagram" class="w-5 h-5" />
+                <Icon name="instagram" class="w-4 h-4" />
                 <span>Instagram</span>
               </a>
             </div>
