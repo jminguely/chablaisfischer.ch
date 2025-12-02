@@ -1,6 +1,16 @@
 <template>
-  <div
-    class="flex flex-col items-start w-full border-b border-grey border-dotted"
+  <component
+    :is="isLink ? 'a' : 'div'"
+    :href="isLink ? downloadUrl : undefined"
+    :target="isLink ? '_blank' : undefined"
+    :rel="isLink ? 'noopener noreferrer' : undefined"
+    :download="isLink ? '' : undefined"
+    class="group flex flex-col items-start w-full border-b border-grey border-dotted transition-colors hover:text-black"
+    :class="{
+      'cursor-pointer hover:opacity-70 transition-opacity':
+        hasModal || (hasDownload && downloadUrl),
+    }"
+    @click="handleClick"
   >
     <div class="flex py-3 flex-col gap-2 items-start justify-center w-full">
       <div class="flex items-center w-full">
@@ -12,31 +22,26 @@
           v-if="hasModal || hasDownload"
           class="flex items-center justify-center w-9 h-9"
         >
-          <button
+          <div
             v-if="hasModal"
-            @click="$emit('openModal')"
-            class="flex items-center justify-center hover:opacity-70 transition-opacity hover:bg-yellow hover:text-black rounded-full p-2.5"
+            class="flex items-center justify-center rounded-full p-2.5 group-hover:bg-yellow text-black transition-colors"
           >
             <Icon name="plus" class="w-4 h-4" alt="Afficher plus" />
-          </button>
-          <a
+          </div>
+          <div
             v-if="hasDownload && downloadUrl"
-            :href="downloadUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            download
-            class="flex items-center justify-center hover:opacity-70 transition-opacity hover:bg-yellow hover:text-black rounded-full p-2.5"
+            class="flex items-center justify-center rounded-full p-2.5 group-hover:bg-yellow text-black transition-colors"
           >
-            <Icon name="download" class="w-4 h-4" alt="Télécharger" />
-          </a>
+            <Icon name="download" class="w-6 h-6" alt="Télécharger" />
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </component>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   name: string;
   role: string;
   hasModal?: boolean;
@@ -47,5 +52,15 @@ defineProps<{
   image?: string;
 }>();
 
-defineEmits(["openModal"]);
+const emit = defineEmits(["openModal"]);
+
+const isLink = computed(
+  () => props.hasDownload && props.downloadUrl && !props.hasModal
+);
+
+const handleClick = () => {
+  if (props.hasModal) {
+    emit("openModal");
+  }
+};
 </script>
