@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="project"
-      class="fixed md:top-44 md:bottom-32 md:left-24 md:right-24 left-7 right-7 bottom-8 top-40"
+      class="fixed md:top-44 md:bottom-32 md:left-24 md:right-24 left-7 right-7 bottom-8 top-16"
     >
       <ImageSlider
         v-if="galleryImages && galleryImages.length > 0"
