@@ -56,7 +56,10 @@
               />
             </div>
             <!-- Column 2 -->
-            <div class="flex flex-col md:border-t border-grey border-dotted">
+            <div
+              v-if="secondColumnMembers.length > 0"
+              class="flex flex-col md:border-t border-grey border-dotted"
+            >
               <TeamMember
                 v-for="(member, index) in secondColumnMembers"
                 :key="index"
@@ -100,7 +103,10 @@
               />
             </div>
             <!-- Column 2 -->
-            <div class="flex flex-col md:border-t border-grey border-dotted">
+            <div
+              v-if="secondColumnMembersPast.length > 0"
+              class="flex flex-col md:border-t border-grey border-dotted"
+            >
               <TeamMember
                 v-for="(member, index) in secondColumnMembersPast"
                 :key="index"
