@@ -165,14 +165,27 @@
       <div class="md:hidden">
         <!-- Mobile Sort Controls -->
         <div
-          class="px-0 mb-6 pt-4 pb-2 flex items-center justify-between"
+          class="px-0 mb-3 pt-4 pb-2 flex items-center justify-between"
           v-if="!loading && projects.length"
         >
-          <span class="text-sm font-medium">Trier par</span>
-          <div class="flex items-center gap-3">
+          <span class="font-medium">Trier par :</span>
+          <div class="flex items-center gap-1">
+            <button @click="toggleMobileSortDir" class="flex">
+              <Icon
+                :class="sortDir === -1 ? ' text-black' : ' text-grey'"
+                name="arrow-up"
+                class="w-2 h-3 origin-center"
+              />
+
+              <Icon
+                :class="sortDir === 1 ? ' text-black' : ' text-grey'"
+                name="arrow-down"
+                class="w-2 h-3 origin-center"
+              />
+            </button>
             <select
               v-model="sortKey"
-              class="bg-transparent text-sm focus:outline-none appearance-none pr-4 font-medium cursor-pointer"
+              class="bg-transparent focus:outline-none pr-4 cursor-pointer"
               style="background-image: none"
             >
               <option value="title">Projet</option>
@@ -182,12 +195,6 @@
               <option value="type">Type</option>
               <option value="statut">Statut</option>
             </select>
-            <button @click="toggleMobileSortDir" class="p-1">
-              <Icon
-                :name="sortDir === 1 ? 'arrow-down' : 'arrow-up'"
-                class="w-3 h-3"
-              />
-            </button>
           </div>
         </div>
 
@@ -198,7 +205,7 @@
           v-for="(p, index) in sortedProjects"
           :key="p.id"
           :to="p.uri"
-          class="block border-t border-dotted border-black py-8 opacity-0 animate-fade-in"
+          class="block border-t border-dotted border-grey py-5 opacity-0 animate-fade-in"
           :style="{
             animationDelay: `${index * 50}ms`,
             animationFillMode: 'forwards',
