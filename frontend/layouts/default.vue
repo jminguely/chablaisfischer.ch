@@ -177,7 +177,7 @@ nav {
   @apply px-7 pb-8 pt-28;
 
   @screen md {
-    padding: 160px 96px 128px;
+    padding: 200px 96px 128px;
   }
 }
 
