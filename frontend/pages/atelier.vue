@@ -10,10 +10,10 @@
             <div class="flex flex-col">
               <div>
                 <p>
-                  <a :href="pageData?.fieldsAtelier?.telephone">
+                  <a :href="`tel:${pageData?.fieldsAtelier?.telephone}`">
                     {{ pageData?.fieldsAtelier?.telephone }} </a
                   ><br />
-                  <a :href="pageData?.fieldsAtelier?.eMail">
+                  <a :href="`mailto:${pageData?.fieldsAtelier?.eMail}`">
                     {{ pageData?.fieldsAtelier?.eMail }}
                   </a>
                 </p>
