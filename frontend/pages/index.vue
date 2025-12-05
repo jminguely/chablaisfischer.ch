@@ -185,7 +185,7 @@
             </button>
             <select
               v-model="sortKey"
-              class="bg-transparent focus:outline-none pr-4 cursor-pointer"
+              class="bg-transparent focus:outline-none pr-4"
               style="background-image: none"
             >
               <option value="title">Projet</option>
