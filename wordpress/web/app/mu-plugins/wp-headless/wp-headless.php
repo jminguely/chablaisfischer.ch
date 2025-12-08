@@ -5,7 +5,12 @@
  * Description: Customizations for headless WordPress setup.
  */
 
-// Modular includes
+// Load ACF configuration first to ensure JSON sync paths are set before ACF initializes
+require __DIR__ . '/inc/acf.php';
+
+// Load other modular includes
 foreach (glob(__DIR__ . "/inc/*.php") as $file) {
-  require $file;
+  if (basename($file) !== 'acf.php') {
+    require $file;
+  }
 }

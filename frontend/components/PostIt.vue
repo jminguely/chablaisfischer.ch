@@ -17,7 +17,7 @@
       }"
     >
       <div class="post-it-content">
-        <h2 v-if="title" class="text-md">
+        <h2 v-if="title" class="post-it-title">
           {{ title }}
         </h2>
         <div v-if="content" class="post-it-text">
@@ -172,6 +172,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   gap: 12px;
+  text-align: center;
 }
 
 .post-it-content {
@@ -180,20 +181,12 @@ onUnmounted(() => {
   align-items: flex-start;
   gap: 4px;
   width: 184px;
-  text-align: center;
   color: black;
+  text-align: center;
 }
 
 .post-it-title {
-  @apply font-medium;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.2;
-  width: 100%;
-}
-
-.post-it-title p {
-  margin: 0;
+  @apply text-md font-medium text-center w-full;
 }
 
 .post-it-text {
