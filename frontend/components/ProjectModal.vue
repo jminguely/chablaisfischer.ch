@@ -21,12 +21,8 @@
           </button>
 
           <!-- Content in two columns -->
-          <div class="flex-1 flex flex-col text-sm">
-            <div
-              v-if="project?.content"
-              class="md:columns-2 gap-5"
-              v-html="project.content"
-            ></div>
+          <div class="max-w-4xl mx-auto">
+            <div v-if="project?.content" v-html="project.content"></div>
             <a
               v-if="
                 project?.fieldsProjectSidebar?.ficheProjet?.node?.mediaItemUrl
