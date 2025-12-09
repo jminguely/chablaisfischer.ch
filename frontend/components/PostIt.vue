@@ -145,6 +145,8 @@ onUnmounted(() => {
   @apply bg-yellow bg-opacity-75 backdrop-blur;
 
   position: fixed;
+  width: 140px !important;
+  height: 140px !important;
   top: 0;
   left: 0;
   display: flex;
@@ -164,6 +166,13 @@ onUnmounted(() => {
   }
 }
 
+@screen md {
+  .post-it {
+    width: 220px !important;
+    height: 220px !important;
+  }
+}
+
 .post-it-circle {
   display: flex;
   flex-direction: column;
@@ -179,18 +188,18 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
-  width: 184px;
+  gap: 0;
+  width: 100%;
   color: black;
   text-align: center;
 }
 
 .post-it-title {
-  @apply text-md font-medium text-center w-full;
+  @apply font-medium text-center w-full m-0 p-0;
 }
 
 .post-it-text {
-  font-size: 14px;
+  @apply text-sm;
   line-height: 1.26;
   width: 100%;
 }
