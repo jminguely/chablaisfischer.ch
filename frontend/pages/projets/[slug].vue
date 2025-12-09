@@ -24,7 +24,7 @@
         </h2>
 
         <button
-          v-if="project"
+          v-if="project?.content"
           class="hover:bg-yellow hover:text-black p-2 rounded-full"
           @click="openModal"
         >
