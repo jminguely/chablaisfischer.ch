@@ -13,7 +13,7 @@
     </nuxt-link>
     <button
       ref="toggleRef"
-      class="toggle mt-1 py-10 px-7"
+      class="toggle mt-1 py-10 px-7 hover:text-black"
       type="button"
       @click="toggleNav"
       :aria-expanded="navOpen"

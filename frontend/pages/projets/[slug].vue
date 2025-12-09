@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="project"
-      class="fixed md:top-44 md:bottom-32 md:left-24 md:right-24 left-7 right-7 bottom-8 top-16"
+      class="fixed md:top-44 md:bottom-50 md:left-24 md:right-24 left-7 right-7 bottom-16 top-16"
     >
       <ImageSlider
         v-if="galleryImages && galleryImages.length > 0"
@@ -24,6 +24,7 @@
         </h2>
 
         <button
+          v-if="project"
           class="hover:bg-yellow hover:text-black p-2 rounded-full"
           @click="openModal"
         >
