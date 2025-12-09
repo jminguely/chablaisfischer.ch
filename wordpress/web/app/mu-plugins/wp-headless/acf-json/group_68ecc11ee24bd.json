@@ -1,210 +1,205 @@
 {
-    "key": "group_68ecc11ee24bd",
-    "title": "Project sidebar",
-    "fields": [
-        {
-            "key": "field_68ecc11f37aeb",
-            "label": "Année",
-            "name": "annee",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "allow_in_bindings": 0,
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "show_in_graphql": 1,
-            "graphql_description": "",
-            "graphql_field_name": "annee",
-            "graphql_non_null": 0
-        },
-        {
-            "key": "field_68ecc50a6d4c5",
-            "label": "Lieu",
-            "name": "lieu",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "allow_in_bindings": 0,
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "show_in_graphql": 1,
-            "graphql_description": "",
-            "graphql_field_name": "lieu",
-            "graphql_non_null": 0
-        },
-        {
-            "key": "field_68ecc5336d4c6",
-            "label": "Programme",
-            "name": "programme",
-            "aria-label": "",
-            "type": "select",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": {
-                "—": "—",
-                "Logement": "Logement"
-            },
-            "default_value": false,
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 0,
-            "allow_in_bindings": 0,
-            "ui": 0,
-            "show_in_graphql": 1,
-            "graphql_description": "",
-            "graphql_field_name": "programme",
-            "graphql_non_null": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "create_options": 0,
-            "save_options": 0
-        },
-        {
-            "key": "field_68ecc5546d4c7",
-            "label": "Type",
-            "name": "type",
-            "aria-label": "",
-            "type": "select",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": {
-                "—": "—",
-                "Privé": "Privé",
-                "Public": "Public"
-            },
-            "default_value": false,
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 0,
-            "allow_in_bindings": 0,
-            "ui": 0,
-            "show_in_graphql": 1,
-            "graphql_description": "",
-            "graphql_field_name": "type",
-            "graphql_non_null": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "create_options": 0,
-            "save_options": 0
-        },
-        {
-            "key": "field_68ecc55d6d4c8",
-            "label": "Statut",
-            "name": "statut",
-            "aria-label": "",
-            "type": "select",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": {
-                "—": "—",
-                "En travaux": "En travaux",
-                "Construit": "Construit"
-            },
-            "default_value": false,
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 0,
-            "allow_in_bindings": 0,
-            "ui": 0,
-            "show_in_graphql": 1,
-            "graphql_description": "",
-            "graphql_field_name": "statut",
-            "graphql_non_null": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "create_options": 0,
-            "save_options": 0
-        },
-        {
-            "key": "field_691a204915c7d",
-            "label": "Fiche projet",
-            "name": "fiche_projet",
-            "aria-label": "",
-            "type": "file",
-            "instructions": "Format autorisé: pdf",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "array",
-            "library": "all",
-            "min_size": "",
-            "max_size": "",
-            "mime_types": "pdf",
-            "allow_in_bindings": 0,
-            "show_in_graphql": 1,
-            "graphql_description": "",
-            "graphql_field_name": "ficheProjet"
-        }
-    ],
-    "location": [
-        [
-            {
-                "param": "post_type",
-                "operator": "==",
-                "value": "project"
-            }
-        ]
-    ],
-    "menu_order": 0,
-    "position": "side",
-    "style": "seamless",
-    "label_placement": "top",
-    "instruction_placement": "label",
-    "hide_on_screen": [
-        "categories",
-        "tags"
-    ],
-    "active": true,
-    "description": "",
-    "show_in_rest": 0,
-    "display_title": "",
-    "show_in_graphql": 1,
-    "graphql_field_name": "fieldsProjectSidebar",
-    "map_graphql_types_from_location_rules": 1,
-    "graphql_types": [
-        "Project"
-    ],
-    "modified": 1764242259
+  "key": "group_68ecc11ee24bd",
+  "title": "Project sidebar",
+  "fields": [
+    {
+      "key": "field_68ecc11f37aeb",
+      "label": "Année",
+      "name": "annee",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "allow_in_bindings": 0,
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "show_in_graphql": 1,
+      "graphql_description": "",
+      "graphql_field_name": "annee",
+      "graphql_non_null": 0
+    },
+    {
+      "key": "field_68ecc50a6d4c5",
+      "label": "Lieu",
+      "name": "lieu",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "allow_in_bindings": 0,
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "show_in_graphql": 1,
+      "graphql_description": "",
+      "graphql_field_name": "lieu",
+      "graphql_non_null": 0
+    },
+    {
+      "key": "field_68ecc5336d4c6",
+      "label": "Programme",
+      "name": "programme",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "—": "—",
+        "Logement": "Logement"
+      },
+      "default_value": false,
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 0,
+      "allow_in_bindings": 0,
+      "ui": 0,
+      "show_in_graphql": 1,
+      "graphql_description": "",
+      "graphql_field_name": "programme",
+      "graphql_non_null": 0,
+      "ajax": 0,
+      "placeholder": "",
+      "create_options": 0,
+      "save_options": 0
+    },
+    {
+      "key": "field_68ecc5546d4c7",
+      "label": "Type",
+      "name": "type",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "—": "—",
+        "Privé": "Privé",
+        "Public": "Public"
+      },
+      "default_value": false,
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 0,
+      "allow_in_bindings": 0,
+      "ui": 0,
+      "show_in_graphql": 1,
+      "graphql_description": "",
+      "graphql_field_name": "type",
+      "graphql_non_null": 0,
+      "ajax": 0,
+      "placeholder": "",
+      "create_options": 0,
+      "save_options": 0
+    },
+    {
+      "key": "field_68ecc55d6d4c8",
+      "label": "Statut",
+      "name": "statut",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "—": "—",
+        "En travaux": "En travaux",
+        "Construit": "Construit"
+      },
+      "default_value": false,
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 0,
+      "allow_in_bindings": 0,
+      "ui": 0,
+      "show_in_graphql": 1,
+      "graphql_description": "",
+      "graphql_field_name": "statut",
+      "graphql_non_null": 0,
+      "ajax": 0,
+      "placeholder": "",
+      "create_options": 0,
+      "save_options": 0
+    },
+    {
+      "key": "field_691a204915c7d",
+      "label": "Fiche projet",
+      "name": "fiche_projet",
+      "aria-label": "",
+      "type": "file",
+      "instructions": "Format autorisé: pdf",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "array",
+      "library": "all",
+      "min_size": "",
+      "max_size": "",
+      "mime_types": "pdf",
+      "allow_in_bindings": 0,
+      "show_in_graphql": 1,
+      "graphql_description": "",
+      "graphql_field_name": "ficheProjet"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "project"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "side",
+  "style": "seamless",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": ["categories", "tags"],
+  "active": true,
+  "description": "",
+  "show_in_rest": 0,
+  "display_title": "",
+  "show_in_graphql": 1,
+  "graphql_field_name": "fieldsProjectSidebar",
+  "map_graphql_types_from_location_rules": 1,
+  "graphql_types": ["Project"],
+  "modified": 1764242259
 }
