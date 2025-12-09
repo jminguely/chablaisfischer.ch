@@ -303,23 +303,13 @@ onUnmounted(() => {
 
 <style scoped>
 .cursor-prev {
-  cursor: image-set(
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='21' fill='none'%3E%3Cpath fill='%23000' d='M0 10.5 10.5 0v21L0 10.5Z'/%3E%3C/svg%3E")
-          1x,
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='42' fill='none'%3E%3Cpath fill='%23000' d='M0 21 21 0v42L0 21Z'/%3E%3C/svg%3E")
-          2x
-      )
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='21' viewBox='0 0 11 21'%3E%3Cpath fill='%23000' d='M0 10.5 10.5 0v21L0 10.5Z'/%3E%3C/svg%3E")
       5 10,
     auto;
 }
 
 .cursor-next {
-  cursor: image-set(
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='21' fill='none'%3E%3Cpath fill='%23000' d='M10.5 10.5 0 21V0l10.5 10.5Z'/%3E%3C/svg%3E")
-          1x,
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='42' fill='none'%3E%3Cpath fill='%23000' d='M21 21 0 42V0l21 21Z'/%3E%3C/svg%3E")
-          2x
-      )
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='21' viewBox='0 0 11 21'%3E%3Cpath fill='%23000' d='M10.5 10.5 0 21V0l10.5 10.5Z'/%3E%3C/svg%3E")
       5 10,
     auto;
 }

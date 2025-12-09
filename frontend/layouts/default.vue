@@ -12,6 +12,7 @@
       />
     </nuxt-link>
     <button
+      ref="toggleRef"
       class="toggle mt-1 py-10 px-7"
       type="button"
       @click="toggleNav"
@@ -79,9 +80,11 @@ useHead({
 
 const navRef = ref<HTMLElement | null>(null);
 const mainRef = ref<HTMLElement | null>(null);
+const toggleRef = ref<HTMLElement | null>(null);
 const navOpen = ref(false);
 function toggleNav() {
   navOpen.value = !navOpen.value;
+  toggleRef.value?.blur();
   if (navOpen.value) {
     nextTick(() => {
       navRef.value?.focus();
