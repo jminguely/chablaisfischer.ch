@@ -6,8 +6,8 @@
 
 add_theme_support('post-thumbnails', array('post', 'project'));
 
-// Add custom image size: 100px on the wider dimension, no cropping
-add_image_size('small', 100, 100, false);
+// Add custom image size: 200px on the wider dimension, no cropping
+add_image_size('small', 200, 200, false);
 
 
 function wp_headless_register_project_type()
