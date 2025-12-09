@@ -1,67 +1,60 @@
 {
-    "key": "group_68ecd0d190d61",
-    "title": "ProjetsPage",
-    "fields": [
-        {
-            "key": "field_68ecd0d1c0c35",
-            "label": "Projects",
-            "name": "projects",
-            "aria-label": "",
-            "type": "relationship",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "post_type": [
-                "project"
-            ],
-            "post_status": "",
-            "taxonomy": "",
-            "filters": [
-                "search"
-            ],
-            "return_format": "object",
-            "min": "",
-            "max": "",
-            "allow_in_bindings": 0,
-            "elements": "",
-            "bidirectional": 0,
-            "show_in_graphql": 1,
-            "graphql_description": "",
-            "graphql_field_name": "projects",
-            "graphql_connection_type": "one_to_many",
-            "bidirectional_target": []
-        }
-    ],
-    "location": [
-        [
-            {
-                "param": "page_template",
-                "operator": "==",
-                "value": "template-projets"
-            }
-        ]
-    ],
-    "menu_order": 0,
-    "position": "normal",
-    "style": "default",
-    "label_placement": "top",
-    "instruction_placement": "label",
-    "hide_on_screen": "",
-    "active": true,
-    "description": "",
-    "show_in_rest": 0,
-    "display_title": "",
-    "show_in_graphql": 1,
-    "graphql_field_name": "fieldsProjets",
-    "map_graphql_types_from_location_rules": 1,
-    "graphql_types": [
-        "Page",
-        "Template_Projets"
-    ],
-    "modified": 1763311497
+  "key": "group_68ecd0d190d61",
+  "title": "ProjetsPage",
+  "fields": [
+    {
+      "key": "field_68ecd0d1c0c35",
+      "label": "Projects",
+      "name": "projects",
+      "aria-label": "",
+      "type": "relationship",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "post_type": ["project"],
+      "post_status": "",
+      "taxonomy": "",
+      "filters": ["search"],
+      "return_format": "object",
+      "min": "",
+      "max": "",
+      "allow_in_bindings": 0,
+      "elements": "",
+      "bidirectional": 0,
+      "show_in_graphql": 1,
+      "graphql_description": "",
+      "graphql_field_name": "projects",
+      "graphql_connection_type": "one_to_many",
+      "bidirectional_target": []
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "page_template",
+        "operator": "==",
+        "value": "template-projets"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 0,
+  "display_title": "",
+  "show_in_graphql": 1,
+  "graphql_field_name": "fieldsProjets",
+  "map_graphql_types_from_location_rules": 1,
+  "graphql_types": ["Page", "Template_Projets"],
+  "modified": 1763311497
 }

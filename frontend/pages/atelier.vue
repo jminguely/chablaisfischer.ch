@@ -86,7 +86,7 @@
           "
           class="flex flex-col gap-6 w-full"
         >
-          <h2 class="font-medium text-md">Anciens collaborateur·rice·s</h2>
+          <h2 class="font-medium text-md">Ancien‧ne·s collaborateur·rice·s</h2>
           <div class="grid md:grid-cols-2 md:gap-20 w-full">
             <!-- Column 1 -->
             <div class="flex flex-col border-t border-grey border-dotted">
@@ -222,9 +222,9 @@
           <!-- Close button -->
           <button
             @click="closeModal"
-            class="absolute top-8 right-12 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+            class="absolute top-8 right-12 w-8 h-8 flex items-center justify-center rounded-full hover:bg-yellow hover:text-black transition-colors"
           >
-            <Icon name="close" class="w-5 h-5" />
+            <Icon name="close" class="w-4 h-4" />
           </button>
 
           <!-- Modal content -->
