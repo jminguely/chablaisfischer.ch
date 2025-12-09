@@ -102,7 +102,8 @@
       "choices": {
         "—": "—",
         "Privé": "Privé",
-        "Public": "Public"
+        "Public": "Public",
+        "Concours": "Concours"
       },
       "default_value": false,
       "return_format": "value",
@@ -201,5 +202,5 @@
   "graphql_field_name": "fieldsProjectSidebar",
   "map_graphql_types_from_location_rules": 1,
   "graphql_types": ["Project"],
-  "modified": 1764242259
+  "modified": 1764242260
 }

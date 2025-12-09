@@ -44,17 +44,17 @@
   ],
   "menu_order": 0,
   "position": "normal",
-  "style": "default",
+  "style": "seamless",
   "label_placement": "top",
   "instruction_placement": "label",
   "hide_on_screen": "",
   "active": true,
   "description": "",
   "show_in_rest": 0,
-  "display_title": "",
+  "display_title": "Projets affichés",
   "show_in_graphql": 1,
   "graphql_field_name": "fieldsProjets",
   "map_graphql_types_from_location_rules": 1,
   "graphql_types": ["Page", "Template_Projets"],
-  "modified": 1763311497
+  "modified": 1763311499
 }
