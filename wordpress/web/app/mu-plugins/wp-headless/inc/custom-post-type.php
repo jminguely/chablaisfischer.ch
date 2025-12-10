@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Project Type registration for WP Headless
+ * Project Type registration WP Headless
  */
 
 add_theme_support('post-thumbnails', array('post', 'project'));
