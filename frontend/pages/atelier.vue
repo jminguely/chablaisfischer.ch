@@ -129,15 +129,11 @@
           v-if="
             sectionsLoaded.galerie && pageData?.fieldsAtelier?.galerie?.length
           "
-          class="relative w-screen -mx-[calc((100vw-100%)/2)] overflow-hidden h-60"
+          class="relative w-screen -mx-[calc((100vw-100%)/2)] overflow-x-auto overflow-y-hidden h-60 no-scrollbar"
         >
-          <div
-            ref="carouselTrack"
-            class="flex gap-0 h-full will-change-transform"
-            :style="{ transform: `translateX(-${scrollPosition}px)` }"
-          >
+          <div class="flex gap-0 h-full">
             <div
-              v-for="(image, index) in infiniteImages"
+              v-for="(image, index) in galleryImages"
               :key="`image-${index}`"
               class="flex-shrink-0 h-full aspect-[4/3]"
             >
@@ -291,7 +287,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch, watchEffect } from "vue";
+import { ref, computed, onMounted, onUnmounted, watchEffect } from "vue";
 import { useHead } from "#imports";
 import { useWpGraphql } from "@/composables/useWpGraphql";
 import PAGE_QUERY from "@/graphql/getPageAtelier.gql?raw";
@@ -361,69 +357,7 @@ const galleryImages = computed(() => {
   return pageData.value?.fieldsAtelier?.galerie || [];
 });
 
-// Carousel logic
-const carouselTrack = ref<HTMLElement | null>(null);
-const scrollPosition = ref(0);
-const scrollSpeed = 0.5; // pixels per frame
-let animationFrameId: number | null = null;
-
-// Create infinite loop by repeating images
-const infiniteImages = computed(() => {
-  const repeated = [];
-  // Triple the images to ensure smooth infinite loop
-  for (let i = 0; i < 3; i++) {
-    repeated.push(...galleryImages.value);
-  }
-  return repeated;
-});
-
-const animate = () => {
-  scrollPosition.value += scrollSpeed;
-
-  // Reset position seamlessly when we've scrolled past one full set
-  const imageWidth = 462;
-  const setWidth = galleryImages.value.length * imageWidth;
-
-  // When we've scrolled one complete set, instantly jump back
-  // This creates a seamless infinite loop
-  if (scrollPosition.value >= setWidth) {
-    scrollPosition.value = 0;
-  }
-
-  animationFrameId = requestAnimationFrame(animate);
-};
-
-const startAnimation = () => {
-  if (animationFrameId === null && galleryImages.value.length > 0) {
-    animationFrameId = requestAnimationFrame(animate);
-  }
-};
-
-const stopAnimation = () => {
-  if (animationFrameId !== null) {
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = null;
-  }
-};
-
-// Watch for gallery images and start animation when loaded
-watch(
-  galleryImages,
-  (newImages) => {
-    if (newImages.length > 0) {
-      startAnimation();
-    }
-  },
-  { immediate: true }
-);
-
-onMounted(() => {
-  startAnimation();
-});
-
-onUnmounted(() => {
-  stopAnimation();
-});
+// Carousel disabled: using native horizontal scroll instead
 
 // Modal state
 const showModal = ref(false);
@@ -489,5 +423,14 @@ useHead({
 .modal-fade-enter-from,
 .modal-fade-leave-to {
   opacity: 0;
+}
+
+/* Hide scrollbars for the gallery container */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 </style>
