@@ -3,12 +3,12 @@
     <Transition name="modal">
       <div
         v-if="isOpen"
-        class="modal-container fixed inset-0 flex items-center justify-center"
+        class="modal-container absolute inset-0 flex items-center justify-center my-4 md:top-44 md:left-60 md:right-60 md:bottom-32"
         @click.self="close"
       >
         <!-- Modal content with yellow backdrop matching the image container -->
         <div
-          class="modal-backdrop bg-yellow bg-opacity-75 relative w-full h-full py-32 px-7 pb-8 pt-48 flex gap-3 items-start overflow-y-auto"
+          class="modal-backdrop bg-yellow bg-opacity-75 relative w-full h-full p-5 pt-48 flex gap-3 items-start overflow-y-auto"
           @click.stop
         >
           <!-- Close button -->
