@@ -7,7 +7,7 @@
     :download="isLink ? '' : undefined"
     class="group flex flex-col items-start w-full border-b border-grey border-dotted transition-colors hover:text-black"
     :class="{
-      'cursor-pointer hover:opacity-70 transition-opacity':
+      'hover:opacity-70 transition-opacity':
         hasModal || (hasDownload && downloadUrl),
     }"
     @click="handleClick"

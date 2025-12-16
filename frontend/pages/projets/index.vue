@@ -2,7 +2,7 @@
   <div>
     <div v-if="projects.length > 0">
       <div
-        class="grid grid-cols-1 md:grid-cols-[repeat(20,minmax(0,1fr))] gap-x-0 gap-y-10 md:gap-y-32"
+        class="grid grid-cols-1 md:grid-cols-[repeat(20,minmax(0,1fr))] gap-x-0 gap-y-10 md:gap-y-12"
       >
         <div
           v-for="(project, index) in projects"

@@ -20,7 +20,7 @@ query GetPageAtelier($slug: ID!) {
         }
         image {
           node {
-            sourceUrl
+            sourceUrl(size: MEDIUM)
             altText
             mediaDetails {
               width
@@ -40,7 +40,7 @@ query GetPageAtelier($slug: ID!) {
         }
         image {
           node {
-            sourceUrl
+            sourceUrl(size: MEDIUM)
             altText
             mediaDetails {
               width
@@ -52,7 +52,7 @@ query GetPageAtelier($slug: ID!) {
       galerie {
         image {
           node {
-            sourceUrl
+            sourceUrl(size: MEDIUM)
             altText
             mediaDetails {
               width

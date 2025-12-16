@@ -12,7 +12,7 @@
             featuredImage {
               node {
                 altText
-                sourceUrl
+                sourceUrl(size: LARGE)
                 mediaDetails {
                   width
                   height

@@ -20,9 +20,7 @@
         <h2 v-if="title" class="post-it-title">
           {{ title }}
         </h2>
-        <div v-if="content" class="post-it-text">
-          <p>{{ content }}</p>
-        </div>
+        <div v-if="content" v-html="content" class="post-it-text"></div>
       </div>
     </div>
   </div>
@@ -47,10 +45,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 const postItRef = ref<HTMLElement | null>(null);
 const position = ref({ x: 0, y: 0 });
-const velocity = ref({ x: 0.2, y: 0.1 });
-const savedVelocity = ref({ x: 0.2, y: 0.1 });
+const velocity = ref({ x: 0.4, y: 0.2 });
+const savedVelocity = ref({ x: 0.4, y: 0.2 });
 const rotation = ref(0);
-const rotationSpeed = 0.02; // degrees per frame
+const rotationSpeed = 0.04; // degrees per frame
 const isHovered = ref(false);
 
 let animationFrameId: number;
@@ -140,7 +138,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="postcss" scoped>
+<style lang="postcss">
 .post-it {
   @apply bg-yellow bg-opacity-75 backdrop-blur;
 
@@ -189,6 +187,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
+  padding: 15px;
   width: 100%;
   color: black;
   text-align: center;
@@ -199,12 +198,11 @@ onUnmounted(() => {
 }
 
 .post-it-text {
-  @apply text-sm;
-  line-height: 1.26;
   width: 100%;
+  margin: 0;
 }
 
-.post-it-text p {
-  margin: 0;
+.post-it-text strong {
+  @apply font-medium text-lg;
 }
 </style>

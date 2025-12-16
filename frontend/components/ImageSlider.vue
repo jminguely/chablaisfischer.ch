@@ -83,21 +83,21 @@
               </div>
             </div>
           </div>
-          <!-- Clickable navigation areas with custom cursors -->
+          <!-- Clickable navigation areas -->
           <div
             v-if="navigationEnabled && images.length > 1"
             class="absolute inset-0 flex"
           >
             <!-- Left half - Previous -->
             <div
-              class="w-1/2 h-full cursor-prev"
+              class="w-1/2 h-full"
               @click="prevSlide"
               @mouseenter="hoveredSide = 'left'"
               @mouseleave="hoveredSide = null"
             ></div>
             <!-- Right half - Next -->
             <div
-              class="w-1/2 h-full cursor-next"
+              class="w-1/2 h-full"
               @click="nextSlide"
               @mouseenter="hoveredSide = 'right'"
               @mouseleave="hoveredSide = null"
@@ -178,21 +178,21 @@
               />
             </div>
           </div>
-          <!-- Clickable navigation areas with custom cursors -->
+          <!-- Clickable navigation areas -->
           <div
             v-if="navigationEnabled && images.length > 1"
             class="absolute inset-0 flex"
           >
             <!-- Left half - Previous -->
             <div
-              class="w-1/2 h-full cursor-prev"
+              class="w-1/2 h-full"
               @click="prevSlide"
               @mouseenter="hoveredSide = 'left'"
               @mouseleave="hoveredSide = null"
             ></div>
             <!-- Right half - Next -->
             <div
-              class="w-1/2 h-full cursor-next"
+              class="w-1/2 h-full"
               @click="nextSlide"
               @mouseenter="hoveredSide = 'right'"
               @mouseleave="hoveredSide = null"
@@ -233,6 +233,7 @@ const props = withDefaults(defineProps<Props>(), {
 const currentIndex = ref(0);
 const displayIndex = ref(1); // Start at 1 because we clone first image
 const isTransitioning = ref(true);
+const isNavigating = ref(false); // Guard against rapid clicks causing state desync
 const hoveredSide = ref<"left" | "right" | null>(null);
 let intervalId: number | null = null;
 
@@ -249,32 +250,51 @@ const displayImages = computed(() => {
 });
 
 const handleTransitionEnd = () => {
+  // After CSS transition ends, handle edge jumps and re-enable transitions
   if (displayIndex.value === 0) {
     // We're at the cloned last image, jump to real last image
     isTransitioning.value = false;
     displayIndex.value = props.images.length;
     currentIndex.value = props.images.length - 1;
+    // Re-enable transitions on the next frame to avoid visual hiccups
+    requestAnimationFrame(() => {
+      isTransitioning.value = true;
+    });
   } else if (displayIndex.value === displayImages.value.length - 1) {
     // We're at the cloned first image, jump to real first image
     isTransitioning.value = false;
     displayIndex.value = 1;
     currentIndex.value = 0;
+    requestAnimationFrame(() => {
+      isTransitioning.value = true;
+    });
   }
+  // Release navigation lock after transitions settle
+  isNavigating.value = false;
 };
 
 const nextSlide = () => {
+  if (isNavigating.value) return; // Prevent spam clicks
+  isNavigating.value = true;
   if (!isTransitioning.value) {
     isTransitioning.value = true;
   }
-  displayIndex.value++;
+  // Advance indices safely
+  displayIndex.value = Math.min(
+    displayIndex.value + 1,
+    displayImages.value.length - 1
+  );
   currentIndex.value = (currentIndex.value + 1) % props.images.length;
 };
 
 const prevSlide = () => {
+  if (isNavigating.value) return; // Prevent spam clicks
+  isNavigating.value = true;
   if (!isTransitioning.value) {
     isTransitioning.value = true;
   }
-  displayIndex.value--;
+  // Go back safely
+  displayIndex.value = Math.max(displayIndex.value - 1, 0);
   currentIndex.value =
     (currentIndex.value - 1 + props.images.length) % props.images.length;
 };
@@ -300,17 +320,3 @@ onUnmounted(() => {
   stopAutoplay();
 });
 </script>
-
-<style scoped>
-.cursor-prev {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='21' viewBox='0 0 11 21'%3E%3Cpath fill='%23000' d='M0 10.5 10.5 0v21L0 10.5Z'/%3E%3C/svg%3E")
-      5 10,
-    auto;
-}
-
-.cursor-next {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='21' viewBox='0 0 11 21'%3E%3Cpath fill='%23000' d='M10.5 10.5 0 21V0l10.5 10.5Z'/%3E%3C/svg%3E")
-      5 10,
-    auto;
-}
-</style>

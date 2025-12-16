@@ -126,6 +126,7 @@ nav {
 .link {
   padding: 15px;
   font-size: 26px;
+  font-weight: 600;
 
   @screen md {
     font-size: 20px;
@@ -143,10 +144,14 @@ nav {
   top: 0;
   left: 50%;
   transform: translate(-50%);
+
+  &:hover {
+    opacity: 0.5;
+  }
 }
 
 .link-projets {
-  @apply md:-translate-y-1/2 md:top-1/2 md:left-0 z-10;
+  @apply md:-translate-y-1/2 md:top-1/2 md:left-4 z-10;
 
   @screen md {
     writing-mode: sideways-lr;
@@ -158,7 +163,7 @@ nav {
 }
 
 .link-index {
-  @apply md:-translate-y-1/2 md:top-1/2 md:right-0 z-10;
+  @apply md:-translate-y-1/2 md:top-1/2 md:right-4 z-10;
 
   @screen md {
     writing-mode: sideways-lr;
@@ -170,7 +175,7 @@ nav {
 }
 
 .link-atelier {
-  @apply md:bottom-0 md:left-1/2 md:-translate-x-1/2 z-10;
+  @apply md:bottom-4 md:left-1/2 md:-translate-x-1/2 z-10;
   &.router-link-active {
     @apply underline;
   }
