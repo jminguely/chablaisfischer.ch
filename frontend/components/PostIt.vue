@@ -183,11 +183,12 @@ onUnmounted(() => {
 }
 
 .post-it-content {
+  @apply md:p-4;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
-  padding: 15px;
+
   width: 100%;
   color: black;
   text-align: center;
@@ -203,6 +204,6 @@ onUnmounted(() => {
 }
 
 .post-it-text strong {
-  @apply font-medium text-lg;
+  @apply font-medium md:text-lg;
 }
 </style>

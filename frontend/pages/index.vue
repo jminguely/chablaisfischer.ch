@@ -86,7 +86,7 @@
                 v-for="(p, index) in sortedProjects"
                 :key="p.id"
                 :class="[
-                  'hover:bg-yellow hover:bg-opacity-45',
+                  p.hasGallery ? 'hover:bg-yellow hover:bg-opacity-45' : '',
                   animationPhase === 'hide'
                     ? 'animate-fade-out-row'
                     : 'animate-fade-in-row',
@@ -101,7 +101,7 @@
                       ? `${(sortedProjects.length - 1 - index) * 50}ms`
                       : `${index * 100}ms`,
                 }"
-                @click="navigateToProject(p.uri)"
+                @click="navigateToProject(p)"
                 @mouseenter="handleRowHover(p, $event)"
                 @mousemove="handleMouseMove"
                 @mouseleave="hidePreview"
@@ -201,10 +201,11 @@
         <div v-if="loading" class="text-gray-500 p-4">
           Chargement des projets…
         </div>
-        <NuxtLink
+        <component
+          :is="p.hasGallery ? 'NuxtLink' : 'div'"
           v-for="(p, index) in sortedProjects"
           :key="p.id"
-          :to="p.uri"
+          :to="p.hasGallery ? p.uri : undefined"
           class="block border-t border-dotted border-grey py-5 opacity-0 animate-fade-in"
           :style="{
             animationDelay: `${index * 50}ms`,
@@ -216,7 +217,7 @@
             <div class="flex-1 font-medium">
               {{ p.title }}
             </div>
-            <Icon name="plus" class="w-4 h-4" />
+            <Icon v-if="p.hasGallery" name="plus" class="w-4 h-4" />
           </div>
 
           <!-- Details section -->
@@ -281,7 +282,7 @@
               </div>
             </div>
           </div>
-        </NuxtLink>
+        </component>
       </div>
     </section>
   </div>
@@ -302,7 +303,7 @@ const loading = ref(true);
 const tableLoaded = ref(false);
 
 // Sorting state (desktop table)
-const sortKey = ref<string | null>("title");
+const sortKey = ref<string | null>(null);
 const sortDir = ref<number>(1); // 1 = asc, -1 = desc
 
 // Animation state for sorting
@@ -439,8 +440,10 @@ function ariaSort(key: string) {
   return sortDir.value === 1 ? "ascending" : "descending";
 }
 
-function navigateToProject(uri: string) {
-  window.location.href = uri;
+function navigateToProject(p: any) {
+  if (p.hasGallery) {
+    window.location.href = p.uri;
+  }
 }
 
 const { query } = useWpGraphql();
@@ -452,6 +455,7 @@ onMounted(async () => {
     projects.value = edges.map((e: any) => {
       const n = e.node;
       const slug = n.slug || (n.uri || "").split("/").filter(Boolean).pop();
+      const hasGallery = n.fieldsGallery?.gallery?.nodes?.length > 0;
       return {
         id: n.id,
         title: n.title || slug || "Untitled",
@@ -460,6 +464,7 @@ onMounted(async () => {
         content: n.content || "",
         featuredImage: n.featuredImage,
         fieldsProjectSidebar: n.fieldsProjectSidebar || {},
+        hasGallery,
       } as any;
     });
 

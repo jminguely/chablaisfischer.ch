@@ -68,7 +68,12 @@
             },
             "choices": {
                 "—": "—",
-                "Logement": "Logement"
+                "Logement": "Logement",
+                "Culture": "Culture",
+                "Urbanisme": "Urbanisme",
+                "Loisirs": "Loisirs",
+                "Education": "Education",
+                "Garage": "Garage"
             },
             "default_value": false,
             "return_format": "value",
@@ -210,5 +215,5 @@
     "graphql_types": [
         "Project"
     ],
-    "modified": 1765900165
+    "modified": 1765968588
 }

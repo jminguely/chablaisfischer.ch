@@ -4,11 +4,12 @@
     <div
       v-if="transitionMode === 'translate'"
       class="absolute inset-0 flex"
+      ref="trackRef"
       :style="{
         transform: `translateX(-${displayIndex * 100}%)`,
         transition: isTransitioning ? 'transform 450ms ease' : 'none',
       }"
-      @transitionend="handleTransitionEnd"
+      @transitionend.self="handleTransitionEnd"
     >
       <div
         v-for="(image, index) in displayImages"
@@ -205,7 +206,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
 
 interface SliderImage {
   src: string;
@@ -230,12 +231,16 @@ const props = withDefaults(defineProps<Props>(), {
   transitionMode: "fade",
 });
 
+const trackRef = ref<HTMLElement | null>(null);
 const currentIndex = ref(0);
 const displayIndex = ref(1); // Start at 1 because we clone first image
 const isTransitioning = ref(true);
 const isNavigating = ref(false); // Guard against rapid clicks causing state desync
 const hoveredSide = ref<"left" | "right" | null>(null);
 let intervalId: number | null = null;
+let edgeTimer: number | null = null;
+
+const hasMultipleImages = computed(() => props.images.length > 1);
 
 // Create array with cloned first and last images for infinite loop
 const displayImages = computed(() => {
@@ -249,32 +254,8 @@ const displayImages = computed(() => {
   ];
 });
 
-const handleTransitionEnd = () => {
-  // After CSS transition ends, handle edge jumps and re-enable transitions
-  if (displayIndex.value === 0) {
-    // We're at the cloned last image, jump to real last image
-    isTransitioning.value = false;
-    displayIndex.value = props.images.length;
-    currentIndex.value = props.images.length - 1;
-    // Re-enable transitions on the next frame to avoid visual hiccups
-    requestAnimationFrame(() => {
-      isTransitioning.value = true;
-    });
-  } else if (displayIndex.value === displayImages.value.length - 1) {
-    // We're at the cloned first image, jump to real first image
-    isTransitioning.value = false;
-    displayIndex.value = 1;
-    currentIndex.value = 0;
-    requestAnimationFrame(() => {
-      isTransitioning.value = true;
-    });
-  }
-  // Release navigation lock after transitions settle
-  isNavigating.value = false;
-};
-
 const nextSlide = () => {
-  if (isNavigating.value) return; // Prevent spam clicks
+  if (!hasMultipleImages.value || isNavigating.value) return; // Prevent spam clicks
   isNavigating.value = true;
   if (!isTransitioning.value) {
     isTransitioning.value = true;
@@ -285,10 +266,11 @@ const nextSlide = () => {
     displayImages.value.length - 1
   );
   currentIndex.value = (currentIndex.value + 1) % props.images.length;
+  maybeScheduleEdgeSync();
 };
 
 const prevSlide = () => {
-  if (isNavigating.value) return; // Prevent spam clicks
+  if (!hasMultipleImages.value || isNavigating.value) return; // Prevent spam clicks
   isNavigating.value = true;
   if (!isTransitioning.value) {
     isTransitioning.value = true;
@@ -297,26 +279,106 @@ const prevSlide = () => {
   displayIndex.value = Math.max(displayIndex.value - 1, 0);
   currentIndex.value =
     (currentIndex.value - 1 + props.images.length) % props.images.length;
-};
-
-const startAutoplay = () => {
-  if (props.autoplay && props.images.length > 1) {
-    intervalId = window.setInterval(nextSlide, props.interval);
-  }
-};
-
-const stopAutoplay = () => {
-  if (intervalId !== null) {
-    clearInterval(intervalId);
-    intervalId = null;
-  }
+  maybeScheduleEdgeSync();
 };
 
 onMounted(() => {
-  startAutoplay();
+  resetSliderState();
 });
 
 onUnmounted(() => {
   stopAutoplay();
 });
+
+function jumpWithoutTransition(
+  newDisplayIndex: number,
+  newCurrentIndex: number
+) {
+  isTransitioning.value = false;
+  displayIndex.value = newDisplayIndex;
+  currentIndex.value = newCurrentIndex;
+
+  nextTick(() => {
+    // Force layout so transition removal applies before we re-enable it
+    void trackRef.value?.offsetWidth;
+    requestAnimationFrame(() => {
+      isTransitioning.value = true;
+      isNavigating.value = false;
+    });
+  });
+}
+
+function maybeScheduleEdgeSync() {
+  if (!hasMultipleImages.value) return;
+  // Fallback in case transitionend is missed (e.g., Safari quirks)
+  if (edgeTimer !== null) {
+    window.clearTimeout(edgeTimer);
+  }
+  edgeTimer = window.setTimeout(() => {
+    if (displayIndex.value === 0) {
+      jumpWithoutTransition(props.images.length, props.images.length - 1);
+    } else if (displayIndex.value === displayImages.value.length - 1) {
+      jumpWithoutTransition(1, 0);
+    } else {
+      isNavigating.value = false;
+    }
+  }, 470);
+}
+
+function startAutoplay() {
+  if (props.autoplay && hasMultipleImages.value) {
+    intervalId = window.setInterval(nextSlide, props.interval);
+  }
+}
+
+function stopAutoplay() {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+  if (edgeTimer !== null) {
+    window.clearTimeout(edgeTimer);
+    edgeTimer = null;
+  }
+}
+
+function resetSliderState() {
+  stopAutoplay();
+  currentIndex.value = 0;
+  displayIndex.value = hasMultipleImages.value ? 1 : 0;
+  isTransitioning.value = hasMultipleImages.value;
+  isNavigating.value = false;
+  requestAnimationFrame(() => {
+    startAutoplay();
+  });
+}
+
+const handleTransitionEnd = (event: TransitionEvent) => {
+  const prop = event.propertyName || "";
+  if (!prop.includes("transform")) return;
+  if (!hasMultipleImages.value) return;
+  if (edgeTimer !== null) {
+    window.clearTimeout(edgeTimer);
+    edgeTimer = null;
+  }
+  // After CSS transition ends, handle edge jumps and re-enable transitions
+  if (displayIndex.value === 0) {
+    // We're at the cloned last image, jump to real last image
+    jumpWithoutTransition(props.images.length, props.images.length - 1);
+  } else if (displayIndex.value === displayImages.value.length - 1) {
+    // We're at the cloned first image, jump to real first image
+    jumpWithoutTransition(1, 0);
+  } else {
+    // Release navigation lock after transitions settle
+    isNavigating.value = false;
+  }
+};
+
+watch(
+  () => props.images,
+  () => {
+    resetSliderState();
+  },
+  { deep: true }
+);
 </script>
