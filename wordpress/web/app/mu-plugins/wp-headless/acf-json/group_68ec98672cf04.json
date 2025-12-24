@@ -101,6 +101,28 @@
                     "graphql_description": "",
                     "graphql_field_name": "content",
                     "graphql_non_null": 0
+                },
+                {
+                    "key": "field_694c34f73b976",
+                    "label": "Lien",
+                    "name": "lien",
+                    "aria-label": "",
+                    "type": "url",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "show_in_graphql": 1,
+                    "graphql_description": "",
+                    "graphql_field_name": "lien",
+                    "graphql_non_null": 0
                 }
             ]
         }
@@ -133,5 +155,5 @@
         "Page",
         "Template_Accueil"
     ],
-    "modified": 1764242746
+    "modified": 1766602002
 }
