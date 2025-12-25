@@ -16,11 +16,7 @@
 
       <div class="text-sm flex flex-row items-center justify-center gap-2">
         <h2>
-          {{ project.title
-          }}<span v-if="project.fieldsProjectSidebar?.lieu"
-            >,
-            {{ project.fieldsProjectSidebar.lieu }}
-          </span>
+          {{ project.title }}
         </h2>
 
         <button

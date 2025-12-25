@@ -159,7 +159,6 @@
               <TeamMember
                 v-if="!pageData?.fieldsAtelier?.offresEmploi?.length"
                 name="Aucune offre actuellement"
-                role="Revenez plus tard"
               />
               <TeamMember
                 v-for="(offre, index) in pageData?.fieldsAtelier?.offresEmploi"
@@ -187,7 +186,6 @@
               <TeamMember
                 v-if="!pageData?.fieldsAtelier?.placesApprentissage?.length"
                 name="Aucune offre actuellement"
-                role="Revenez plus tard"
               />
               <TeamMember
                 v-for="(place, index) in pageData?.fieldsAtelier
