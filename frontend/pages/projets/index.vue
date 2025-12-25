@@ -67,13 +67,13 @@ const getProjectStyle = (index: number) => {
   // Seed for the pair layout (widths and gaps)
   const pairSeedBase = pairIndex * 999.99;
 
-  const rBigDecision = seededRandom(pairSeedBase + 1); // Decide who is big
-  const rBigWidth = seededRandom(pairSeedBase + 2); // Width Big
-  const rSmallWidth = seededRandom(pairSeedBase + 3); // Width Small
-  const rGap1 = seededRandom(pairSeedBase + 4); // Gap distribution 1
-  const rGap2 = seededRandom(pairSeedBase + 5); // Gap distribution 2
+  // Alternate which side is big per pair: even pairIndex -> left big, odd -> right big
+  const rBigWidth = seededRandom(pairSeedBase + 1); // Width Big
+  const rSmallWidth = seededRandom(pairSeedBase + 2); // Width Small
+  const rGap1 = seededRandom(pairSeedBase + 3); // Gap distribution 1
+  const rGap2 = seededRandom(pairSeedBase + 4); // Gap distribution 2
 
-  const leftIsBig = rBigDecision > 0.5;
+  const leftIsBig = pairIndex % 2 === 0;
 
   // Big: 9 to 13 cols
   const bigMin = 9;

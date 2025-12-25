@@ -1,14 +1,39 @@
 <template>
+  <NuxtLink
+    v-if="isInternal"
+    ref="postItRef"
+    class="post-it"
+    :to="props.lien"
+    :style="{
+      width: width,
+      height: height,
+      transform: `translate(${position.x}px, ${position.y}px)`,
+      cursor: 'pointer',
+    }"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+    tabindex="0"
+    role="link"
+  >
+  </NuxtLink>
+
   <div
+    v-else
     ref="postItRef"
     class="post-it"
     :style="{
       width: width,
       height: height,
       transform: `translate(${position.x}px, ${position.y}px)`,
+      cursor: props.lien ? 'pointer' : undefined,
     }"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
+    @click="handleClick"
+    @keydown.enter="handleClick"
+    @keydown.space.prevent="handleClick"
+    :tabindex="props.lien ? 0 : -1"
+    :role="props.lien ? 'link' : undefined"
   >
     <div
       class="post-it-circle"
@@ -34,6 +59,7 @@ interface Props {
   content?: string;
   width?: string;
   height?: string;
+  lien?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -41,6 +67,7 @@ const props = withDefaults(defineProps<Props>(), {
   content: "",
   width: "220px",
   height: "220px",
+  lien: "",
 });
 
 const postItRef = ref<HTMLElement | null>(null);
@@ -62,6 +89,24 @@ const handleMouseEnter = () => {
 const handleMouseLeave = () => {
   isHovered.value = false;
   velocity.value = { ...savedVelocity.value };
+};
+
+// compute whether the provided link is internal (route) or external
+import { computed } from "vue";
+const isInternal = computed(() => {
+  const l = props.lien || "";
+  return l && !/^https?:\/\//i.test(l);
+});
+
+const handleClick = (event?: Event) => {
+  if (!props.lien) return;
+  const lien = props.lien;
+  const external = /^https?:\/\//i.test(lien);
+  if (external) {
+    // open external links in a new tab
+    window.open(lien, "_blank", "noopener");
+  }
+  // internal links are handled by <NuxtLink>
 };
 
 const animate = () => {

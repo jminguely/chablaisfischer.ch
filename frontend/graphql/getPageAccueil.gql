@@ -7,6 +7,7 @@
       postIt {
         title
         content
+        lien
       }
       projects {
         nodes {

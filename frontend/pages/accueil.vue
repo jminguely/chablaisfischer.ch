@@ -17,6 +17,7 @@
       <PostIt
         :title="page.fieldsAccueil.postIt.title"
         :content="page.fieldsAccueil.postIt.content"
+        :lien="page.fieldsAccueil.postIt.lien"
       />
     </div>
   </div>

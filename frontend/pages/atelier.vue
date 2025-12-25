@@ -248,21 +248,21 @@
                 <!-- CV Timeline -->
                 <div
                   v-if="selectedMember?.cv?.length"
-                  class="flex gap-6 border-b border-grey border-dotted pb-5"
+                  class="flex flex-col gap-3 border-b border-grey border-dotted pb-5"
                 >
-                  <div class="flex flex-col gap-2">
-                    <p
-                      v-for="(item, index) in selectedMember.cv"
-                      :key="index"
-                      class="whitespace-nowrap"
+                  <div
+                    v-for="(item, index) in selectedMember.cv"
+                    :key="index"
+                    class="flex gap-4 items-start"
+                  >
+                    <div
+                      class="w-16 md:w-28 flex-shrink-0 text-sm whitespace-nowrap"
                     >
                       {{ item.dates }}
-                    </p>
-                  </div>
-                  <div class="flex-1 flex flex-col gap-2">
-                    <p v-for="(item, index) in selectedMember.cv" :key="index">
+                    </div>
+                    <div class="flex-1 text-sm">
                       {{ item.description }}
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
