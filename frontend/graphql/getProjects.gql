@@ -1,5 +1,5 @@
 {
-  projects(first: 200, where: { orderby: { field: DATE, order: DESC } }) {
+  projects(where: { orderby: { field: DATE, order: DESC } }) {
     edges {
       node {
         id
