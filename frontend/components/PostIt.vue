@@ -1,6 +1,5 @@
 <template>
   <NuxtLink
-    v-if="isInternal"
     ref="postItRef"
     class="post-it"
     :to="props.lien"
@@ -12,28 +11,6 @@
     }"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
-    tabindex="0"
-    role="link"
-  >
-  </NuxtLink>
-
-  <div
-    v-else
-    ref="postItRef"
-    class="post-it"
-    :style="{
-      width: width,
-      height: height,
-      transform: `translate(${position.x}px, ${position.y}px)`,
-      cursor: props.lien ? 'pointer' : undefined,
-    }"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-    @click="handleClick"
-    @keydown.enter="handleClick"
-    @keydown.space.prevent="handleClick"
-    :tabindex="props.lien ? 0 : -1"
-    :role="props.lien ? 'link' : undefined"
   >
     <div
       class="post-it-circle"
@@ -48,7 +25,7 @@
         <div v-if="content" v-html="content" class="post-it-text"></div>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
@@ -91,28 +68,10 @@ const handleMouseLeave = () => {
   velocity.value = { ...savedVelocity.value };
 };
 
-// compute whether the provided link is internal (route) or external
-import { computed } from "vue";
-const isInternal = computed(() => {
-  const l = props.lien || "";
-  return l && !/^https?:\/\//i.test(l);
-});
-
-const handleClick = (event?: Event) => {
-  if (!props.lien) return;
-  const lien = props.lien;
-  const external = /^https?:\/\//i.test(lien);
-  if (external) {
-    // open external links in a new tab
-    window.open(lien, "_blank", "noopener");
-  }
-  // internal links are handled by <NuxtLink>
-};
-
 const animate = () => {
   if (!postItRef.value) return;
 
-  const element = postItRef.value;
+  const element = (postItRef.value as any).$el as HTMLElement;
   const rect = element.getBoundingClientRect();
 
   // Get viewport dimensions
@@ -167,7 +126,8 @@ const animate = () => {
 onMounted(() => {
   // Set initial random position
   if (postItRef.value) {
-    const rect = postItRef.value.getBoundingClientRect();
+    const element = (postItRef.value as any).$el as HTMLElement;
+    const rect = element.getBoundingClientRect();
     position.value.x = Math.random() * (window.innerWidth - rect.width);
     position.value.y = Math.random() * (window.innerHeight - rect.height);
   }

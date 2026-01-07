@@ -26,3 +26,11 @@ add_filter('acf/settings/load_json', function ($paths) {
 
   return $paths;
 }, 10);
+
+// Augmente la limite max par défaut pour les connections
+add_filter(
+  'graphql_connection_max_query_amount',
+  function () {
+    return 100; // ou plus
+  }
+);
