@@ -49,7 +49,7 @@ query GetPageAtelier($slug: ID!) {
           }
         }
       }
-      galerie {
+      galerie(first: 100) {
         image {
           node {
             sourceUrl(size: MEDIUM)

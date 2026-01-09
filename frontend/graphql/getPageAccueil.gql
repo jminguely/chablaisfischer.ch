@@ -9,7 +9,7 @@
         content
         lien
       }
-      projects {
+      projects(first: 100) {
         nodes {
           id
           uri

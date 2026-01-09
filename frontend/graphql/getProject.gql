@@ -19,7 +19,7 @@ query getProject($slug: ID!) {
       }
     }
     fieldsGallery {
-      gallery {
+      gallery(first: 100) {
         nodes {
           altText
           sourceUrl(size: LARGE)

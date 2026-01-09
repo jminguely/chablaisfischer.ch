@@ -1,5 +1,5 @@
 {
-  projects(where: { orderby: { field: DATE, order: DESC } }) {
+  projects(first: 100, where: { orderby: { field: DATE, order: DESC } }) {
     edges {
       node {
         id
@@ -20,7 +20,7 @@
           statut
         }
         fieldsGallery {
-          gallery {
+          gallery(first: 100) {
             nodes {
               sourceUrl
             }
