@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 6.9.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-12-02 12:17:41+0000\n"
+"PO-Revision-Date: 2025-12-10 11:15:06+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1085,7 +1085,7 @@ msgstr "Le nom d’affichage du compte."
 
 #: wp-includes/abilities.php:147
 msgid "The user ID."
-msgstr "L’identifiant du compte."
+msgstr "L’ID du compte."
 
 #: wp-includes/abilities.php:139
 msgid "Returns basic profile details for the current authenticated user to support personalization, auditing, and access-aware behavior."
@@ -1141,7 +1141,7 @@ msgstr "Le titre du site."
 
 #: wp-includes/abilities.php:32
 msgid "Abilities that retrieve or modify user information and settings."
-msgstr "Capacités qui récupèrent ou modifient les informations et paramètres de l'utilisateur."
+msgstr "Les « abilitiies » qui récupèrent ou modifient les informations et réglages du compte."
 
 #: wp-includes/abilities.php:24
 msgid "Abilities that retrieve or modify site information and settings."
@@ -3531,19 +3531,19 @@ msgstr "Veuillez vérifier que l’extension PHP %s est installée et activée."
 msgid "When using the %1$s constant, make sure to set these globals to an array: %2$s."
 msgstr "À l‘utilisation de la constante %1$s, s‘assurer de définir ces valeurs globales dans un tableau : %2$s."
 
-#: wp-includes/html-api/class-wp-html-tag-processor.php:4343
+#: wp-includes/html-api/class-wp-html-tag-processor.php:4345
 msgid "The query argument must be an array or a tag name."
 msgstr "L‘argument de la requête doit être un tableau ou une balise."
 
-#: wp-includes/html-api/class-wp-html-tag-processor.php:3961
+#: wp-includes/html-api/class-wp-html-tag-processor.php:3963
 msgid "Invalid attribute name."
 msgstr "Nom d’attribut invalide."
 
-#: wp-includes/html-api/class-wp-html-tag-processor.php:2629
+#: wp-includes/html-api/class-wp-html-tag-processor.php:2631
 msgid "Too many calls to seek() - this can lead to performance issues."
 msgstr "Trop d’appels à la fonction seek(). Cela peut conduire à des problèmes de performances."
 
-#: wp-includes/html-api/class-wp-html-tag-processor.php:2611
+#: wp-includes/html-api/class-wp-html-tag-processor.php:2613
 msgid "Unknown bookmark name."
 msgstr "Nom de marque-page inconnu."
 
