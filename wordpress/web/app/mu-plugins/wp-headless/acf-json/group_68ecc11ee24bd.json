@@ -148,14 +148,20 @@
             },
             "choices": {
                 "—": "—",
+                "En cours": "En cours",
                 "En travaux": "En travaux",
                 "Construit": "Construit",
                 "Lauréat": "Lauréat",
+                "1er prix": "1er prix",
                 "2e prix": "2e prix",
                 "3e prix": "3e prix",
-                "4e prix": "4e prix"
+                "4e prix": "4e prix",
+                "5ème prix": "5ème prix",
+                "6ème prix": "6ème prix",
+                "7ème prix": "7ème prix",
+                "Mention": "Mention"
             },
-            "default_value": false,
+            "default_value": "—",
             "return_format": "value",
             "multiple": 0,
             "allow_null": 0,
@@ -223,5 +229,5 @@
     "graphql_types": [
         "Project"
     ],
-    "modified": 1772544368
+    "modified": 1772544470
 }
