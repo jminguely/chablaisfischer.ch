@@ -14,6 +14,8 @@ add_filter('acf/settings/save_json', function ($path) {
   return $custom_path;
 }, 10);
 
+// Une nouvelle fonctionalité!
+
 add_filter('acf/settings/load_json', function ($paths) {
   // Append the plugin root's acf-json directory to ACF JSON load paths
   $custom_path = dirname(__DIR__) . '/acf-json';
