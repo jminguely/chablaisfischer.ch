@@ -88,17 +88,16 @@ watch(
         slug: newSlug,
       });
       project.value = data.project;
-
-      // Set the project title dynamically
-      if (data.project?.title) {
-        useHead({
-          title: `${data.project.title} – Chablais Fischer Architectes`,
-        });
-      }
     } catch (e) {
       console.error(e);
     }
   },
   { immediate: true },
 );
+
+useHead(() => ({
+  title: project.value?.title
+    ? `${project.value.title} – Chablais Fischer Architectes`
+    : "Chablais Fischer Architectes",
+}));
 </script>
