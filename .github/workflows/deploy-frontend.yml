@@ -37,9 +37,9 @@ jobs:
       - name: Install sshpass
         run: |
           sudo apt-get update
-          sudo apt-get install -y sshpass
+          sudo apt-get install -y sshpass rsync
 
-      - name: Deploy .output via SCP
+      - name: Deploy .output via rsync mirror
         env:
           IK_USER: ${{ secrets.IK_USER }}
           IK_SERVER: ${{ secrets.IK_SERVER }}
@@ -53,26 +53,47 @@ jobs:
             exit 1
           fi
 
-          sshpass -p "${IK_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new "${IK_USER}@${IK_SERVER}" "mkdir -p '${IK_FOLDER}'"
+          # Mirror the exact build output to avoid stale or partial files between deploys.
+          RSYNC_SSH="sshpass -p ${IK_PASSWORD} ssh -o StrictHostKeyChecking=accept-new"
+          rsync -az --delete -e "${RSYNC_SSH}" ./frontend/.output/ "${IK_USER}@${IK_SERVER}:${IK_FOLDER}/"
 
-          sshpass -p "${IK_PASSWORD}" scp -o StrictHostKeyChecking=accept-new -r ./frontend/.output/* "${IK_USER}@${IK_SERVER}:${IK_FOLDER}/"
-
-      - name: Post-deploy check-in
+      - name: Verify deployed build files on server
         env:
-          SITE_URL: ${{ vars.FRONTEND_PUBLIC_URL }}
+          IK_USER: ${{ secrets.IK_USER }}
+          IK_SERVER: ${{ secrets.IK_SERVER }}
+          IK_PASSWORD: ${{ secrets.IK_PASSWORD }}
+          IK_FOLDER: ${{ secrets.IK_FOLDER }}
         run: |
           set -euo pipefail
 
-          SITE_URL="${SITE_URL:-https://chablaisfischer.ch}"
+          LOCAL_LATEST_JSON=$(cat ./frontend/.output/public/_nuxt/builds/latest.json)
+          LOCAL_LATEST_ID=$(node -e 'const s = process.argv[1] || "{}"; try { const o = JSON.parse(s); process.stdout.write(o.id || ""); } catch { process.stdout.write(""); }' "${LOCAL_LATEST_JSON}")
+
+          if [[ -z "${LOCAL_LATEST_ID}" ]]; then
+            echo "Could not parse local latest build ID"
+            exit 1
+          fi
+
+          REMOTE_META_PATH="${IK_FOLDER}/public/_nuxt/builds/meta/${LOCAL_LATEST_ID}.json"
+          echo "Checking remote meta path: ${REMOTE_META_PATH}"
+
+          sshpass -p "${IK_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new "${IK_USER}@${IK_SERVER}" "test -f '${REMOTE_META_PATH}'"
+
+      - name: Post-deploy check-in
+        run: |
+          set -euo pipefail
+
+          SITE_URL="https://chablaisfischer.ch"
           echo "Using SITE_URL=${SITE_URL}"
 
           SUCCESS=0
+          TS=$(date +%s)
 
           for attempt in 1 2 3 4 5 6; do
             echo "Attempt ${attempt}/6"
 
-            SSR_ID=$(curl -fsSL "${SITE_URL}/" | grep -o 'buildId:"[^"]*"' | head -1 | sed 's/buildId:"//; s/"//')
-            LATEST_JSON=$(curl -fsSL "${SITE_URL}/_nuxt/builds/latest.json")
+            SSR_ID=$(curl -fsSL "${SITE_URL}/?v=${TS}-${attempt}" | grep -o 'buildId:"[^"]*"' | head -1 | sed 's/buildId:"//; s/"//')
+            LATEST_JSON=$(curl -fsSL "${SITE_URL}/_nuxt/builds/latest.json?v=${TS}-${attempt}")
             LATEST_ID=$(node -e 'const s = process.argv[1] || "{}"; try { const o = JSON.parse(s); process.stdout.write(o.id || ""); } catch { process.stdout.write(""); }' "${LATEST_JSON}")
 
             if [[ -z "${SSR_ID}" || -z "${LATEST_ID}" ]]; then
@@ -81,7 +102,7 @@ jobs:
               continue
             fi
 
-            META_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${SITE_URL}/_nuxt/builds/meta/${LATEST_ID}.json")
+            META_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${SITE_URL}/_nuxt/builds/meta/${LATEST_ID}.json?v=${TS}-${attempt}")
 
             echo "SSR_ID=${SSR_ID}"
             echo "LATEST_ID=${LATEST_ID}"
