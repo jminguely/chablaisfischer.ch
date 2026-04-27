@@ -20,6 +20,17 @@
                   </SortableHeader>
                 </th>
 
+                <th class="pl-4 py-2 col-equal">
+                  <SortableHeader
+                    name="statut"
+                    :sortKey="sortKey"
+                    :sortDir="sortDir"
+                    @toggle="toggleSort"
+                  >
+                    Statut
+                  </SortableHeader>
+                </th>
+
                 <th class="px-4 py-2 col-equal">
                   <SortableHeader
                     name="annee"
@@ -28,17 +39,6 @@
                     @toggle="toggleSort"
                   >
                     Année
-                  </SortableHeader>
-                </th>
-
-                <th class="px-4 py-2 col-equal">
-                  <SortableHeader
-                    name="lieu"
-                    :sortKey="sortKey"
-                    :sortDir="sortDir"
-                    @toggle="toggleSort"
-                  >
-                    Lieu
                   </SortableHeader>
                 </th>
 
@@ -64,14 +64,14 @@
                   </SortableHeader>
                 </th>
 
-                <th class="pl-4 py-2 col-equal">
+                <th class="px-4 py-2 col-equal">
                   <SortableHeader
-                    name="statut"
+                    name="lieu"
                     :sortKey="sortKey"
                     :sortDir="sortDir"
                     @toggle="toggleSort"
                   >
-                    Statut
+                    Lieu
                   </SortableHeader>
                 </th>
               </tr>
@@ -84,22 +84,14 @@
               </tr>
               <tr
                 v-for="(p, index) in sortedProjects"
-                :key="p.id"
+                :key="`${p.id}-${sortGeneration}`"
                 :class="[
                   p.hasGallery ? 'hover:bg-yellow hover:bg-opacity-45' : '',
-                  animationPhase === 'hide'
-                    ? 'animate-fade-out-row'
-                    : 'animate-fade-in-row',
+                  'animate-fade-in-row',
                 ]"
                 :style="{
-                  '--text-delay':
-                    animationPhase === 'hide'
-                      ? `${(sortedProjects.length - 1 - index) * 50}ms`
-                      : `${index * 100 + 50}ms`,
-                  '--border-delay':
-                    animationPhase === 'hide'
-                      ? `${(sortedProjects.length - 1 - index) * 50}ms`
-                      : `${index * 100}ms`,
+                  '--text-delay': `${index * 30 + 15}ms`,
+                  '--border-delay': `${index * 30}ms`,
                 }"
                 @click="navigateToProject(p)"
                 @mouseenter="handleRowHover(p, $event)"
@@ -107,11 +99,16 @@
                 @mouseleave="hidePreview"
               >
                 <td class="pr-4 py-3">{{ p.title }}</td>
-                <td class="px-4 py-3">
-                  {{ p.fieldsProjectSidebar?.annee || "" }}
+                <td class="pl-4 py-3">
+                  {{
+                    (p.fieldsProjectSidebar &&
+                      p.fieldsProjectSidebar.statut &&
+                      p.fieldsProjectSidebar.statut[0]) ||
+                    ""
+                  }}
                 </td>
                 <td class="px-4 py-3">
-                  {{ p.fieldsProjectSidebar?.lieu || "" }}
+                  {{ p.fieldsProjectSidebar?.annee || "" }}
                 </td>
                 <td class="px-4 py-3">
                   {{
@@ -129,13 +126,8 @@
                     ""
                   }}
                 </td>
-                <td class="pl-4 py-3">
-                  {{
-                    (p.fieldsProjectSidebar &&
-                      p.fieldsProjectSidebar.statut &&
-                      p.fieldsProjectSidebar.statut[0]) ||
-                    ""
-                  }}
+                <td class="px-4 py-3">
+                  {{ p.fieldsProjectSidebar?.lieu || "" }}
                 </td>
               </tr>
             </tbody>
@@ -189,11 +181,11 @@
               style="background-image: none"
             >
               <option value="title">Projet</option>
+              <option value="statut">Statut</option>
               <option value="annee">Année</option>
-              <option value="lieu">Lieu</option>
               <option value="programme">Programme</option>
               <option value="type">Type</option>
-              <option value="statut">Statut</option>
+              <option value="lieu">Lieu</option>
             </select>
           </div>
         </div>
@@ -303,12 +295,27 @@ const loading = ref(true);
 const tableLoaded = ref(false);
 
 // Sorting state (desktop table)
-const sortKey = ref<string | null>(null);
+const sortKey = ref<string | null>("statut");
 const sortDir = ref<number>(1); // 1 = asc, -1 = desc
 
-// Animation state for sorting
-const isAnimating = ref(false);
-const animationPhase = ref<"hide" | "show">("show");
+// Custom priority order for Statut column
+const statutOrder: Record<string, number> = {
+  "En cours": 0,
+  "En travaux": 1,
+  Construit: 2,
+  Lauréat: 3,
+  "1er prix": 4,
+  "2e prix": 5,
+  "3e prix": 6,
+  "4e prix": 7,
+  "5ème prix": 8,
+  "6ème prix": 9,
+  "7ème prix": 10,
+  Mention: 11,
+};
+
+// Animation key: changing this forces Vue to re-create rows, re-triggering fade-in
+const sortGeneration = ref(0);
 
 // Image preview state
 const previewImage = ref<string | null>(null);
@@ -390,45 +397,44 @@ const sortedProjects = computed(() => {
   // create a shallow copy to avoid mutating original
   const arr = [...projects.value];
   const key = sortKey.value;
-  arr.sort((a: any, b: any) => {
-    const va = (getFieldValue(a, key) || "").toString().toLowerCase();
-    const vb = (getFieldValue(b, key) || "").toString().toLowerCase();
-    if (va === vb) return 0;
-    return va < vb ? -1 * sortDir.value : 1 * sortDir.value;
-  });
+
+  if (key === "statut") {
+    arr.sort((a: any, b: any) => {
+      const va = (getFieldValue(a, "statut") || "").toString();
+      const vb = (getFieldValue(b, "statut") || "").toString();
+      const oa = statutOrder[va] ?? 999;
+      const ob = statutOrder[vb] ?? 999;
+
+      if (oa !== ob) return (oa - ob) * sortDir.value;
+
+      // Within same statut (especially "Construit"), sort by année descending
+      const ya = parseInt((getFieldValue(a, "annee") || "0").toString(), 10);
+      const yb = parseInt((getFieldValue(b, "annee") || "0").toString(), 10);
+      return yb - ya; // newest first within same statut
+    });
+  } else {
+    arr.sort((a: any, b: any) => {
+      const va = (getFieldValue(a, key) || "").toString().toLowerCase();
+      const vb = (getFieldValue(b, key) || "").toString().toLowerCase();
+      if (va === vb) return 0;
+      return va < vb ? -1 * sortDir.value : 1 * sortDir.value;
+    });
+  }
+
   return arr;
 });
 
 function toggleSort(key: string) {
-  // Only toggle when table is visible (desktop). The table is hidden on small screens via CSS; we allow toggling regardless
-  if (isAnimating.value) return; // Prevent sorting during animation
+  // Update sort state immediately
+  if (sortKey.value === key) {
+    sortDir.value = -sortDir.value;
+  } else {
+    sortKey.value = key;
+    sortDir.value = 1;
+  }
 
-  // Start hide animation
-  isAnimating.value = true;
-  animationPhase.value = "hide";
-
-  // Calculate total hide duration (number of rows * 100ms stagger + animation duration)
-  const rowCount = sortedProjects.value.length;
-  const hideDuration = rowCount * 50 + 300; // stagger + animation time
-
-  setTimeout(() => {
-    // Update sort state
-    if (sortKey.value === key) {
-      sortDir.value = -sortDir.value;
-    } else {
-      sortKey.value = key;
-      sortDir.value = 1;
-    }
-
-    // Start show animation
-    animationPhase.value = "show";
-
-    // Reset animation state after show animation completes
-    const showDuration = rowCount * 100 + 300;
-    setTimeout(() => {
-      isAnimating.value = false;
-    }, showDuration);
-  }, hideDuration);
+  // Bump generation to force Vue to re-create rows, re-triggering fade-in
+  sortGeneration.value++;
 }
 
 function toggleMobileSortDir() {
@@ -487,15 +493,17 @@ onMounted(async () => {
 }
 
 .col-title {
-  width: 25%;
+  width: 50%;
 }
 
 .col-equal {
-  width: 15%;
+  width: 10%;
 }
 
 .fade-in-enter-active {
-  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
+  transition:
+    opacity 0.6s ease-in,
+    transform 0.6s ease-in;
 }
 
 .fade-in-enter-from {
@@ -515,15 +523,9 @@ onMounted(async () => {
   opacity: 0;
 
   border-top: 1px dotted transparent;
-  animation: opacity 0.3s ease-out var(--text-delay) both,
-    border-fade 0.3s ease-out var(--border-delay) both;
-}
-
-.animate-fade-out-row {
-  opacity: 1;
-  border-top: 1px dotted #d1d5db; /* border-grey */
-  animation: opacity-out 0.3s ease-out var(--text-delay) both,
-    border-fade-out 0.3s ease-out var(--border-delay) both;
+  animation:
+    opacity 0.15s ease-out var(--text-delay) both,
+    border-fade 0.15s ease-out var(--border-delay) both;
 }
 
 @keyframes opacity {
@@ -532,21 +534,9 @@ onMounted(async () => {
   }
 }
 
-@keyframes opacity-out {
-  to {
-    opacity: 0;
-  }
-}
-
 @keyframes border-fade {
   to {
     border-top-color: #d1d5db; /* border-grey */
-  }
-}
-
-@keyframes border-fade-out {
-  to {
-    border-top-color: transparent;
   }
 }
 </style>

@@ -1,4 +1,4 @@
-name: Deploy Nuxt Frontend to Alwaysdata
+name: Frontend CI + Deploy + Check-In
 
 on:
   push:
@@ -7,67 +7,105 @@ on:
     paths:
       - .github/workflows/deploy-frontend.yml
       - frontend/**
+  workflow_dispatch:
 
 jobs:
-  ci:
-    runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        working-directory: frontend
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [20]
+  frontend-ci-deploy:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: main
 
-      - name: Setup node env
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
-          check-latest: true
-          cache: "npm"
+          node-version: 20
+          cache: npm
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run build
-        run: npm run build
+      - name: Build frontend
         env:
           WP_GRAPHQL_ENDPOINT: ${{ vars.GRAPHQL_API_URL }}
-
-      - name: Install SSH Host Key
-        id: deploy
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.DEPLOY_KEY }}
-          name: github-actions
-          known_hosts: ${{ vars.SSH_HOST_KEY }}
-          config: |
-            host ${{ vars.SSH_HOST }}
-            IdentityFile ~/.ssh/github-actions
-            IdentitiesOnly yes
-            ForwardAgent yes
-
-      - name: Adds SSH Agent
         run: |
-          eval "$(ssh-agent -s)"
-          ssh-add -D
-          ssh-add ~/.ssh/github-actions
+          cd frontend
+          npm run build
 
-      - name: Set SSH Key Permissions
-        run: chmod 600 ~/.ssh/github-actions
+      - name: Install sshpass
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
 
-      - name: Sync .ouput files to server
-        run: rsync -auvzrl --delete --ignore-missing-args -e "ssh -o BatchMode=yes -o StrictHostKeyChecking=no" ./.output/ ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}:${{ vars.DEPLOY_PATH }}/frontend
+      - name: Deploy .output via SCP
         env:
-          RSYNC_RSH: "ssh -o BatchMode=yes -o StrictHostKeyChecking=no"
+          IK_USER: ${{ secrets.IK_USER }}
+          IK_SERVER: ${{ secrets.IK_SERVER }}
+          IK_PASSWORD: ${{ secrets.IK_PASSWORD }}
+          IK_FOLDER: ${{ secrets.IK_FOLDER }}
+        run: |
+          set -euo pipefail
 
-      - name: Kickstart node server
-        run: curl --basic --user '${{ secrets.ALWAYSDATA_API }} account=jminguely:' --data '' --request POST https://api.alwaysdata.com/v1/site/${{ vars.ALWAYSDATA_SITE_ID }}/restart/
+          if [[ -z "${IK_USER}" || -z "${IK_SERVER}" || -z "${IK_PASSWORD}" || -z "${IK_FOLDER}" ]]; then
+            echo "One or more IK_* secrets are missing."
+            exit 1
+          fi
+
+          sshpass -p "${IK_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new "${IK_USER}@${IK_SERVER}" "mkdir -p '${IK_FOLDER}'"
+
+          sshpass -p "${IK_PASSWORD}" scp -o StrictHostKeyChecking=accept-new -r ./frontend/.output/* "${IK_USER}@${IK_SERVER}:${IK_FOLDER}/"
+
+      - name: Post-deploy check-in
+        env:
+          SITE_URL: ${{ vars.FRONTEND_PUBLIC_URL }}
+        run: |
+          set -euo pipefail
+
+          SITE_URL="${SITE_URL:-https://chablaisfischer.ch}"
+          echo "Using SITE_URL=${SITE_URL}"
+
+          SUCCESS=0
+
+          for attempt in 1 2 3 4 5 6; do
+            echo "Attempt ${attempt}/6"
+
+            SSR_ID=$(curl -fsSL "${SITE_URL}/" | grep -o 'buildId:"[^"]*"' | head -1 | sed 's/buildId:"//; s/"//')
+            LATEST_JSON=$(curl -fsSL "${SITE_URL}/_nuxt/builds/latest.json")
+            LATEST_ID=$(node -e 'const s = process.argv[1] || "{}"; try { const o = JSON.parse(s); process.stdout.write(o.id || ""); } catch { process.stdout.write(""); }' "${LATEST_JSON}")
+
+            if [[ -z "${SSR_ID}" || -z "${LATEST_ID}" ]]; then
+              echo "Could not parse SSR_ID or LATEST_ID"
+              sleep 10
+              continue
+            fi
+
+            META_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${SITE_URL}/_nuxt/builds/meta/${LATEST_ID}.json")
+
+            echo "SSR_ID=${SSR_ID}"
+            echo "LATEST_ID=${LATEST_ID}"
+            echo "META_CODE=${META_CODE}"
+
+            if [[ "${SSR_ID}" == "${LATEST_ID}" && "${META_CODE}" == "200" ]]; then
+              echo "Post-deploy check-in passed"
+              SUCCESS=1
+              break
+            fi
+
+            sleep 10
+          done
+
+          if [[ "${SUCCESS}" != "1" ]]; then
+            echo "Post-deploy check-in failed: build mismatch or missing meta file"
+            exit 1
+          fi
+
+          for path in / /index /projets /atelier; do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" "${SITE_URL}${path}")
+            echo "${CODE} ${path}"
+            if [[ "${CODE}" != "200" ]]; then
+              echo "Smoke check failed on ${path}"
+              exit 1
+            fi
+          done

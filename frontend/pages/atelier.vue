@@ -1,6 +1,27 @@
 <template>
   <div class="flex flex-col">
-    <div v-if="pageData" class="flex gap-16 md:gap-32 flex-col w-full">
+    <!-- Loading state -->
+    <div
+      v-if="loading"
+      class="fixed inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-50"
+    ></div>
+
+    <!-- Error state -->
+    <div
+      v-else-if="error"
+      class="fixed inset-0 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm z-50"
+    >
+      <p class="text-md text-red-600 mb-4">{{ error }}</p>
+      <button
+        @click="retryLoad"
+        class="px-4 py-2 border border-black hover:bg-black hover:text-white transition"
+      >
+        Réessayer
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div v-else-if="pageData" class="flex gap-16 md:gap-32 flex-col w-full">
       <!-- Contact Section -->
       <Transition name="fade-in" appear>
         <div v-if="sectionsLoaded.contact" class="flex flex-col gap-6 w-full">
@@ -86,7 +107,7 @@
           "
           class="flex flex-col gap-6 w-full"
         >
-          <h2 class="font-medium text-md">Ancien‧ne·s collaborateur·rice·s</h2>
+          <h2 class="font-medium text-md">Ancien·ne·s collaborateur·rice·s</h2>
           <div class="grid md:grid-cols-2 md:gap-20 w-full">
             <!-- Column 1 -->
             <div class="flex flex-col border-t border-grey border-dotted">
@@ -285,7 +306,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watchEffect } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useHead } from "#imports";
 import { useWpGraphql } from "@/composables/useWpGraphql";
 import PAGE_QUERY from "@/graphql/getPageAtelier.gql?raw";
@@ -293,6 +314,8 @@ import PAGE_QUERY from "@/graphql/getPageAtelier.gql?raw";
 // Fetch page data from WordPress
 const { query } = useWpGraphql();
 const pageData = ref<any>(null);
+const loading = ref(true);
+const error = ref<string | null>(null);
 
 // Track which sections are loaded for staggered fade-in
 const sectionsLoaded = ref({
@@ -307,7 +330,9 @@ const sectionsLoaded = ref({
 // Stagger delay for sequential fade-in (in milliseconds)
 const staggerDelay = 200;
 
-watchEffect(async () => {
+const loadPage = async () => {
+  loading.value = true;
+  error.value = null;
   try {
     const data = await query<any>(PAGE_QUERY, {
       slug: "atelier",
@@ -325,8 +350,20 @@ watchEffect(async () => {
       });
     }
   } catch (e) {
-    console.error(e);
+    console.error("Failed to load atelier page:", e);
+    error.value =
+      "Impossible de charger le contenu. Veuillez vérifier votre connexion.";
+  } finally {
+    loading.value = false;
   }
+};
+
+const retryLoad = () => {
+  loadPage();
+};
+
+onMounted(() => {
+  loadPage();
 });
 
 // Split collaborators into two columns
@@ -402,7 +439,9 @@ useHead({
 
 <style scoped>
 .fade-in-enter-active {
-  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
+  transition:
+    opacity 0.6s ease-in,
+    transform 0.6s ease-in;
 }
 
 .fade-in-enter-from {

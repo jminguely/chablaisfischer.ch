@@ -5,7 +5,9 @@ query getProject($slug: ID!) {
     title
     content: content(format: RENDERED)
     fieldsProjectSidebar {
+      annee
       lieu
+      statut
       ficheProjet {
         node {
           mediaItemUrl

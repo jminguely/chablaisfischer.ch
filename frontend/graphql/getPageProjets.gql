@@ -9,6 +9,11 @@
           ... on Project {
             id
             title(format: RENDERED)
+            fieldsProjectSidebar {
+              lieu
+              statut
+              annee
+            }
             featuredImage {
               node {
                 altText

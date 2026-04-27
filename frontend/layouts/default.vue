@@ -102,7 +102,7 @@ watch(
   () => route.fullPath,
   () => {
     navOpen.value = false;
-  }
+  },
 );
 </script>
 
@@ -144,10 +144,6 @@ nav {
   top: 0;
   left: 50%;
   transform: translate(-50%);
-
-  &:hover {
-    opacity: 0.5;
-  }
 }
 
 .link-projets {
@@ -192,7 +188,9 @@ nav {
 /* Page transition styles */
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
 }
 
 .page-enter-from {

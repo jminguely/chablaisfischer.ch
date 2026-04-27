@@ -1,10 +1,11 @@
 # Chablais Fischer - Copilot Documentation
 
 ## Overview
+
 **Chablais Fischer Architectes** is a modern headless CMS architecture built as a monorepo featuring WordPress (Bedrock) as the backend CMS and Nuxt 3 as the frontend consuming content via WPGraphQL.
 
-**Website**: [chablaisfischer.ch](https://chablaisfischer.ch)  
-**Stack**: WordPress 6.9 + Bedrock, Nuxt 4, PHP 8.1+, Node.js 18+  
+**Website**: [chablaisfischer.ch](https://chablaisfischer.ch)
+**Stack**: WordPress 6.9 + Bedrock, Nuxt 4, PHP 8.1+, Node.js 18+
 **Deployment**: Automated GitHub Actions on `main` branch (separate workflows for frontend and backend)
 
 ---
@@ -12,14 +13,16 @@
 ## Architecture Philosophy
 
 ### Headless-First Design
+
 - **Complete separation**: WordPress serves ONLY as a data API, no frontend rendering
 - **GraphQL-powered**: All data consumed by Nuxt via WPGraphQL
-- **Dual URLs configuration**: 
+- **Dual URLs configuration**:
   - `WP_HOME`: Frontend URL (Nuxt)
   - `WP_HOME_ADMIN`: Backend admin URL (WordPress)
 - **Static/SSR capable**: Nuxt can generate static site or run SSR
 
 ### Monorepo Structure
+
 The project uses npm workspaces to manage both frontend and backend dependencies from a single root:
 
 ```
@@ -58,18 +61,22 @@ The project uses npm workspaces to manage both frontend and backend dependencies
 ### 1. WordPress Backend (`wordpress/`)
 
 #### Bedrock Framework
+
 Uses [Roots Bedrock](https://roots.io/bedrock/) for modern WordPress development:
+
 - **Composer dependency management** for plugins and WordPress core
 - **Environment-based configuration** via `.env` files
 - **Improved security**: `DISALLOW_FILE_EDIT` and `DISALLOW_FILE_MODS` enabled
 - **Enhanced folder structure**: `web/` as document root, WordPress in `web/wp/`
 
 #### Custom Must-Use Plugin: `wp-headless`
+
 Location: `wordpress/web/app/mu-plugins/wp-headless/`
 
 **Purpose**: All custom headless functionality in a modular plugin
 
 **Structure**:
+
 ```
 wp-headless/
 ├── wp-headless.php           # Main plugin file (loads all modules)
@@ -90,6 +97,7 @@ wp-headless/
 **Key Features**:
 
 ##### Custom Post Type: Project (`custom-post-type.php`)
+
 - **GraphQL enabled**: `graphql_single_name: 'Project'`, `graphql_plural_name: 'Projects'`
 - **Slug**: `/projets/`
 - **Supports**: title, editor, thumbnail
@@ -97,49 +105,58 @@ wp-headless/
 - **Custom image size**: `small` (300x300, no crop)
 
 ##### ACF Configuration (`acf.php`)
+
 - **JSON sync path**: Saves field groups to `wp-headless/acf-json/`
 - **GraphQL connection limit**: Increased to 100 items (default is lower)
 - **Version controlled**: All ACF configurations tracked in git
 
 ##### Navigation (`navigation.php`)
+
 - **Primary navigation**: `PrimaryNav`
 - **Footer navigation**: `FooterNav`
 
 ##### Headless Optimizations
+
 - Disables unnecessary WordPress features for headless operation
 - Template redirects for non-GraphQL requests
 - Admin UI customizations for content editors
 
 #### Minimal Theme: `headless`
+
 Location: `wordpress/web/app/themes/headless/`
 
 **Purpose**: Bare-minimum theme required by WordPress (all logic in mu-plugin)
 
 **Files**:
+
 - `style.css`: Theme header only
 - `index.php`: Empty (headless, no PHP templates)
 
 #### Key Plugins
+
 Managed via Composer (`wordpress/composer.json`):
 
 - **ACF Pro** (`wpengine/advanced-custom-fields-pro`): ^6.6
   - All content fields for projects and pages
   - Fields synced as JSON in `wp-headless/acf-json/`
-  
+
 - **WP GraphQL** (`wp-graphql/wp-graphql`): ^2.5
   - GraphQL API endpoint at `/graphql`
   - Exposes WordPress data to Nuxt
-  
+
 - **WPGraphQL for ACF** (`wpackagist-plugin/wpgraphql-acf`): ^2.4
   - Automatically exposes ACF fields in GraphQL schema
 
 #### Configuration
+
 Key files:
+
 - `wordpress/.env`: Environment variables (DB, URLs, keys)
 - `wordpress/config/application.php`: Main Bedrock configuration
 - `wordpress/pint.json`: Laravel Pint (PHP linter) configuration
 
 **Security settings**:
+
 ```php
 DISALLOW_FILE_EDIT = true   // Disable file editor
 DISALLOW_FILE_MODS = true   // Disable plugin/theme installation
@@ -152,6 +169,7 @@ WP_DEBUG_LOG = false        // No debug logging in production
 ### 2. Nuxt Frontend (`frontend/`)
 
 #### Framework & Philosophy
+
 - **Nuxt 4.2.0**: Latest version with TypeScript support
 - **File-based routing**: Pages automatically generate routes
 - **Composable architecture**: Reusable logic via composables
@@ -161,26 +179,31 @@ WP_DEBUG_LOG = false        // No debug logging in production
 #### Key Configuration (`nuxt.config.ts`)
 
 **Runtime Config**:
+
 ```typescript
 runtimeConfig: {
   public: {
-    wpGraphqlEndpoint: process.env.WP_GRAPHQL_ENDPOINT || 'http://localhost:8888/graphql'
+    wpGraphqlEndpoint: process.env.WP_GRAPHQL_ENDPOINT ||
+      "http://localhost:8888/graphql";
   }
 }
 ```
 
 **Custom Route Mapping**:
+
 - `/` → `pages/accueil.vue` (homepage with image slider)
 - `/index` → `pages/index.vue` (project list table)
 - Custom route manipulation via `hooks.pages:extend`
 
 **Page Transitions**:
+
 - Smooth `out-in` transitions between pages and layouts
 - Fade animations with CSS keyframes
 
 #### Design System (`tailwind.config.js`)
 
 **Custom Colors**:
+
 ```javascript
 colors: {
   white: '#ffffff',
@@ -192,6 +215,7 @@ colors: {
 ```
 
 **Typography**:
+
 - **Font**: Dada Grotesk (custom)
 - **Sizes**: sm (12px), md (16px), lg (22px)
 - **Weights**: normal (400), medium (500)
@@ -199,18 +223,36 @@ colors: {
 #### Composables
 
 ##### `useWpGraphql.ts`
+
 **Purpose**: GraphQL client for WordPress API
 
 **Usage**:
+
 ```typescript
 const { query } = useWpGraphql();
 const data = await query<ResponseType>(QUERY_STRING, variables);
 ```
 
 **Features**:
+
 - Uses `cross-fetch` for SSR compatibility
 - Error handling with GraphQL errors
 - Type-safe responses with TypeScript generics
+
+##### `useFormatProject.ts`
+
+**Purpose**: Shared formatting for project titles across pages
+
+**Usage**:
+
+```typescript
+const { formatProjectTitle } = useFormatProject();
+formatProjectTitle(project); // "Title, Lieu – Statut – Année"
+```
+
+**Format**: `"title, lieu – statut – année"` — each part (lieu, statut, année) is only appended when the field is non-empty/non-null (and not `"—"`). The `, ` separator precedes lieu; `–` separates statut and année.
+
+**Used by**: `pages/projets/index.vue` (grid captions) and `pages/projets/[slug].vue` (detail heading)
 
 #### GraphQL Queries (`frontend/graphql/`)
 
@@ -223,6 +265,7 @@ All queries stored as `.gql` files and imported as raw strings:
 - `getProjects.gql`: All projects for index table
 
 **Example** (`getProjects.gql`):
+
 ```graphql
 {
   projects(first: 100, where: { orderby: { field: DATE, order: DESC } }) {
@@ -250,9 +293,11 @@ All queries stored as `.gql` files and imported as raw strings:
 #### Pages
 
 ##### `pages/accueil.vue` (Homepage)
+
 **Route**: `/`
 
 **Features**:
+
 - Image slider with autoplay (5s interval)
 - Projects fetched from ACF field on page
 - Animated Post-It note overlay
@@ -261,40 +306,54 @@ All queries stored as `.gql` files and imported as raw strings:
 **GraphQL Query**: Fetches page with slug `/`, includes related projects
 
 ##### `pages/index.vue` (Projects Table)
+
 **Route**: `/index`
 
 **Features**:
-- **Desktop**: Sortable table with 6 columns (Projet, Année, Lieu, Programme, Type, Statut)
+
+- **Desktop**: Sortable table with 6 columns (Projet, Statut, Année, Programme, Type, Lieu)
 - **Mobile**: Stacked cards with select-based sorting
 - **Image preview on hover** (desktop only)
-- **Animated sorting**: Fade-out → update → fade-in with staggered rows
+- **Default sort**: Statut column active on page load (custom priority order, not alphabetical)
+- **Animated sorting**: Click headers to toggle sort direction with staggered row fade-in (instant sort, re-created rows via `sortGeneration` key)
 - **Clickable rows**: Navigate to projects with galleries only
 
 **Sorting Logic**:
+
 ```typescript
 // Desktop: Click headers to toggle sort
 // Mobile: Dropdown + up/down arrows
-sortKey: string | null    // Field to sort by
-sortDir: 1 | -1           // 1 = ascending, -1 = descending
+sortKey: string | null; // Defaults to "statut"
+sortDir: 1 | -1; // 1 = asc, -1 = desc
+sortGeneration: number; // Bumped on each sort to force row re-creation & fade-in
 ```
 
-**Animation**: Each row animates with CSS variables for delays:
-```css
---text-delay: ${index * 100}ms
---border-delay: ${index * 100}ms
+**Statut Custom Sort Order** (not alphabetical):
+
 ```
+En cours → En travaux → Construit → Lauréat →
+1er prix → 2e prix → 3e prix → 4e prix → 5ème prix → 6ème prix → 7ème prix →
+Mention
+```
+
+- Within the same statut group (especially "Construit"), projects are sub-sorted by **année descending** (newest first).
+- Unrecognised statut values fall to the end of the list.
 
 ##### `pages/projets/index.vue` (Projects Grid)
+
 **Route**: `/projets`
 
 **Features**:
+
 - **Masonry-style grid**: 20-column grid system on desktop
 - **Randomized layout**: Deterministic seeded random positioning
 - **Responsive images**: Each project shows featured image
 - **Variable sizes**: Projects span 4-13 columns (big/small pairs)
-- **Vertical spacing**: Random margins (4-16rem) above/below
+- **Vertical spacing**: Grid gaps (`gap-y-4 md:gap-y-6`) and randomized item margins (2–8rem) above/below
+- **Formatted captions**: Uses `useFormatProject` composable — displays `"title, lieu – statut – année"`
 
 **Layout Algorithm**:
+
 ```typescript
 // Projects laid out in pairs (left + right)
 // Each pair: one big (9-13 cols), one small (4-6 cols)
@@ -303,17 +362,22 @@ sortDir: 1 | -1           // 1 = ascending, -1 = descending
 ```
 
 ##### `pages/projets/[slug].vue` (Project Detail)
+
 **Route**: `/projets/:slug`
 
 **Features**:
+
 - Dynamic route based on project slug
 - Image gallery display
 - Project metadata from ACF fields
+- **Formatted heading**: Uses `useFormatProject` composable — displays `"title, lieu – statut – année"`
 
 ##### `pages/atelier.vue` (About/Studio)
+
 **Route**: `/atelier`
 
 **Features**:
+
 - Team member display with modals
 - Studio gallery
 - Job postings and apprenticeships
@@ -322,6 +386,7 @@ sortDir: 1 | -1           // 1 = ascending, -1 = descending
 #### Components
 
 **UI Components** (`components/`):
+
 - `Icon.vue`: SVG icon system
 - `ProjectImage.vue`: Optimized project images
 - `ProjectModal.vue`: Project detail modal
@@ -334,7 +399,9 @@ sortDir: 1 | -1           // 1 = ascending, -1 = descending
 #### Layouts
 
 ##### `layouts/default.vue`
+
 **Features**:
+
 - Fixed navigation on desktop (vertical on sides, horizontal at bottom)
 - Mobile hamburger menu
 - Logo centered at top
@@ -342,7 +409,8 @@ sortDir: 1 | -1           // 1 = ascending, -1 = descending
 - Page transition handling
 
 **Navigation Structure**:
-- **Desktop**: 
+
+- **Desktop**:
   - `projets` (left, vertical text)
   - `index` (right, vertical text)
   - `atelier` (bottom center, horizontal)
@@ -351,6 +419,7 @@ sortDir: 1 | -1           // 1 = ascending, -1 = descending
 #### TypeScript Types (`types/`)
 
 **Key Interfaces**:
+
 ```typescript
 interface WpProject {
   id: string;
@@ -376,10 +445,12 @@ interface WpPage {
 #### Assets
 
 **CSS** (`assets/css/`):
+
 - `main.css`: TailwindCSS imports and base styles
 - `typography.css`: Font-face definitions, custom typography
 
 **Images** (`assets/img/`):
+
 - `logo.svg`: Site logo
 - Custom fonts
 
@@ -390,6 +461,7 @@ interface WpPage {
 ### Local Setup
 
 1. **Prerequisites**:
+
    ```bash
    Node.js >=18.18.0
    npm >=9.0.0
@@ -400,19 +472,20 @@ interface WpPage {
    ```
 
 2. **Installation**:
+
    ```bash
    # Clone repository
    git clone git@github.com:jminguely/chablaisfischer.ch.git
    cd chablaisfischer.ch
-   
+
    # Install all dependencies (frontend + WordPress)
    npm run install:all
-   
+
    # Configure WordPress
    cd wordpress
    cp .env.example .env
    vim .env  # Edit database credentials and URLs
-   
+
    # Configure frontend
    cd ../frontend
    cp .env.example .env
@@ -422,6 +495,7 @@ interface WpPage {
 3. **Environment Variables**:
 
 **WordPress** (`wordpress/.env`):
+
 ```env
 # Database
 DB_NAME='database_name'
@@ -447,18 +521,20 @@ NONCE_SALT='...'
 ```
 
 **Frontend** (`frontend/.env`):
+
 ```env
 WP_GRAPHQL_ENDPOINT=http://api.test/graphql
 ```
 
 4. **Start Development**:
+
    ```bash
    # From root directory
    npm run dev              # Starts Nuxt dev server
-   
+
    # Access WordPress admin
    # http://api.test/wp/wp-admin
-   
+
    # Access Nuxt frontend
    # http://localhost:3000
    ```
@@ -466,6 +542,7 @@ WP_GRAPHQL_ENDPOINT=http://api.test/graphql
 ### Available Scripts
 
 **Root Level** (`package.json`):
+
 ```bash
 npm run dev                  # Start Nuxt dev server
 npm run build                # Build Nuxt for production
@@ -483,6 +560,7 @@ npm run clean                # Clean build artifacts and node_modules
 ```
 
 **Frontend** (`frontend/package.json`):
+
 ```bash
 npm run dev                  # Nuxt dev server
 npm run build                # Production build
@@ -493,12 +571,14 @@ npm run preview              # Preview build
 ### ACF Development
 
 **Field Group Management**:
+
 - Create/edit field groups in WordPress admin: Custom Fields
 - Fields auto-export to `wordpress/web/app/mu-plugins/wp-headless/acf-json/`
 - Changes tracked in git for team collaboration
 - On theme activation, fields auto-import from JSON
 
 **Common Field Groups**:
+
 - **Project Sidebar**: annee, lieu, programme, type, statut
 - **Project Gallery**: image gallery repeater
 - **Page Accueil**: projects (relationship), postIt (group)
@@ -506,6 +586,7 @@ npm run preview              # Preview build
 - **Page Projets**: projects (relationship)
 
 **GraphQL Exposure**:
+
 - ACF fields automatically exposed via WPGraphQL for ACF plugin
 - Field names in GraphQL: `fields[GroupName]` (camelCase)
 - Example: `fieldsProjectSidebar { annee lieu }`
@@ -513,16 +594,19 @@ npm run preview              # Preview build
 ### GraphQL Development
 
 **Testing Queries**:
+
 1. Access GraphiQL IDE: `http://api.test/graphql` (when logged into WordPress)
 2. Explore schema with Docs panel
 3. Test queries before adding to frontend
 
 **Query Organization**:
+
 - Store queries in `frontend/graphql/*.gql`
 - Import as raw strings: `import QUERY from '@/graphql/query.gql?raw'`
 - Use TypeScript types for responses
 
 **Common Patterns**:
+
 ```graphql
 # Pagination
 projects(first: 100, after: $cursor)
@@ -547,11 +631,13 @@ fieldsProjectSidebar {
 ### Styling & Design
 
 **TailwindCSS Utilities**:
+
 - Use custom color classes: `bg-yellow`, `text-anthracite`, `border-grey`
 - Custom font sizes: `text-sm`, `text-md`, `text-lg`
 - Responsive prefixes: `md:`, `lg:`
 
 **Custom Animations**:
+
 ```css
 /* Fade in with delay */
 .animate-fade-in {
@@ -560,10 +646,25 @@ fieldsProjectSidebar {
 }
 
 /* Apply delays via style binding */
-:style="{ animationDelay: `${index * 100}ms` }"
+:style="{ animationDelay: `${index * 100}ms` }";
+```
+
+**Sort Row Animation Pattern** (used in `pages/index.vue`):
+
+Rows use a `sortGeneration` reactive counter in their `:key` (e.g. ``:key="`${p.id}-${sortGeneration}`"``). Bumping the counter forces Vue to destroy and re-create all `<tr>` elements, which naturally re-triggers the CSS `animate-fade-in-row` animation with staggered delays (`--text-delay`, `--border-delay`). This avoids fragile `setTimeout` locks and works reliably even in background tabs.
+
+```css
+.animate-fade-in-row {
+  opacity: 0;
+  border-top: 1px dotted transparent;
+  animation:
+    opacity 0.15s ease-out var(--text-delay) both,
+    border-fade 0.15s ease-out var(--border-delay) both;
+}
 ```
 
 **Layout Patterns**:
+
 - **Fixed navigation elements**: Use `fixed` positioning
 - **Vertical text**: `writing-mode: sideways-lr`
 - **Full-screen overlays**: `fixed inset-0` with z-index layers
@@ -586,6 +687,7 @@ Both trigger on push to `main` branch, but only when their respective paths chan
 **Trigger**: Changes to `frontend/**` or workflow file
 
 **Process**:
+
 1. Checkout code from `main`
 2. Setup Node.js 20
 3. Install npm dependencies
@@ -595,15 +697,18 @@ Both trigger on push to `main` branch, but only when their respective paths chan
 7. Restart Node.js server via Alwaysdata API
 
 **Environment**:
+
 - **Build**: `WP_GRAPHQL_ENDPOINT` from GitHub variable `GRAPHQL_API_URL`
 - **Target**: Alwaysdata Node.js hosting
 - **Deploy path**: Configured via `DEPLOY_PATH` variable
 
 **Secrets Required**:
+
 - `DEPLOY_KEY`: SSH private key
 - `ALWAYSDATA_API`: API token for server restart
 
 **Variables Required**:
+
 - `GRAPHQL_API_URL`: WordPress GraphQL endpoint URL
 - `SSH_HOST`: Production server hostname
 - `SSH_HOST_KEY`: Server SSH fingerprint
@@ -616,6 +721,7 @@ Both trigger on push to `main` branch, but only when their respective paths chan
 **Trigger**: Changes to `wordpress/**` or workflow file
 
 **Process**:
+
 1. Checkout code from `main`
 2. Install PHP 8.3
 3. Add ACF Pro credentials to `auth.json`
@@ -630,6 +736,7 @@ Both trigger on push to `main` branch, but only when their respective paths chan
 8. Clear PHP OPcache
 
 **Shared Files Pattern**:
+
 ```
 wordpress/
 ├── current/           # Active deployment (synced code)
@@ -643,9 +750,11 @@ wordpress/
 ```
 
 **Secrets Required**:
+
 - `DEPLOY_KEY`: SSH private key
 
 **Variables Required**:
+
 - `ACF_AUTH_JSON`: ACF Pro auth credentials (JSON format)
 - `SSH_HOST`: Production server hostname
 - `SSH_HOST_KEY`: Server SSH fingerprint
@@ -653,6 +762,7 @@ wordpress/
 - `DEPLOY_PATH`: Deployment directory path
 
 **OPcache Clearing**:
+
 - Creates temporary PHP file to reset OPcache
 - Calls it via curl
 - Removes temporary file
@@ -660,6 +770,7 @@ wordpress/
 ### Manual Deployment
 
 **Frontend**:
+
 ```bash
 # Build locally
 cd frontend
@@ -670,6 +781,7 @@ rsync -avz .output/ user@server:/path/to/frontend/
 ```
 
 **WordPress**:
+
 ```bash
 # Install production dependencies
 cd wordpress
@@ -694,6 +806,7 @@ ln -s /path/to/wordpress/shared/uploads /path/to/wordpress/current/web/app/uploa
 **URL**: `http://api.test/wp/wp-admin` (local) or `https://api-cf.mingus.space/wp/wp-admin` (production)
 
 **Content Types**:
+
 - **Projects**: Main content type with ACF fields (sidebar info, gallery)
 - **Pages**: Standard WordPress pages with ACF field groups
 - **Media**: Images and files for projects
@@ -719,17 +832,20 @@ ln -s /path/to/wordpress/shared/uploads /path/to/wordpress/current/web/app/uploa
 #### Managing Pages
 
 **Homepage** (`pages/accueil.vue`):
+
 - Edit page with slug `/`
 - ACF Fields:
   - **Projects**: Relationship field to select featured projects for slider
   - **Post-it**: Group with title, content, lien (link)
 
 **Projects Page** (`pages/projets/index.vue`):
+
 - Edit page with slug `/projets`
 - ACF Fields:
   - **Projects**: Relationship field for featured projects grid
 
 **About Page** (`pages/atelier.vue`):
+
 - Edit page with slug `/atelier`
 - ACF Fields:
   - **Collaborateurs**: Team members repeater (nom, role, image, modal content)
@@ -741,11 +857,13 @@ ln -s /path/to/wordpress/shared/uploads /path/to/wordpress/current/web/app/uploa
 ### Media Library
 
 **Image Upload**:
+
 - WordPress automatically generates multiple sizes
 - Custom size `small` (300x300) generated for listings
 - Images served via WordPress media system
 
 **Best Practices**:
+
 - Use descriptive alt text for accessibility
 - Optimize images before upload (WordPress doesn't compress heavily)
 - Recommended max width: 2000px
@@ -757,6 +875,7 @@ ln -s /path/to/wordpress/shared/uploads /path/to/wordpress/current/web/app/uploa
 ### PHP (WordPress)
 
 **Style**: PSR-12 via Laravel Pint
+
 ```bash
 # Check style
 npm run wordpress:lint
@@ -766,6 +885,7 @@ npm run wordpress:lint:fix
 ```
 
 **Patterns**:
+
 - Modular functions over classes
 - Use WordPress hooks (`add_action`, `add_filter`)
 - Always escape output: `esc_html()`, `esc_url()`, `esc_attr()`
@@ -773,6 +893,7 @@ npm run wordpress:lint:fix
 - Use WordPress APIs (don't query database directly unless necessary)
 
 **File Organization**:
+
 - One feature per file in `inc/`
 - Use descriptive file names
 - Comment complex logic
@@ -780,11 +901,13 @@ npm run wordpress:lint:fix
 ### JavaScript/TypeScript (Frontend)
 
 **Style**: ESLint + Vue plugin
+
 ```bash
 npm run lint
 ```
 
 **Patterns**:
+
 - **Composition API**: Use `<script setup>` syntax
 - **Type safety**: Define interfaces for WordPress data
 - **Composables**: Extract reusable logic
@@ -792,6 +915,7 @@ npm run lint
 - **Reactive**: Use `ref()` and `computed()`
 
 **Component Structure**:
+
 ```vue
 <template>
   <!-- Markup -->
@@ -815,11 +939,13 @@ npm run lint
 ### CSS
 
 **TailwindCSS First**:
+
 - Use utility classes when possible
 - Custom styles in `<style scoped>` for component-specific needs
 - Use theme colors from config
 
 **Naming Conventions**:
+
 - BEM-like for custom classes
 - Descriptive animation names: `animate-fade-in`, `animate-slide-up`
 
@@ -830,29 +956,32 @@ npm run lint
 ### Adding a New Page
 
 **Backend** (WordPress):
+
 1. Create page in WordPress admin
 2. Add ACF field group if needed
 3. Ensure page has proper slug
 4. Create GraphQL query in `frontend/graphql/`
 
 **Frontend** (Nuxt):
+
 1. Create `pages/[slug].vue`
 2. Import GraphQL query
 3. Fetch data with `useWpGraphql()`
 4. Display content
 
 **Example**:
+
 ```vue
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
-import { useWpGraphql } from '@/composables/useWpGraphql';
-import QUERY from '@/graphql/getPageSlug.gql?raw';
+import { ref, watchEffect } from "vue";
+import { useWpGraphql } from "@/composables/useWpGraphql";
+import QUERY from "@/graphql/getPageSlug.gql?raw";
 
 const page = ref(null);
 const { query } = useWpGraphql();
 
 watchEffect(async () => {
-  const data = await query(QUERY, { slug: '/slug' });
+  const data = await query(QUERY, { slug: "/slug" });
   page.value = data.page;
 });
 </script>
@@ -872,17 +1001,20 @@ watchEffect(async () => {
 Edit: `wordpress/web/app/mu-plugins/wp-headless/inc/custom-post-type.php`
 
 **Common Changes**:
+
 - Add support for new features: `'supports' => array('title', 'excerpt')`
 - Change slug: `'rewrite' => array('slug' => 'new-slug')`
 - Modify admin columns: Edit `manage_project_posts_columns` filter
 
 After changes, flush rewrite rules:
+
 1. WordPress admin → Settings → Permalinks
 2. Click "Save Changes" (no changes needed, just save)
 
 ### Debugging
 
 **WordPress**:
+
 ```php
 // Enable debug mode in .env
 WP_DEBUG=true
@@ -893,6 +1025,7 @@ tail -f wordpress/web/app/debug.log
 ```
 
 **Nuxt**:
+
 ```bash
 # Console logs appear in terminal
 npm run dev
@@ -901,6 +1034,7 @@ npm run dev
 ```
 
 **GraphQL**:
+
 - Use GraphiQL IDE in WordPress admin
 - Check Network tab for GraphQL request/response
 - Verify field names match schema
@@ -912,12 +1046,14 @@ npm run dev
 ### GraphQL Query Returns Null
 
 **Causes**:
+
 - Field name mismatch (check schema in GraphiQL)
 - ACF field group not assigned to correct location
 - Missing WPGraphQL for ACF plugin
 - Field not set to "Show in GraphQL"
 
 **Fix**:
+
 1. Check GraphiQL IDE to verify field structure
 2. Verify ACF field group location rules
 3. Ensure WPGraphQL for ACF plugin is active
@@ -925,11 +1061,13 @@ npm run dev
 ### Images Not Loading
 
 **Causes**:
+
 - Incorrect `WP_GRAPHQL_ENDPOINT` in frontend `.env`
 - CORS issues
 - Missing featured image
 
 **Fix**:
+
 1. Verify endpoint in frontend `.env`
 2. Check browser console for CORS errors
 3. Set featured image on project/page
@@ -937,11 +1075,13 @@ npm run dev
 ### Nuxt Build Fails
 
 **Common Issues**:
+
 - TypeScript errors
 - Missing dependencies
 - GraphQL query syntax errors
 
 **Fix**:
+
 ```bash
 # Check types
 npm run typecheck
@@ -956,11 +1096,13 @@ npm install
 ### WordPress Plugin Changes Not Reflecting
 
 **Causes**:
+
 - OPcache enabled
 - Browser cache
 - Must-use plugin not loaded
 
 **Fix**:
+
 ```bash
 # Clear OPcache (if available)
 # Via WordPress: WP CLI
@@ -973,15 +1115,47 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 # WP admin → Plugins → Must-Use
 ```
 
+### Frontend 500 – "Importing a module script failed"
+
+**Symptom**: Users see `Internal Server Error – Importing a module script failed` when navigating client-side (SPA transitions) or on first load.
+
+**Root Cause**: Build ID mismatch between the Nitro SSR server (in memory) and the static `_nuxt/` assets on disk. This happens when:
+
+1. A deployment partially fails (files are synced but the Node.js process is **not restarted**)
+2. Two deployments run close together, leaving stale `_nuxt/builds/latest.json` pointing to a non-existent meta file
+
+**Diagnosis**:
+
+```bash
+# Compare the build ID embedded by the SSR server
+curl -s https://chablaisfischer.ch/ | grep -o 'buildId:"[^"]*"'
+
+# Compare with the static latest.json
+curl -s https://chablaisfischer.ch/_nuxt/builds/latest.json
+
+# Check if the meta file for latest.json exists (should return 200)
+curl -sI https://chablaisfischer.ch/_nuxt/builds/meta/<id-from-latest>.json | head -1
+```
+
+If the IDs differ, or the meta file returns 404, the deploy is corrupted.
+
+**Fix**:
+
+1. Re-trigger the `deploy-frontend.yml` workflow (push a commit touching `frontend/` or use `workflow_dispatch`)
+2. Verify the Alwaysdata restart API call succeeds in the workflow logs
+3. After deploy, re-run the diagnosis commands above to confirm both IDs match
+
 ### Deployment Fails
 
 **GitHub Actions**:
+
 1. Check workflow logs in GitHub Actions tab
 2. Verify secrets and variables are set
 3. Check SSH access manually
 4. Ensure server has correct permissions
 
 **Common Issues**:
+
 - Missing secrets in GitHub repo settings
 - SSH key permissions (should be 600)
 - Path variables incorrect
@@ -994,12 +1168,14 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ### Frontend
 
 **Optimization Strategies**:
+
 - **Static generation**: Use `npm run generate` for fully static sites
 - **Image optimization**: Consider adding `@nuxt/image` module
 - **Code splitting**: Nuxt auto-splits by route
 - **Lazy loading**: Images lazy-load by default in modern browsers
 
 **Current Performance**:
+
 - Single GraphQL query per page
 - No unnecessary watchers
 - Scoped CSS prevents bloat
@@ -1008,12 +1184,14 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ### Backend
 
 **WordPress Optimization**:
+
 - OPcache enabled in production
 - Object caching (consider Redis/Memcached for high traffic)
 - GraphQL query caching (WPGraphQL Smart Cache plugin)
 - CDN for media files
 
 **Database**:
+
 - Limit post revisions: `WP_POST_REVISIONS` in config
 - Clean up transients periodically
 - Optimize tables occasionally
@@ -1025,6 +1203,7 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ### WordPress
 
 **Measures in Place**:
+
 - File editing disabled: `DISALLOW_FILE_EDIT`
 - File modifications disabled: `DISALLOW_FILE_MODS`
 - Automatic updates disabled (manual control)
@@ -1032,6 +1211,7 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 - Latest security patches via Composer updates
 
 **Recommendations**:
+
 - Regular Composer updates: `composer update`
 - Strong passwords for admin accounts
 - Limit login attempts (plugin)
@@ -1041,6 +1221,7 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ### Frontend
 
 **Measures**:
+
 - No authentication handled in frontend
 - Environment variables for sensitive config
 - CORS configured properly
@@ -1049,6 +1230,7 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ### Deployment
 
 **Secrets Management**:
+
 - GitHub Secrets for sensitive data
 - Never commit `.env` files
 - SSH keys with restricted permissions
@@ -1059,6 +1241,7 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ## Key Files Reference
 
 ### Configuration
+
 - `package.json` - Root workspace and scripts
 - `wordpress/.env` - WordPress environment config
 - `wordpress/composer.json` - PHP dependencies
@@ -1068,18 +1251,22 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 - `frontend/tailwind.config.js` - Design system
 
 ### WordPress Custom Code
+
 - `wordpress/web/app/mu-plugins/wp-headless/wp-headless.php` - Plugin entry
 - `wordpress/web/app/mu-plugins/wp-headless/inc/*.php` - Modular features
 - `wordpress/web/app/mu-plugins/wp-headless/acf-json/*.json` - ACF fields
 
 ### Frontend Core
+
 - `frontend/composables/useWpGraphql.ts` - GraphQL client
+- `frontend/composables/useFormatProject.ts` - Shared project title formatting
 - `frontend/graphql/*.gql` - GraphQL queries
 - `frontend/layouts/default.vue` - Main layout
 - `frontend/pages/*.vue` - Route pages
 - `frontend/types/wp.ts` - TypeScript types
 
 ### Deployment
+
 - `.github/workflows/deploy-frontend.yml` - Frontend CI/CD
 - `.github/workflows/deploy-wordpress.yml` - WordPress CI/CD
 
@@ -1088,11 +1275,13 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ## External Dependencies
 
 ### Services
+
 - **Alwaysdata**: Production hosting (Node.js + PHP)
 - **GitHub Actions**: CI/CD automation
 - **ACF Pro**: Requires active license (managed via Composer)
 
 ### Documentation
+
 - [Nuxt 3 Docs](https://nuxt.com/docs)
 - [WP GraphQL Docs](https://www.wpgraphql.com/docs)
 - [Bedrock Docs](https://roots.io/bedrock/docs/)
@@ -1104,6 +1293,7 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ## Notes for AI Coding Assistants
 
 ### Project Context
+
 - **Architecture**: Headless WordPress + Nuxt (complete separation)
 - **Content structure**: Projects are main content type
 - **Design**: Minimalist, architect portfolio aesthetic
@@ -1113,6 +1303,7 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ### When Adding Features
 
 **Do**:
+
 - ✅ Test GraphQL queries in GraphiQL first
 - ✅ Add TypeScript types for new data structures
 - ✅ Follow existing component patterns
@@ -1122,6 +1313,7 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 - ✅ Run linters before committing
 
 **Don't**:
+
 - ❌ Create PHP templates (headless architecture)
 - ❌ Add inline styles (use Tailwind or scoped CSS)
 - ❌ Modify WordPress core or plugin files
@@ -1144,10 +1336,11 @@ touch wordpress/web/app/mu-plugins/wp-headless/wp-headless.php
 ### Common Patterns
 
 **Fetching WordPress Data**:
+
 ```typescript
-import { ref, watchEffect } from 'vue';
-import { useWpGraphql } from '@/composables/useWpGraphql';
-import QUERY from '@/graphql/query.gql?raw';
+import { ref, watchEffect } from "vue";
+import { useWpGraphql } from "@/composables/useWpGraphql";
+import QUERY from "@/graphql/query.gql?raw";
 
 const data = ref(null);
 const { query } = useWpGraphql();
@@ -1159,6 +1352,7 @@ watchEffect(async () => {
 ```
 
 **Animated Lists**:
+
 ```vue
 <div
   v-for="(item, index) in items"
@@ -1171,6 +1365,7 @@ watchEffect(async () => {
 ```
 
 **Conditional Rendering**:
+
 ```vue
 <nuxt-link v-if="project.hasGallery" :to="project.uri">
   <!-- Clickable -->

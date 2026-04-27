@@ -7,7 +7,7 @@
     >
       <!-- Modal content with yellow backdrop matching the image container -->
       <div
-        class="modal-backdrop bg-yellow bg-opacity-75 relative w-full h-full p-5 pt-48 flex gap-3 items-start overflow-y-auto"
+        class="modal-backdrop bg-yellow bg-opacity-75 relative w-full h-full p-5 py-16 flex gap-3 items-start overflow-y-auto overscroll-none"
         @click.stop
       >
         <!-- Close button -->
@@ -82,7 +82,9 @@ onUnmounted(() => {
 
 .modal-backdrop {
   backdrop-filter: blur(8px);
-  transition: backdrop-filter 0.3s ease, opacity 0.3s ease;
+  transition:
+    backdrop-filter 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .modal-enter-active,

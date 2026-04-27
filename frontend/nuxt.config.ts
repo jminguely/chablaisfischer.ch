@@ -1,12 +1,24 @@
 // Clean Nuxt configuration for frontend consuming headless WordPress via WPGraphQL
+
+// Validate WP_GRAPHQL_ENDPOINT environment variable
+const wpGraphqlEndpoint =
+  process.env.WP_GRAPHQL_ENDPOINT || "http://localhost:8888/graphql";
+
+try {
+  new URL(wpGraphqlEndpoint);
+} catch (e) {
+  throw new Error(
+    `Invalid WP_GRAPHQL_ENDPOINT: "${wpGraphqlEndpoint}". Must be a valid URL.`,
+  );
+}
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-10-20",
   devtools: { enabled: true },
   typescript: { shim: false },
   runtimeConfig: {
     public: {
-      wpGraphqlEndpoint:
-        process.env.WP_GRAPHQL_ENDPOINT || "http://localhost:8888/graphql",
+      wpGraphqlEndpoint,
     },
   },
   app: {
@@ -39,12 +51,12 @@ export default defineNuxtConfig({
     "pages:extend"(pages) {
       // Find index page first (it may be the page currently mounted at '/')
       const indexPage = pages.find(
-        (p) => p.name === "index" || p.file?.endsWith("/index.vue")
+        (p) => p.name === "index" || p.file?.endsWith("/index.vue"),
       );
 
       // Ensure route '/' uses pages/accueil.vue
       const accueil = pages.find(
-        (p) => p.name === "accueil" || p.file?.endsWith("/accueil.vue")
+        (p) => p.name === "accueil" || p.file?.endsWith("/accueil.vue"),
       );
       if (accueil) {
         // remove any existing root route

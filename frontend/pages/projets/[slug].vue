@@ -16,7 +16,7 @@
 
       <div class="text-sm flex flex-row items-center justify-center gap-2">
         <h2>
-          {{ project.title }}
+          {{ formatProjectTitle(project) }}
         </h2>
 
         <button
@@ -51,6 +51,7 @@ import type { WpProject } from "@/types/wp";
 import { useWpGraphql } from "@/composables/useWpGraphql";
 import PROJECT_QUERY from "@/graphql/getProject.gql?raw";
 
+const { formatProjectTitle } = useFormatProject();
 const route = useRoute();
 const slug = computed(() => route.params.slug as string);
 const project = ref<WpProject | null>(null);
@@ -98,6 +99,6 @@ watch(
       console.error(e);
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
