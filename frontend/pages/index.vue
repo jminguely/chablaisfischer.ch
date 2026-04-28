@@ -78,7 +78,7 @@
             </thead>
             <tbody>
               <tr v-if="loading" class="border-t border-grey pt-2 mt-0.5">
-                <td colspan="6" class="pr-4 py-3 text-gray-500">
+                <td colspan="6" class="pr-4 py-3 text-grey">
                   Chargement des projets…
                 </td>
               </tr>
@@ -192,9 +192,7 @@
           </div>
         </div>
 
-        <div v-if="loading" class="text-gray-500 p-4">
-          Chargement des projets…
-        </div>
+        <div v-if="loading" class="text-grey p-4">Chargement des projets…</div>
         <component
           :is="p.hasGallery ? 'NuxtLink' : 'div'"
           v-for="(p, index) in sortedProjects"

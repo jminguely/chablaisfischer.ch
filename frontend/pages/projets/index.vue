@@ -11,7 +11,7 @@
       v-else-if="error"
       class="fixed inset-0 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm"
     >
-      <p class="text-md text-red-600 mb-4">{{ error }}</p>
+      <p class="text-md text-red mb-4">{{ error }}</p>
       <button
         @click="retryLoad"
         class="px-4 py-2 border border-black hover:bg-black hover:text-white transition"
@@ -167,19 +167,42 @@ const getProjectStyle = (index: number) => {
     span = widthRight;
   }
 
-  // Vertical margin (per item)
-  const itemSeed = index * 123.45;
-  const rMargin = seededRandom(itemSeed + 1);
-  const rDir = seededRandom(itemSeed + 2);
+  // Keep a real minimum around every image and force a visible vertical offset
+  // between the two cards of the same pair so they do not align too often.
+  const pairMarginSeed = pairIndex * 321.54;
+  const minMargin = 2;
+  const maxMargin = 5;
+  const marginRange = maxMargin - minMargin + 1;
+  const minTopOffset = 2;
 
-  const marginSize = Math.floor(rMargin * 6) + 2; // 2 to 8rem
-  const isTop = rDir > 0.5;
+  let leftTop =
+    Math.floor(seededRandom(pairMarginSeed + 1) * marginRange) + minMargin;
+  let rightTop =
+    Math.floor(seededRandom(pairMarginSeed + 2) * marginRange) + minMargin;
+
+  if (Math.abs(leftTop - rightTop) < minTopOffset) {
+    if (leftTop <= rightTop) {
+      leftTop = Math.max(minMargin, rightTop - minTopOffset);
+      rightTop = Math.min(maxMargin, leftTop + minTopOffset);
+    } else {
+      rightTop = Math.max(minMargin, leftTop - minTopOffset);
+      leftTop = Math.min(maxMargin, rightTop + minTopOffset);
+    }
+  }
+
+  const leftBottom =
+    Math.floor(seededRandom(pairMarginSeed + 3) * marginRange) + minMargin;
+  const rightBottom =
+    Math.floor(seededRandom(pairMarginSeed + 4) * marginRange) + minMargin;
+
+  const marginTop = isLeft ? leftTop : rightTop;
+  const marginBottom = isLeft ? leftBottom : rightBottom;
 
   return {
     "--col": `${colStart} / span ${span}`,
     "--row": `${pairIndex + 1}`,
-    "--mt": isTop ? `${marginSize}rem` : "0",
-    "--mb": !isTop ? `${marginSize}rem` : "0",
+    "--mt": `${marginTop}rem`,
+    "--mb": `${marginBottom}rem`,
   };
 };
 

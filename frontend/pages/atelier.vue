@@ -11,7 +11,7 @@
       v-else-if="error"
       class="fixed inset-0 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm z-50"
     >
-      <p class="text-md text-red-600 mb-4">{{ error }}</p>
+      <p class="text-md text-red mb-4">{{ error }}</p>
       <button
         @click="retryLoad"
         class="px-4 py-2 border border-black hover:bg-black hover:text-white transition"

@@ -17,6 +17,7 @@ module.exports = {
       anthracite: '#2F2F2F',
       grey: '#C4C4C4',
       yellow: '#FFF600',
+      red: '#F63300',
     },
     fontFamily: {
       sans: ['Dada Grotesk', 'sans-serif'],
