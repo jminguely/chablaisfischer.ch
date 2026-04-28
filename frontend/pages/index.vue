@@ -20,14 +20,14 @@
                   </SortableHeader>
                 </th>
 
-                <th class="pl-4 py-2 col-equal">
+                <th class="px-4 py-2 col-equal">
                   <SortableHeader
-                    name="statut"
+                    name="lieu"
                     :sortKey="sortKey"
                     :sortDir="sortDir"
                     @toggle="toggleSort"
                   >
-                    Statut
+                    Lieu
                   </SortableHeader>
                 </th>
 
@@ -39,6 +39,17 @@
                     @toggle="toggleSort"
                   >
                     Année
+                  </SortableHeader>
+                </th>
+
+                <th class="pl-4 py-2 col-equal">
+                  <SortableHeader
+                    name="statut"
+                    :sortKey="sortKey"
+                    :sortDir="sortDir"
+                    @toggle="toggleSort"
+                  >
+                    Statut
                   </SortableHeader>
                 </th>
 
@@ -61,17 +72,6 @@
                     @toggle="toggleSort"
                   >
                     Type
-                  </SortableHeader>
-                </th>
-
-                <th class="px-4 py-2 col-equal">
-                  <SortableHeader
-                    name="lieu"
-                    :sortKey="sortKey"
-                    :sortDir="sortDir"
-                    @toggle="toggleSort"
-                  >
-                    Lieu
                   </SortableHeader>
                 </th>
               </tr>
@@ -99,17 +99,22 @@
                 @mouseleave="hidePreview"
               >
                 <td class="pr-4 py-3">{{ p.title }}</td>
-                <td class="pl-4 py-3">
-                  {{
-                    (p.fieldsProjectSidebar &&
-                      p.fieldsProjectSidebar.statut &&
-                      p.fieldsProjectSidebar.statut[0]) ||
-                    ""
-                  }}
+
+                <td class="px-4 py-3">
+                  {{ p.fieldsProjectSidebar?.lieu || "" }}
                 </td>
+
                 <td class="px-4 py-3">
                   {{ p.fieldsProjectSidebar?.annee || "" }}
                 </td>
+
+                <td class="pl-4 py-3">
+                  {{
+                    (p.fieldsProjectSidebar && p.fieldsProjectSidebar.statut) ||
+                    ""
+                  }}
+                </td>
+
                 <td class="px-4 py-3">
                   {{
                     (p.fieldsProjectSidebar &&
@@ -125,9 +130,6 @@
                       p.fieldsProjectSidebar.type[0]) ||
                     ""
                   }}
-                </td>
-                <td class="px-4 py-3">
-                  {{ p.fieldsProjectSidebar?.lieu || "" }}
                 </td>
               </tr>
             </tbody>
@@ -181,11 +183,11 @@
               style="background-image: none"
             >
               <option value="title">Projet</option>
-              <option value="statut">Statut</option>
+              <option value="lieu">Lieu</option>
               <option value="annee">Année</option>
+              <option value="statut">Statut</option>
               <option value="programme">Programme</option>
               <option value="type">Type</option>
-              <option value="lieu">Lieu</option>
             </select>
           </div>
         </div>
@@ -217,25 +219,37 @@
             <div
               class="flex items-center justify-between text-sm border-t border-grey pt-2 mt-0.5"
             >
-              <div class="text-[#2f2f2f]">Année :</div>
-              <div class="">
-                {{ p.fieldsProjectSidebar?.annee || "" }}
-              </div>
-            </div>
-
-            <div
-              class="flex items-center justify-between text-sm border-t border-grey pt-2 mt-0.5"
-            >
-              <div class="text-[#2f2f2f]">Lieu :</div>
+              <div class="text-grey">Lieu :</div>
               <div class="">
                 {{ p.fieldsProjectSidebar?.lieu || "" }}
               </div>
             </div>
 
             <div
+              class="flex items-center justify-between text-sm border-t border-grey pt-2 mt-0.5"
+            >
+              <div class="text-grey">Année :</div>
+              <div class="">
+                {{ p.fieldsProjectSidebar?.annee || "" }}
+              </div>
+            </div>
+
+            <div
               class="flex items-end text-sm border-t border-grey pt-2 mt-0.5"
             >
-              <div class="flex-1 text-[#2f2f2f]">Programme :</div>
+              <div class="flex-1 text-grey">Statut :</div>
+              <div class="">
+                {{
+                  (p.fieldsProjectSidebar && p.fieldsProjectSidebar.statut) ||
+                  ""
+                }}
+              </div>
+            </div>
+
+            <div
+              class="flex items-end text-sm border-t border-grey pt-2 mt-0.5"
+            >
+              <div class="flex-1 text-grey">Programme :</div>
               <div class="">
                 {{
                   (p.fieldsProjectSidebar &&
@@ -249,26 +263,12 @@
             <div
               class="flex items-end text-sm border-t border-grey pt-2 mt-0.5"
             >
-              <div class="flex-1 text-[#2f2f2f]">Type de mandat :</div>
+              <div class="flex-1 text-grey">Type de mandat :</div>
               <div class="">
                 {{
                   (p.fieldsProjectSidebar &&
                     p.fieldsProjectSidebar.type &&
                     p.fieldsProjectSidebar.type[0]) ||
-                  ""
-                }}
-              </div>
-            </div>
-
-            <div
-              class="flex items-end text-sm border-t border-grey pt-2 mt-0.5"
-            >
-              <div class="flex-1 text-[#2f2f2f]">Statut :</div>
-              <div class="">
-                {{
-                  (p.fieldsProjectSidebar &&
-                    p.fieldsProjectSidebar.statut &&
-                    p.fieldsProjectSidebar.statut[0]) ||
                   ""
                 }}
               </div>
@@ -381,12 +381,7 @@ function getFieldValue(p: any, key: string | null) {
     case "annee":
       return (p.fieldsProjectSidebar && p.fieldsProjectSidebar.annee) || "";
     case "statut":
-      return (
-        (p.fieldsProjectSidebar &&
-          p.fieldsProjectSidebar.statut &&
-          p.fieldsProjectSidebar.statut[0]) ||
-        ""
-      );
+      return (p.fieldsProjectSidebar && p.fieldsProjectSidebar.statut) || "";
     default:
       return "";
   }

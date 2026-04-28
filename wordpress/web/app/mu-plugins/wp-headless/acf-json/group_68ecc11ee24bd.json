@@ -73,15 +73,7 @@
                 "Urbanisme": "Urbanisme",
                 "Loisirs": "Loisirs",
                 "Education": "Education",
-                "Garage": "Garage",
-                "Santé": "Santé",
-                "Sport": "Sport",
-                "Administration": "Administration",
-                "Patrimoine": "Patrimoine",
-                "Industrie": "Industrie",
-                "Commerce": "Commerce",
-                "Transport": "Transport",
-                "Divers": "Divers"
+                "Garage": "Garage"
             },
             "default_value": "—",
             "return_format": "value",
@@ -137,7 +129,7 @@
             "label": "Statut",
             "name": "statut",
             "aria-label": "",
-            "type": "select",
+            "type": "text",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -146,35 +138,16 @@
                 "class": "",
                 "id": ""
             },
-            "choices": {
-                "—": "—",
-                "En cours": "En cours",
-                "En travaux": "En travaux",
-                "Construit": "Construit",
-                "Lauréat": "Lauréat",
-                "1er prix": "1er prix",
-                "2e prix": "2e prix",
-                "3e prix": "3e prix",
-                "4e prix": "4e prix",
-                "5ème prix": "5ème prix",
-                "6ème prix": "6ème prix",
-                "7ème prix": "7ème prix",
-                "Mention": "Mention"
-            },
-            "default_value": "—",
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 0,
+            "default_value": "",
+            "maxlength": "",
             "allow_in_bindings": 0,
-            "ui": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
             "show_in_graphql": 1,
             "graphql_description": "",
             "graphql_field_name": "statut",
-            "graphql_non_null": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "create_options": 0,
-            "save_options": 0
+            "graphql_non_null": 0
         },
         {
             "key": "field_691a204915c7d",
@@ -223,11 +196,13 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
     "show_in_graphql": 1,
     "graphql_field_name": "fieldsProjectSidebar",
     "map_graphql_types_from_location_rules": 1,
     "graphql_types": [
         "Project"
     ],
-    "modified": 1772544470
+    "modified": 1777369200
 }

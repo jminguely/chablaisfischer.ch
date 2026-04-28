@@ -8,12 +8,19 @@ export const useFormatProject = () => {
     } | null;
   }) => {
     const sidebar = project.fieldsProjectSidebar;
-    let result = project.title || "";
-    if (sidebar?.lieu && sidebar.lieu !== "—") result += `, ${sidebar.lieu}`;
-    if (sidebar?.statut && sidebar.statut !== "—")
-      result += ` \u2013 ${sidebar.statut}`;
-    if (sidebar?.annee && sidebar.annee !== "—")
-      result += ` \u2013 ${sidebar.annee}`;
+    const title = project.title || "";
+    const lieu = sidebar?.lieu && sidebar.lieu !== "—" ? sidebar.lieu : "";
+    const annee = sidebar?.annee && sidebar.annee !== "—" ? sidebar.annee : "";
+    const statut =
+      sidebar?.statut && sidebar.statut !== "—" ? sidebar.statut : "";
+
+    let result = title;
+    if (lieu) result = result ? `${result} ${lieu}` : lieu;
+
+    const suffixParts = [annee, statut].filter(Boolean);
+    if (suffixParts.length > 0)
+      result += `${result ? ", " : ""}${suffixParts.join(", ")}`;
+
     return result;
   };
 
