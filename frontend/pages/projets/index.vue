@@ -173,27 +173,26 @@ const getProjectStyle = (index: number) => {
   const minMargin = 2;
   const maxMargin = 5;
   const marginRange = maxMargin - minMargin + 1;
-  const minTopOffset = 2;
+  const lowBandMax = 3;
+  const highBandMin = 4;
+  const leftStartsHigher = seededRandom(pairMarginSeed + 1) > 0.5;
 
-  let leftTop =
-    Math.floor(seededRandom(pairMarginSeed + 1) * marginRange) + minMargin;
-  let rightTop =
-    Math.floor(seededRandom(pairMarginSeed + 2) * marginRange) + minMargin;
+  const lowBandValue =
+    Math.floor(
+      seededRandom(pairMarginSeed + 2) * (lowBandMax - minMargin + 1),
+    ) + minMargin;
+  const highBandValue =
+    Math.floor(
+      seededRandom(pairMarginSeed + 3) * (maxMargin - highBandMin + 1),
+    ) + highBandMin;
 
-  if (Math.abs(leftTop - rightTop) < minTopOffset) {
-    if (leftTop <= rightTop) {
-      leftTop = Math.max(minMargin, rightTop - minTopOffset);
-      rightTop = Math.min(maxMargin, leftTop + minTopOffset);
-    } else {
-      rightTop = Math.max(minMargin, leftTop - minTopOffset);
-      leftTop = Math.min(maxMargin, rightTop + minTopOffset);
-    }
-  }
+  const leftTop = leftStartsHigher ? highBandValue : lowBandValue;
+  const rightTop = leftStartsHigher ? lowBandValue : highBandValue;
 
   const leftBottom =
-    Math.floor(seededRandom(pairMarginSeed + 3) * marginRange) + minMargin;
-  const rightBottom =
     Math.floor(seededRandom(pairMarginSeed + 4) * marginRange) + minMargin;
+  const rightBottom =
+    Math.floor(seededRandom(pairMarginSeed + 5) * marginRange) + minMargin;
 
   const marginTop = isLeft ? leftTop : rightTop;
   const marginBottom = isLeft ? leftBottom : rightBottom;
